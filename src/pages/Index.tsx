@@ -7,12 +7,15 @@ import CaseCard from '@/components/cases/CaseCard';
 import { 
   mockDashboardMetrics, 
   mockCases, 
-  mockEvents, 
+  mockTasks, 
+  mockEvents,
   mockClients 
 } from '@/data';
 import { useNavigate } from 'react-router-dom';
 import { Client } from '@/types/client';
 import { LegalCase } from '@/types/case';
+import { Task } from '@/types/task';
+import { CalendarEvent } from '@/types/calendar';
 
 const Index = () => {
   const navigate = useNavigate();

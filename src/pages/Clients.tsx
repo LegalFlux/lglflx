@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import { PlusCircle, Search, Filter } from 'lucide-react';
 import ClientCard from '@/components/clients/ClientCard';
-import { mockClients } from '@/data/mockData';
+import { mockClients } from '@/data';
 import { Client, ClientStatus } from '@/types';
 import { useNavigate } from 'react-router-dom';
 
