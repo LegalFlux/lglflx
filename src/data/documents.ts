@@ -1,0 +1,61 @@
+
+import { Document } from '../types';
+
+// Mock Documents
+export const mockDocuments: Document[] = [
+  {
+    id: '1',
+    name: 'Petição Inicial - Danos Morais.pdf',
+    type: 'petition',
+    caseId: '1',
+    clientId: '1',
+    path: '/documents/1/petition.pdf',
+    size: 1245000,
+    uploadedBy: '1',
+    uploadedAt: '2023-02-10T10:30:00Z',
+  },
+  {
+    id: '2',
+    name: 'Contrato Social - Tech Solutions.pdf',
+    type: 'contract',
+    clientId: '3',
+    path: '/documents/3/contract.pdf',
+    size: 3500000,
+    uploadedBy: '2',
+    uploadedAt: '2023-03-05T09:15:00Z',
+  },
+  {
+    id: '3',
+    name: 'Contestação Trabalhista - Rascunho.docx',
+    type: 'petition',
+    caseId: '2',
+    clientId: '3',
+    path: '/documents/2/draft.docx',
+    size: 850000,
+    uploadedBy: '2',
+    uploadedAt: '2023-03-20T14:45:00Z',
+    lastModified: '2023-03-25T11:20:00Z',
+  },
+  {
+    id: '4',
+    name: 'Certidão de Casamento.pdf',
+    type: 'evidence',
+    caseId: '3',
+    clientId: '2',
+    path: '/documents/2/certificate.pdf',
+    size: 500000,
+    uploadedBy: '1',
+    uploadedAt: '2023-04-06T08:30:00Z',
+  },
+  {
+    id: '5',
+    name: 'Relatório Financeiro.xlsx',
+    type: 'evidence',
+    caseId: '4',
+    clientId: '4',
+    path: '/documents/4/financial.xlsx',
+    size: 1800000,
+    uploadedBy: '3',
+    uploadedAt: '2023-03-05T16:20:00Z',
+  },
+];

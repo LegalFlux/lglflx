@@ -1,0 +1,57 @@
+
+import { CalendarEvent } from '../types';
+
+// Mock Calendar Events
+export const mockEvents: CalendarEvent[] = [
+  {
+    id: '1',
+    title: 'Audiência - Processo nº 0001234-56.2023.8.26.0100',
+    description: 'Audiência de conciliação no processo de indenização.',
+    start: '2023-07-20T14:00:00Z',
+    end: '2023-07-20T15:30:00Z',
+    location: 'Fórum João Mendes Jr., Sala 1005',
+    caseId: '1',
+    clientId: '1',
+    type: 'hearing',
+  },
+  {
+    id: '2',
+    title: 'Reunião com cliente - Tech Solutions',
+    description: 'Discussão sobre estratégia para contestação trabalhista.',
+    start: '2023-07-18T10:00:00Z',
+    end: '2023-07-18T11:30:00Z',
+    location: 'Escritório - Sala de Reuniões',
+    caseId: '2',
+    clientId: '3',
+    type: 'meeting',
+  },
+  {
+    id: '3',
+    title: 'Prazo - Contestação Trabalhista',
+    description: 'Prazo final para protocolo da contestação.',
+    start: '2023-07-25T23:59:59Z',
+    end: '2023-07-25T23:59:59Z',
+    caseId: '2',
+    type: 'deadline',
+  },
+  {
+    id: '4',
+    title: 'Audiência Criminal - Carlos Ferreira',
+    description: 'Audiência de instrução no processo criminal.',
+    start: '2023-07-18T10:00:00Z',
+    end: '2023-07-18T13:00:00Z',
+    location: 'Fórum Criminal - Barra Funda, Sala 305',
+    caseId: '4',
+    clientId: '4',
+    type: 'hearing',
+  },
+  {
+    id: '5',
+    title: 'Reunião da Equipe',
+    description: 'Reunião semanal para atualização de casos.',
+    start: '2023-07-17T15:00:00Z',
+    end: '2023-07-17T16:30:00Z',
+    location: 'Escritório - Sala de Conferências',
+    type: 'meeting',
+  },
+];

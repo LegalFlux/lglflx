@@ -5,7 +5,12 @@ import { PlusCircle, Users, Briefcase, Clock, FileText, ArrowUpRight } from 'luc
 import DashboardCard from '@/components/dashboard/DashboardCard';
 import MetricsCard from '@/components/dashboard/MetricsCard';
 import CaseCard from '@/components/cases/CaseCard';
-import { mockDashboardMetrics, mockCases, mockEvents, mockClients } from '@/data/mockData';
+import { 
+  mockDashboardMetrics, 
+  mockCases, 
+  mockEvents, 
+  mockClients 
+} from '@/data';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {

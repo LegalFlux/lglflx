@@ -1,0 +1,60 @@
+
+import { Client } from '../types';
+
+// Mock Clients
+export const mockClients: Client[] = [
+  {
+    id: '1',
+    name: 'João Silva',
+    email: 'joao.silva@email.com',
+    phone: '(11) 98765-4321',
+    address: 'Av. Paulista, 1000, São Paulo, SP',
+    status: 'active',
+    createdAt: '2023-01-15T08:30:00Z',
+    type: 'individual',
+    avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+  },
+  {
+    id: '2',
+    name: 'Maria Oliveira',
+    email: 'maria@oliveira.com',
+    phone: '(21) 99876-5432',
+    address: 'Rua Copacabana, 500, Rio de Janeiro, RJ',
+    status: 'active',
+    createdAt: '2023-02-05T10:15:00Z',
+    type: 'individual',
+    avatar: 'https://randomuser.me/api/portraits/women/2.jpg',
+  },
+  {
+    id: '3',
+    name: 'Tech Solutions Ltda.',
+    email: 'contato@techsolutions.com',
+    phone: '(11) 3456-7890',
+    address: 'Av. Faria Lima, 3500, São Paulo, SP',
+    status: 'active',
+    createdAt: '2023-03-10T14:45:00Z',
+    type: 'company',
+  },
+  {
+    id: '4',
+    name: 'Carlos Ferreira',
+    email: 'carlos.ferreira@email.com',
+    phone: '(31) 98765-1234',
+    address: 'Rua dos Advogados, 123, Belo Horizonte, MG',
+    status: 'inactive',
+    createdAt: '2023-01-20T09:00:00Z',
+    type: 'individual',
+    avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
+  },
+  {
+    id: '5',
+    name: 'Ana Costa',
+    email: 'ana.costa@email.com',
+    phone: '(41) 99876-2345',
+    address: 'Av. Cândido de Abreu, 70, Curitiba, PR',
+    status: 'prospect',
+    createdAt: '2023-04-05T11:30:00Z',
+    type: 'individual',
+    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
+  },
+];
