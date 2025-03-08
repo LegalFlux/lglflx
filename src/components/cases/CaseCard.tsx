@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User, Clock } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { LegalCase } from '@/types/case';
+import { LegalCase } from '@/types';
 
 interface CaseCardProps {
   legalCase: LegalCase;

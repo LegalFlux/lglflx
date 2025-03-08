@@ -1,4 +1,4 @@
-import { DashboardMetric } from '../types/dashboard';
+import { DashboardMetric } from '../types';
 
 // Dashboard Metrics
 export const mockDashboardMetrics: DashboardMetric[] = [

@@ -12,10 +12,7 @@ import {
   mockClients 
 } from '@/data';
 import { useNavigate } from 'react-router-dom';
-import { Client } from '@/types/client';
-import { LegalCase } from '@/types/case';
-import { Task } from '@/types/task';
-import { CalendarEvent } from '@/types/calendar';
+import { Client, LegalCase, Task, CalendarEvent } from '@/types';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -154,7 +151,7 @@ const Index = () => {
                                 status === 'inactive' ? 'bg-gray-500' : 
                                 'bg-blue-500'
                               }`}
-                              style={{ width: `${(count / mockClients.length) * 100}%` }}
+                              style={{ width: `${(Number(count) / mockClients.length) * 100}%` }}
                             />
                           </div>
                           <span className="text-sm font-medium">{count}</span>

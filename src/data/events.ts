@@ -1,4 +1,4 @@
-import { CalendarEvent } from '../types/calendar';
+import { CalendarEvent } from '../types';
 
 // Mock Calendar Events
 export const mockEvents: CalendarEvent[] = [

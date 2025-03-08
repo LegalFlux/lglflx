@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -10,8 +10,7 @@ import {
 } from '@/components/ui/select';
 import { PlusCircle, Search, Filter } from 'lucide-react';
 import CaseCard from '@/components/cases/CaseCard';
-import { mockCases } from '@/data';
-import { mockClients } from '@/data';
+import { mockCases, mockClients } from '@/data';
 import { mockTeamMembers } from '@/data';
 import { LegalCase, CaseStatus, CaseType, CasePriority } from '@/types';
 import { useNavigate } from 'react-router-dom';

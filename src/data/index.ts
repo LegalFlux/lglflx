@@ -1,5 +1,5 @@
 
-// Arquivo principal para exportar todos os dados em um único local
+// Export all mock data files
 export * from './clients';
 export * from './cases';
 export * from './events';

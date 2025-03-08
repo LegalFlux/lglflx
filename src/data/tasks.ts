@@ -1,4 +1,4 @@
-import { Task } from '../types/task';
+import { Task } from '../types';
 
 // Mock Tasks
 export const mockTasks: Task[] = [

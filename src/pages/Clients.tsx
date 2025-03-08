@@ -1,38 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { PlusCircle, Search, Filter } from 'lucide-react';
-import ClientCard from '@/components/clients/ClientCard';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { PlusCircle, ChevronDown, Search } from 'lucide-react';
 import { mockClients } from '@/data';
-import { Client, ClientStatus } from '@/types';
+import ClientCard from '@/components/clients/ClientCard';
 import { useNavigate } from 'react-router-dom';
 
 const Clients = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortBy, setSortBy] = useState('name');
+  const [clients, setClients] = useState(mockClients);
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [typeFilter, setTypeFilter] = useState<string>('all');
-  
-  // Filter clients based on search term and filters
-  const filteredClients = mockClients.filter(client => {
-    const matchesSearch = 
-      searchTerm === '' || 
-      client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      client.phone.includes(searchTerm);
-      
-    const matchesStatus = statusFilter === 'all' || client.status === statusFilter;
-    const matchesType = typeFilter === 'all' || client.type === typeFilter;
-    
-    return matchesSearch && matchesStatus && matchesType;
-  });
+
+  useEffect(() => {
+    let sortedClients = [...mockClients];
+
+    // Apply search filter
+    if (searchQuery) {
+      sortedClients = sortedClients.filter(client =>
+        client.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Apply sorting
+    sortedClients.sort((a, b) => {
+      const aValue = typeof a[sortBy] === 'string' ? a[sortBy].toLowerCase() : a[sortBy];
+      const bValue = typeof b[sortBy] === 'string' ? b[sortBy].toLowerCase() : b[sortBy];
+
+      if (aValue < bValue) {
+        return sortOrder === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortOrder === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+
+    setClients(sortedClients);
+  }, [searchQuery, sortOrder, sortBy]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSortOrderChange = (newSortBy: string) => {
+    if (sortBy === newSortBy) {
+      // Toggle sort order if the same column is clicked
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      // Set new sort column and reset sort order to ascending
+      setSortBy(newSortBy);
+      setSortOrder('asc');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background pt-16 animate-fade-in">
@@ -41,10 +68,10 @@ const Clients = () => {
           <div>
             <h1 className="text-3xl font-bold">Clientes</h1>
             <p className="text-muted-foreground mt-1">
-              Gerencie todos os seus clientes e contatos
+              Gerencie seus clientes e informações de contato
             </p>
           </div>
-          <div className="flex mt-4 md:mt-0">
+          <div className="flex mt-4 md:mt-0 space-x-2">
             <Button className="flex items-center">
               <PlusCircle size={16} className="mr-2" />
               Novo Cliente
@@ -52,76 +79,49 @@ const Clients = () => {
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="mb-8 space-y-4 md:space-y-0 md:flex md:items-center md:space-x-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+        {/* Search and Filters */}
+        <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-2">
+          <div className="relative w-full md:w-1/3">
             <Input
-              placeholder="Pesquisar por nome, email ou telefone..."
-              className="pl-9"
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
+              type="search"
+              placeholder="Buscar cliente..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="pr-10"
             />
+            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
           </div>
-          
-          <div className="flex flex-wrap gap-2">
-            <div className="w-full md:w-auto">
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-full md:w-[150px]">
-                  <div className="flex items-center">
-                    <Filter size={16} className="mr-2 text-muted-foreground" />
-                    <SelectValue placeholder="Status" />
-                  </div>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos os Status</SelectItem>
-                  <SelectItem value="active">Ativo</SelectItem>
-                  <SelectItem value="inactive">Inativo</SelectItem>
-                  <SelectItem value="prospect">Prospecto</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="w-full md:w-auto">
-              <Select value={typeFilter} onValueChange={setTypeFilter}>
-                <SelectTrigger className="w-full md:w-[150px]">
-                  <SelectValue placeholder="Tipo" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos os Tipos</SelectItem>
-                  <SelectItem value="individual">Pessoa Física</SelectItem>
-                  <SelectItem value="company">Pessoa Jurídica</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="gap-2">
+                Ordenar por
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleSortOrderChange('name')}>
+                Nome {sortBy === 'name' && (sortOrder === 'asc' ? '(A-Z)' : '(Z-A)')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleSortOrderChange('email')}>
+                Email {sortBy === 'email' && (sortOrder === 'asc' ? '(A-Z)' : '(Z-A)')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleSortOrderChange('createdAt')}>
+                Data de Cadastro {sortBy === 'createdAt' && (sortOrder === 'asc' ? '(Mais Antigo)' : '(Mais Recente)')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
-        {/* Clients Grid */}
+        {/* Client List */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredClients.length > 0 ? (
-            filteredClients.map(client => (
-              <ClientCard 
-                key={client.id} 
-                client={client}
-                onClick={() => navigate(`/clients/${client.id}`)}
-              />
-            ))
-          ) : (
-            <div className="col-span-full text-center py-12">
-              <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-                <Search className="h-8 w-8 text-muted-foreground" />
-              </div>
-              <h3 className="text-lg font-medium">Nenhum cliente encontrado</h3>
-              <p className="text-muted-foreground mt-1">
-                Tente ajustar os filtros ou criar um novo cliente
-              </p>
-              <Button className="mt-4">
-                <PlusCircle size={16} className="mr-2" />
-                Criar Novo Cliente
-              </Button>
-            </div>
-          )}
+          {clients.map(client => (
+            <ClientCard 
+              key={client.id} 
+              client={client} 
+              onClick={() => navigate(`/clients/${client.id}`)}
+            />
+          ))}
         </div>
       </div>
     </div>

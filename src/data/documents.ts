@@ -1,4 +1,4 @@
-import { Document } from '../types/document';
+import { Document } from '../types';
 
 // Mock Documents
 export const mockDocuments: Document[] = [
