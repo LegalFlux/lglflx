@@ -325,6 +325,7 @@ export const mockTeamMembers: TeamMember[] = [
     avatar: 'https://randomuser.me/api/portraits/men/41.jpg',
     phone: '(11) 99876-5432',
     specialties: ['civil', 'corporate'],
+    status: 'active', // Added the required status property
   },
   {
     id: '2',
@@ -334,6 +335,7 @@ export const mockTeamMembers: TeamMember[] = [
     avatar: 'https://randomuser.me/api/portraits/women/42.jpg',
     phone: '(11) 98765-4321',
     specialties: ['criminal', 'labor'],
+    status: 'active', // Added the required status property
   },
   {
     id: '3',
@@ -342,6 +344,7 @@ export const mockTeamMembers: TeamMember[] = [
     role: 'paralegal',
     avatar: 'https://randomuser.me/api/portraits/women/43.jpg',
     phone: '(11) 97654-3210',
+    status: 'active', // Added the required status property
   },
   {
     id: '4',
@@ -350,6 +353,7 @@ export const mockTeamMembers: TeamMember[] = [
     role: 'assistant',
     avatar: 'https://randomuser.me/api/portraits/men/44.jpg',
     phone: '(11) 96543-2109',
+    status: 'active', // Added the required status property
   },
   {
     id: '5',
@@ -358,6 +362,7 @@ export const mockTeamMembers: TeamMember[] = [
     role: 'admin',
     avatar: 'https://randomuser.me/api/portraits/women/45.jpg',
     phone: '(11) 95432-1098',
+    status: 'active', // Added the required status property
   },
 ];
 
