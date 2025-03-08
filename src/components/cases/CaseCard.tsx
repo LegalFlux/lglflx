@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, User, Clock } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { LegalCase } from '@/types';
+import { LegalCase } from '@/types/case';
 
 interface CaseCardProps {
   legalCase: LegalCase;

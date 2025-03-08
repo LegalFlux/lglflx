@@ -1,5 +1,4 @@
-
-import { LegalCase } from '../types';
+import { LegalCase } from '../types/case';
 
 // Mock Cases
 export const mockCases: LegalCase[] = [

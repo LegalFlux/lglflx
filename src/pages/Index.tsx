@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, Users, Briefcase, Clock, FileText, ArrowUpRight } from 'lucide-react';
@@ -12,6 +11,8 @@ import {
   mockClients 
 } from '@/data';
 import { useNavigate } from 'react-router-dom';
+import { Client } from '@/types/client';
+import { LegalCase } from '@/types/case';
 
 const Index = () => {
   const navigate = useNavigate();

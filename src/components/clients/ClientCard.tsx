@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Mail, Phone, Calendar } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Client } from '@/types';
+import { Client } from '@/types/client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface ClientCardProps {

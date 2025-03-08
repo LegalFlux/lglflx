@@ -1,5 +1,4 @@
-
-import { Client } from '../types';
+import { Client } from '../types/client';
 
 // Mock Clients
 export const mockClients: Client[] = [
