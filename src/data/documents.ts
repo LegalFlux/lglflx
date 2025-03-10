@@ -1,3 +1,4 @@
+
 import { Document } from '../types';
 
 // Mock Documents
@@ -49,7 +50,7 @@ export const mockDocuments: Document[] = [
   {
     id: '5',
     name: 'Relatório Financeiro.xlsx',
-    type: 'evidence',
+    type: 'report',  // Atualizando para o tipo 'report' que agora é válido
     caseId: '4',
     clientId: '4',
     path: '/documents/4/financial.xlsx',

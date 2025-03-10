@@ -18,6 +18,7 @@ export type DocumentType =
   | 'appeal'
   | 'injunction'
   | 'notification'
+  | 'report'  // Adicionando 'report' como um tipo válido
   | 'other';
 
 /**
