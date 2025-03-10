@@ -1,3 +1,4 @@
+
 import { DashboardMetric } from '../types';
 
 // Dashboard Metrics
@@ -37,10 +38,11 @@ export const mockDashboardMetrics: DashboardMetric[] = [
   {
     id: '5',
     title: 'Faturamento Mensal',
-    value: 'R$ 78.500',
+    value: '€ 65.800',
     change: 15,
     trend: 'up',
     icon: 'money',
+    target: 75000,
   },
   {
     id: '6',
@@ -49,5 +51,7 @@ export const mockDashboardMetrics: DashboardMetric[] = [
     change: 4,
     trend: 'up',
     icon: 'chart',
+    target: 80,
   },
 ];
+
