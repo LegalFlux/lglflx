@@ -1,9 +1,8 @@
 
 import React from 'react';
-import { PageHeader } from '@/components/layout/PageHeader';
+import PageHeader from '@/components/layout/PageHeader';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DocumentType } from '@/types';
 
 const Reports = () => {
   return (
