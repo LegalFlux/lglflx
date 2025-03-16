@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <Sidebar isOpen={sidebarOpen} />
         </div>
         
-        <main className="flex-1 pt-16">
+        <main className={`flex-1 pt-16 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
           {children || <Outlet />}
         </main>
       </div>
