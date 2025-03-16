@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { FilePlus, Scan, FileSignature, FileText, LayoutTemplate } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { mockDocuments } from '@/data';
 import { Document } from '@/types';
 import { toast } from '@/hooks/use-toast';
