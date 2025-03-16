@@ -37,8 +37,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
   return (
     <aside
       className={cn(
-        'fixed top-16 left-0 h-[calc(100vh-4rem)] bg-card border-r border-border transition-all duration-300 ease-in-out z-40 overflow-y-auto',
-        isOpen ? 'w-64 opacity-100' : 'w-0 opacity-0 -translate-x-full'
+        'fixed top-16 left-0 h-[calc(100vh-4rem)] bg-card border-r border-border transition-all duration-300 ease-in-out z-40 overflow-y-auto w-64',
+        isOpen ? 'opacity-100' : 'opacity-0 -translate-x-full lg:translate-x-0 lg:w-0'
       )}
     >
       <div className="p-4 space-y-6">
