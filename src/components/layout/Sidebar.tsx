@@ -3,7 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
   Users, Briefcase, FileText, Calendar, 
-  BarChart3, Settings, PieChart, Home
+  BarChart3, Settings, PieChart, Home, User
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -19,6 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
     { to: '/calendar', icon: <Calendar size={20} />, label: 'Calendário' },
     { to: '/finance', icon: <BarChart3 size={20} />, label: 'Finanças' },
     { to: '/reports', icon: <PieChart size={20} />, label: 'Relatórios' },
+    { to: '/client-portal', icon: <User size={20} />, label: 'Portal Cliente' },
     { to: '/settings', icon: <Settings size={20} />, label: 'Definições' },
   ];
   

@@ -10,6 +10,7 @@ import Finance from "@/pages/Finance";
 import Reports from "@/pages/Reports";
 import Settings from "@/pages/Settings";
 import NotFound from "@/pages/NotFound";
+import ClientPortal from "@/pages/ClientPortal";
 import "./App.css";
 
 const router = createBrowserRouter([
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       { path: "finance", element: <Finance /> },
       { path: "reports", element: <Reports /> },
       { path: "settings", element: <Settings /> },
+      { path: "client-portal", element: <ClientPortal /> },
       { path: "*", element: <NotFound /> },
     ],
   },
