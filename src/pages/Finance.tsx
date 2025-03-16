@@ -4,7 +4,7 @@ import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Scan, FileSignature, FileUp, Clock, BarChart } from 'lucide-react';
+import { BarChart, Clock } from 'lucide-react';
 
 const Finance = () => {
   return (
@@ -14,152 +14,11 @@ const Finance = () => {
         description="Gerencie faturamento, honorários e documentos"
       />
 
-      <Tabs defaultValue="documentos" className="w-full">
+      <Tabs defaultValue="faturacao" className="w-full">
         <TabsList className="mb-4">
-          <TabsTrigger value="documentos">Documentos Digitais</TabsTrigger>
           <TabsTrigger value="faturacao">Faturação</TabsTrigger>
           <TabsTrigger value="honorarios">Honorários</TabsTrigger>
         </TabsList>
-        
-        <TabsContent value="documentos" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="p-2 rounded-md bg-primary/10 text-primary">
-                      <Scan size={20} />
-                    </div>
-                    <CardTitle>Digitalização de Documentos</CardTitle>
-                  </div>
-                </div>
-                <CardDescription>
-                  Digitalize documentos físicos e extraia texto automaticamente
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="border rounded-md p-4">
-                    <h3 className="font-medium mb-2">Funcionalidades</h3>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-center">
-                        <span className="mr-2 text-primary">✓</span>
-                        <span>Captura pela câmara do dispositivo</span>
-                      </li>
-                      <li className="flex items-center">
-                        <span className="mr-2 text-primary">✓</span>
-                        <span>Correção de perspectiva e melhoria de imagem</span>
-                      </li>
-                      <li className="flex items-center">
-                        <span className="mr-2 text-primary">✓</span>
-                        <span>OCR para extrair texto</span>
-                      </li>
-                      <li className="flex items-center">
-                        <span className="mr-2 text-primary">✓</span>
-                        <span>Geração de PDF digitalizado</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <Button className="w-full">
-                    <FileUp size={16} className="mr-2" />
-                    Digitalizar Documento
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="p-2 rounded-md bg-primary/10 text-primary">
-                      <FileSignature size={20} />
-                    </div>
-                    <CardTitle>Assinatura Digital</CardTitle>
-                  </div>
-                </div>
-                <CardDescription>
-                  Assine documentos digitalmente e envie-os de forma segura
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="border rounded-md p-4">
-                    <h3 className="font-medium mb-2">Funcionalidades</h3>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-center">
-                        <span className="mr-2 text-primary">✓</span>
-                        <span>Assinatura manuscrita digital no ecrã</span>
-                      </li>
-                      <li className="flex items-center">
-                        <span className="mr-2 text-primary">✓</span>
-                        <span>Suporte para assinatura com certificado digital</span>
-                      </li>
-                      <li className="flex items-center">
-                        <span className="mr-2 text-primary">✓</span>
-                        <span>Validação e armazenamento seguro</span>
-                      </li>
-                      <li className="flex items-center">
-                        <span className="mr-2 text-primary">✓</span>
-                        <span>Envio automático do documento assinado</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <Button className="w-full">
-                    <FileSignature size={16} className="mr-2" />
-                    Assinar Documento
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Templates de Documentos</CardTitle>
-              <CardDescription>
-                Modelos pré-formatados para criar documentos rapidamente
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="border rounded-md p-4 hover:bg-accent/50 transition-colors cursor-pointer">
-                  <h3 className="font-medium">Procuração</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Modelo de procuração geral para representação jurídica
-                  </p>
-                </div>
-                <div className="border rounded-md p-4 hover:bg-accent/50 transition-colors cursor-pointer">
-                  <h3 className="font-medium">Contrato de Prestação de Serviços</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Modelo padrão para contratação de serviços advocatícios
-                  </p>
-                </div>
-                <div className="border rounded-md p-4 hover:bg-accent/50 transition-colors cursor-pointer">
-                  <h3 className="font-medium">Petição Inicial</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Modelo de petição inicial para processos cíveis
-                  </p>
-                </div>
-                <div className="border rounded-md p-4 hover:bg-accent/50 transition-colors cursor-pointer">
-                  <h3 className="font-medium">Contestação</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Modelo de contestação para processos cíveis
-                  </p>
-                </div>
-                <div className="border rounded-md p-4 hover:bg-accent/50 transition-colors cursor-pointer">
-                  <h3 className="font-medium">Recurso</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Modelo de recurso para instâncias superiores
-                  </p>
-                </div>
-                <div className="border-dashed border-2 rounded-md p-4 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary transition-colors cursor-pointer">
-                  <span>+ Adicionar novo template</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
         
         <TabsContent value="faturacao" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
