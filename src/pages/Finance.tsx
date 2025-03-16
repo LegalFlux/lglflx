@@ -2,182 +2,309 @@
 import React from 'react';
 import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Check, X } from 'lucide-react';
-import PricingCard from '@/components/pricing/PricingCard';
+import { Scan, FileSignature, FileUp, Clock, BarChart } from 'lucide-react';
 
 const Finance = () => {
   return (
     <div className="container py-6 space-y-6">
       <PageHeader 
         title="Finanças" 
-        description="Gerencie faturamento, honorários e serviços contratados"
+        description="Gerencie faturamento, honorários e documentos"
       />
 
-      <Tabs defaultValue="planos" className="w-full">
+      <Tabs defaultValue="documentos" className="w-full">
         <TabsList className="mb-4">
-          <TabsTrigger value="planos">Planos de Subscrição</TabsTrigger>
+          <TabsTrigger value="documentos">Documentos Digitais</TabsTrigger>
           <TabsTrigger value="faturacao">Faturação</TabsTrigger>
           <TabsTrigger value="honorarios">Honorários</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="planos" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <PricingCard 
-              title="Free"
-              price="0€"
-              description="Funcionalidades básicas para começar"
-              buttonText="Plano Atual"
-              buttonVariant="outline"
-              features={[
-                { name: "Cadastro de Processos", included: true },
-                { name: "Acompanhamento de Andamentos", included: true },
-                { name: "Linha do Tempo do Caso", included: true },
-                { name: "Calendário Integrado", included: true },
-                { name: "Alertas de Prazos", included: true },
-                { name: "Armazenamento Seguro", included: true, detail: "1GB" },
-                { name: "Chat Interno", included: true },
-                { name: "Faturamento Básico", included: true },
-                { name: "Acesso a Bases de Dados Básicas", included: true },
-                { name: "Criptografia de Dados", included: true },
-                { name: "Aplicativo Móvel", included: true },
-                { name: "Suporte por E-mail", included: true },
-              ]}
-            />
+        <TabsContent value="documentos" className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="p-2 rounded-md bg-primary/10 text-primary">
+                      <Scan size={20} />
+                    </div>
+                    <CardTitle>Digitalização de Documentos</CardTitle>
+                  </div>
+                </div>
+                <CardDescription>
+                  Digitalize documentos físicos e extraia texto automaticamente
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="border rounded-md p-4">
+                    <h3 className="font-medium mb-2">Funcionalidades</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Captura pela câmara do dispositivo</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Correção de perspectiva e melhoria de imagem</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>OCR para extrair texto</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Geração de PDF digitalizado</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <Button className="w-full">
+                    <FileUp size={16} className="mr-2" />
+                    Digitalizar Documento
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
             
-            <PricingCard 
-              title="Premium"
-              price="49,99€"
-              period="/mês"
-              description="Funcionalidades avançadas para escritórios de médio porte"
-              buttonText="Upgrade"
-              buttonVariant="default"
-              popular={true}
-              features={[
-                { name: "Cadastro de Processos", included: true },
-                { name: "Acompanhamento de Andamentos", included: true },
-                { name: "Linha do Tempo do Caso", included: true },
-                { name: "Previsão de Resultados com IA", included: true },
-                { name: "Calendário Integrado", included: true },
-                { name: "Alertas de Prazos", included: true },
-                { name: "Automação de Workflows", included: true },
-                { name: "Armazenamento Seguro", included: true, detail: "10GB" },
-                { name: "Digitalização e OCR", included: true },
-                { name: "Automação de Documentos", included: true },
-                { name: "Chat Interno", included: true },
-                { name: "Portal do Cliente", included: true },
-                { name: "Integração com Ferramentas", included: true },
-                { name: "Faturamento Básico", included: true },
-                { name: "Controle de Honorários", included: true },
-                { name: "Relatórios Financeiros", included: true },
-                { name: "Acesso a Bases de Dados Básicas", included: true },
-                { name: "Atualizações Legislativas", included: true },
-                { name: "Análise de Dados com IA", included: true },
-                { name: "Criptografia de Dados", included: true },
-                { name: "Controle de Acesso Básico", included: true },
-                { name: "Auditoria de Acesso", included: true },
-                { name: "Aplicativo Móvel", included: true },
-                { name: "Sincronização em Tempo Real", included: true },
-                { name: "Suporte por E-mail", included: true },
-              ]}
-            />
-            
-            <PricingCard 
-              title="Enterprise"
-              price="Personalizado"
-              description="Solução completa para grandes escritórios"
-              buttonText="Contacte-nos"
-              buttonVariant="outline"
-              features={[
-                { name: "Todas as funcionalidades Premium", included: true },
-                { name: "Armazenamento Seguro", included: true, detail: "Ilimitado" },
-                { name: "Suporte Prioritário (24/7)", included: true },
-                { name: "Treinamento Personalizado", included: true },
-                { name: "Integrações Customizadas", included: true },
-                { name: "Implementação Assistida", included: true },
-                { name: "SLA Garantido", included: true },
-              ]}
-            />
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="p-2 rounded-md bg-primary/10 text-primary">
+                      <FileSignature size={20} />
+                    </div>
+                    <CardTitle>Assinatura Digital</CardTitle>
+                  </div>
+                </div>
+                <CardDescription>
+                  Assine documentos digitalmente e envie-os de forma segura
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="border rounded-md p-4">
+                    <h3 className="font-medium mb-2">Funcionalidades</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Assinatura manuscrita digital no ecrã</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Suporte para assinatura com certificado digital</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Validação e armazenamento seguro</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Envio automático do documento assinado</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <Button className="w-full">
+                    <FileSignature size={16} className="mr-2" />
+                    Assinar Documento
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
           
-          <div className="mt-10">
-            <h2 className="text-2xl font-bold mb-4">Adons Disponíveis</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold text-lg">Armazenamento Extra</h3>
-                <p className="text-muted-foreground mb-2">Aumente seu espaço de armazenamento</p>
-                <div className="flex justify-between items-center mt-4">
-                  <span className="font-medium">10€/mês por 10GB extra</span>
-                  <Button size="sm" variant="outline">Adicionar</Button>
+          <Card>
+            <CardHeader>
+              <CardTitle>Templates de Documentos</CardTitle>
+              <CardDescription>
+                Modelos pré-formatados para criar documentos rapidamente
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="border rounded-md p-4 hover:bg-accent/50 transition-colors cursor-pointer">
+                  <h3 className="font-medium">Procuração</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Modelo de procuração geral para representação jurídica
+                  </p>
+                </div>
+                <div className="border rounded-md p-4 hover:bg-accent/50 transition-colors cursor-pointer">
+                  <h3 className="font-medium">Contrato de Prestação de Serviços</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Modelo padrão para contratação de serviços advocatícios
+                  </p>
+                </div>
+                <div className="border rounded-md p-4 hover:bg-accent/50 transition-colors cursor-pointer">
+                  <h3 className="font-medium">Petição Inicial</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Modelo de petição inicial para processos cíveis
+                  </p>
+                </div>
+                <div className="border rounded-md p-4 hover:bg-accent/50 transition-colors cursor-pointer">
+                  <h3 className="font-medium">Contestação</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Modelo de contestação para processos cíveis
+                  </p>
+                </div>
+                <div className="border rounded-md p-4 hover:bg-accent/50 transition-colors cursor-pointer">
+                  <h3 className="font-medium">Recurso</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Modelo de recurso para instâncias superiores
+                  </p>
+                </div>
+                <div className="border-dashed border-2 rounded-md p-4 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary transition-colors cursor-pointer">
+                  <span>+ Adicionar novo template</span>
                 </div>
               </div>
-              
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold text-lg">Integrações Avançadas</h3>
-                <p className="text-muted-foreground mb-2">Conexão com sistemas específicos</p>
-                <div className="flex justify-between items-center mt-4">
-                  <span className="font-medium">25€/mês por integração</span>
-                  <Button size="sm" variant="outline">Adicionar</Button>
-                </div>
-              </div>
-              
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold text-lg">Relatórios Personalizados</h3>
-                <p className="text-muted-foreground mb-2">Análises e relatórios customizados</p>
-                <div className="flex justify-between items-center mt-4">
-                  <span className="font-medium">15€/mês</span>
-                  <Button size="sm" variant="outline">Adicionar</Button>
-                </div>
-              </div>
-              
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold text-lg">Marketing Jurídico</h3>
-                <p className="text-muted-foreground mb-2">Ferramentas de captação de clientes</p>
-                <div className="flex justify-between items-center mt-4">
-                  <span className="font-medium">30€/mês</span>
-                  <Button size="sm" variant="outline">Adicionar</Button>
-                </div>
-              </div>
-              
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold text-lg">Treinos e Consultoria</h3>
-                <p className="text-muted-foreground mb-2">Sessões de treino para equipes</p>
-                <div className="flex justify-between items-center mt-4">
-                  <span className="font-medium">75€/sessão</span>
-                  <Button size="sm" variant="outline">Contactar</Button>
-                </div>
-              </div>
-              
-              <div className="p-6 border rounded-lg">
-                <h3 className="font-semibold text-lg">Portal do Cliente Premium</h3>
-                <p className="text-muted-foreground mb-2">Experiência aprimorada para clientes</p>
-                <div className="flex justify-between items-center mt-4">
-                  <span className="font-medium">20€/mês</span>
-                  <Button size="sm" variant="outline">Adicionar</Button>
-                </div>
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </TabsContent>
         
         <TabsContent value="faturacao" className="space-y-4">
-          <div className="p-6 border rounded-lg">
-            <h3 className="text-lg font-semibold mb-4">Gestão de Faturação</h3>
-            <p className="text-muted-foreground">
-              A gestão de faturação estará disponível em breve. Esta funcionalidade permitirá emitir faturas,
-              controlar pagamentos e monitorizar receitas.
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 rounded-md bg-primary/10 text-primary">
+                    <BarChart size={20} />
+                  </div>
+                  <CardTitle>Faturamento e Cobrança</CardTitle>
+                </div>
+                <CardDescription>
+                  Gestão de faturamento e cobrança automatizada
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="border rounded-md p-4">
+                    <h3 className="font-medium mb-2">Funcionalidades</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Geração automática de faturas</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Integração com sistemas de pagamento</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Previsão de fluxo de caixa</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Relatórios financeiros detalhados</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <Button>Gerar Nova Fatura</Button>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 rounded-md bg-primary/10 text-primary">
+                    <Clock size={20} />
+                  </div>
+                  <CardTitle>Registro de Horas</CardTitle>
+                </div>
+                <CardDescription>
+                  Controle preciso de horas trabalhadas em cada caso
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="border rounded-md p-4">
+                    <h3 className="font-medium mb-2">Funcionalidades</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Cronômetro integrado</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Registro manual de horas</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Relatórios por caso, cliente ou advogado</span>
+                      </li>
+                      <li className="flex items-center">
+                        <span className="mr-2 text-primary">✓</span>
+                        <span>Conversão automática para faturamento</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <Button>Iniciar Registro de Horas</Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
         
         <TabsContent value="honorarios" className="space-y-4">
-          <div className="p-6 border rounded-lg">
-            <h3 className="text-lg font-semibold mb-4">Gestão de Honorários</h3>
-            <p className="text-muted-foreground">
-              A gestão de honorários estará disponível em breve. Esta funcionalidade permitirá definir e monitorizar
-              honorários por processo, cliente ou tipo de serviço.
-            </p>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Gestão de Honorários</CardTitle>
+              <CardDescription>
+                Defina e monitorize honorários por processo, cliente ou tipo de serviço
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="border rounded-md p-4">
+                    <h3 className="font-medium mb-2">Honorários por Tipo de Caso</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex justify-between">
+                        <span>Civil</span>
+                        <span className="font-medium">€120/hora</span>
+                      </li>
+                      <li className="flex justify-between">
+                        <span>Penal</span>
+                        <span className="font-medium">€150/hora</span>
+                      </li>
+                      <li className="flex justify-between">
+                        <span>Trabalhista</span>
+                        <span className="font-medium">€100/hora</span>
+                      </li>
+                      <li className="flex justify-between">
+                        <span>Fiscal</span>
+                        <span className="font-medium">€180/hora</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div className="border rounded-md p-4">
+                    <h3 className="font-medium mb-2">Tabela de Serviços</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex justify-between">
+                        <span>Consulta Jurídica</span>
+                        <span className="font-medium">€80</span>
+                      </li>
+                      <li className="flex justify-between">
+                        <span>Petição Inicial</span>
+                        <span className="font-medium">€500</span>
+                      </li>
+                      <li className="flex justify-between">
+                        <span>Contestação</span>
+                        <span className="font-medium">€400</span>
+                      </li>
+                      <li className="flex justify-between">
+                        <span>Recurso</span>
+                        <span className="font-medium">€800</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <Button>Configurar Honorários</Button>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
