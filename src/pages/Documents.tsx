@@ -1,20 +1,11 @@
 
 import React, { useState } from 'react';
-import { FilePlus, Scan, FileSignature, FileText, LayoutTemplate } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { mockDocuments } from '@/data';
 import { Document } from '@/types';
 import { toast } from '@/hooks/use-toast';
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import DocumentSearch from '@/components/documents/DocumentSearch';
-import DocumentFilters from '@/components/documents/DocumentFilters';
-import DocumentList from '@/components/documents/DocumentList';
-import DocumentScanner from '@/components/documents/DocumentScanner';
-import SignatureCanvas from '@/components/documents/SignatureCanvas';
-import DocumentTemplateCard from '@/components/documents/DocumentTemplateCard';
+import DocumentHeader from '@/components/documents/DocumentHeader';
+import DocumentContent from '@/components/documents/DocumentContent';
 
 const Documents = () => {
   const [documents, setDocuments] = useState<Document[]>(mockDocuments);
@@ -149,177 +140,29 @@ const Documents = () => {
   return (
     <div className="min-h-screen bg-background pt-16 animate-fade-in">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold">Documentos</h1>
-            <p className="text-muted-foreground mt-1">
-              Gerencie todos os seus documentos jurídicos
-            </p>
-          </div>
-          <div className="flex mt-4 md:mt-0 space-x-2 flex-wrap gap-2">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="flex items-center">
-                  <Scan size={16} className="mr-2" />
-                  Digitalizar
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[700px]">
-                <DocumentScanner onScan={handleScannedDocument} />
-              </DialogContent>
-            </Dialog>
+        <DocumentHeader 
+          onScannedDocument={handleScannedDocument} 
+          onSignature={handleSignature} 
+        />
 
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="flex items-center" variant="outline">
-                  <FileSignature size={16} className="mr-2" />
-                  Assinar
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[600px]">
-                <SignatureCanvas onSave={handleSignature} />
-              </DialogContent>
-            </Dialog>
-
-            <Button className="flex items-center" variant="outline">
-              <FilePlus size={16} className="mr-2" />
-              Novo
-            </Button>
-          </div>
-        </div>
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-          <TabsList className="mb-4">
-            <TabsTrigger value="documentos">
-              <FileText size={16} className="mr-2" />
-              Documentos
-            </TabsTrigger>
-            <TabsTrigger value="templates">
-              <LayoutTemplate size={16} className="mr-2" />
-              Templates
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="documentos" className="space-y-6">
-            {/* Search and filters */}
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-6">
-              <DocumentSearch 
-                searchQuery={searchQuery} 
-                setSearchQuery={setSearchQuery} 
-              />
-              
-              <DocumentFilters 
-                documentTypes={documentTypes}
-                filters={filters}
-                toggleTypeFilter={toggleTypeFilter}
-                clearFilters={clearFilters}
-                sortOrder={sortOrder}
-                toggleSortOrder={toggleSortOrder}
-              />
-            </div>
-
-            {/* Documents list */}
-            <DocumentList 
-              documents={filteredDocuments}
-              onDownload={handleDownload}
-              onDelete={handleDelete}
-              onView={handleView}
-            />
-          </TabsContent>
-
-          <TabsContent value="templates" className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <DocumentTemplateCard
-                title="Procuração"
-                description="Modelo de procuração geral para representação jurídica"
-                onUse={() => handleUseTemplate("Procuração")}
-                onDownload={() => handleDownload({
-                  id: 'template-1',
-                  name: 'Procuração_Template.docx',
-                  type: 'contract',
-                  path: '/templates/procuracao.docx',
-                  size: 245000,
-                  uploadedBy: '1',
-                  uploadedAt: new Date().toISOString(),
-                })}
-                onEdit={() => {}}
-              />
-              
-              <DocumentTemplateCard
-                title="Contrato de Prestação de Serviços"
-                description="Modelo padrão para contratação de serviços advocatícios"
-                onUse={() => handleUseTemplate("Contrato de Prestação de Serviços")}
-                onDownload={() => handleDownload({
-                  id: 'template-2',
-                  name: 'Contrato_Prestacao_Servicos.docx',
-                  type: 'contract',
-                  path: '/templates/contrato.docx',
-                  size: 320000,
-                  uploadedBy: '1',
-                  uploadedAt: new Date().toISOString(),
-                })}
-                onEdit={() => {}}
-              />
-              
-              <DocumentTemplateCard
-                title="Petição Inicial"
-                description="Modelo de petição inicial para processos cíveis"
-                onUse={() => handleUseTemplate("Petição Inicial")}
-                onDownload={() => handleDownload({
-                  id: 'template-3',
-                  name: 'Peticao_Inicial.docx',
-                  type: 'petition',
-                  path: '/templates/peticao.docx',
-                  size: 280000,
-                  uploadedBy: '1',
-                  uploadedAt: new Date().toISOString(),
-                })}
-                onEdit={() => {}}
-              />
-              
-              <DocumentTemplateCard
-                title="Contestação"
-                description="Modelo de contestação para processos cíveis"
-                onUse={() => handleUseTemplate("Contestação")}
-                onDownload={() => handleDownload({
-                  id: 'template-4',
-                  name: 'Contestacao.docx',
-                  type: 'petition',
-                  path: '/templates/contestacao.docx',
-                  size: 310000,
-                  uploadedBy: '1',
-                  uploadedAt: new Date().toISOString(),
-                })}
-                onEdit={() => {}}
-              />
-              
-              <DocumentTemplateCard
-                title="Recurso"
-                description="Modelo de recurso para instâncias superiores"
-                onUse={() => handleUseTemplate("Recurso")}
-                onDownload={() => handleDownload({
-                  id: 'template-5',
-                  name: 'Recurso.docx',
-                  type: 'petition',
-                  path: '/templates/recurso.docx',
-                  size: 295000,
-                  uploadedBy: '1',
-                  uploadedAt: new Date().toISOString(),
-                })}
-                onEdit={() => {}}
-              />
-              
-              <Card className="border-dashed border-2 rounded-md p-4 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary transition-colors cursor-pointer h-full">
-                <div className="flex flex-col items-center text-center">
-                  <div className="p-3 mb-2">
-                    <FilePlus size={24} />
-                  </div>
-                  <span className="text-sm font-medium">Adicionar template</span>
-                </div>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
+        <DocumentContent
+          documents={documents}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          filters={filters}
+          documentTypes={documentTypes}
+          toggleTypeFilter={toggleTypeFilter}
+          clearFilters={clearFilters}
+          sortOrder={sortOrder}
+          toggleSortOrder={toggleSortOrder}
+          filteredDocuments={filteredDocuments}
+          onDownload={handleDownload}
+          onDelete={handleDelete}
+          onView={handleView}
+          onUseTemplate={handleUseTemplate}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
       </div>
     </div>
   );
