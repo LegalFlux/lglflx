@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarIcon, Plus, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -315,7 +314,7 @@ const Calendar = () => {
         <PageHeader
           title="Agenda"
           description="Gerencie os seus compromissos, audiências e prazos"
-          icon={CalendarIcon}
+          icon={<CalendarIcon size={28} />}
           actions={
             <Button>
               <Plus size={16} className="mr-2" />
