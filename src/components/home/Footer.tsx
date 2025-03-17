@@ -1,9 +1,8 @@
-
 import React from 'react';
 
 const Footer: React.FC = () => {
   const primaryColor = '#33254C';
-  
+
   return (
     <footer className="mt-auto py-12 bg-background border-t border-border">
       <div className="container mx-auto px-4">
@@ -15,7 +14,7 @@ const Footer: React.FC = () => {
             </div>
             <p className="text-muted-foreground">Gestão jurídica simplificada para advogados, solicitadores e agentes de execução.</p>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold mb-4">Contactos</h3>
             <ul className="space-y-2 text-muted-foreground">
@@ -24,20 +23,20 @@ const Footer: React.FC = () => {
               <li>www.legalflux.pt</li>
               <li>
                 <div className="flex space-x-4 mt-4">
-                  <a href="https://www.instagram.com/legalflux.pt/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+                  <a href="https://www.instagram.com/legalflux.pt/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary" aria-label="Instagram">
                     Instagram
                   </a>
-                  <a href="https://vimeo.com/user119294787" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+                  <a href="https://vimeo.com/user119294787" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary" aria-label="Vimeo">
                     Vimeo
                   </a>
-                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary" aria-label="LinkedIn">
                     LinkedIn
                   </a>
                 </div>
               </li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold mb-4">Links Rápidos</h3>
             <ul className="space-y-2">
@@ -48,7 +47,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} LegalFlux. Todos os direitos reservados.</p>
         </div>
