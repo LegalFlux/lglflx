@@ -1,5 +1,5 @@
 
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import Index from "@/pages/Index";
 import Clients from "@/pages/Clients";
@@ -11,29 +11,92 @@ import Reports from "@/pages/Reports";
 import Settings from "@/pages/Settings";
 import NotFound from "@/pages/NotFound";
 import ClientPortal from "@/pages/ClientPortal";
+import Home from "@/pages/Home";
+import Auth from "@/pages/Auth";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import "./App.css";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      { index: true, element: <Index /> },
-      { path: "clients", element: <Clients /> },
-      { path: "cases", element: <Cases /> },
-      { path: "documents", element: <Documents /> },
-      { path: "calendar", element: <Calendar /> },
-      { path: "finance", element: <Finance /> },
-      { path: "reports", element: <Reports /> },
-      { path: "settings", element: <Settings /> },
-      { path: "client-portal", element: <ClientPortal /> },
-      { path: "*", element: <NotFound /> },
-    ],
-  },
-]);
+// Componente para rotas protegidas
+const ProtectedRoute = () => {
+  const { user, isLoading } = useAuth();
+
+  // Se ainda estiver carregando, não faz nada
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen">Carregando...</div>;
+  }
+
+  // Se não estiver autenticado, redireciona para a página de login
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  // Se estiver autenticado, renderiza as rotas filhas
+  return <Outlet />;
+};
+
+// Componente para redirecionar usuários autenticados
+const RedirectIfAuthenticated = () => {
+  const { user, isLoading } = useAuth();
+
+  // Se ainda estiver carregando, não faz nada
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen">Carregando...</div>;
+  }
+
+  // Se estiver autenticado, redireciona para o dashboard
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
+
+  // Se não estiver autenticado, renderiza as rotas filhas
+  return <Outlet />;
+};
+
+const AppRoutes = () => {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+      index: true,
+    },
+    {
+      element: <RedirectIfAuthenticated />,
+      children: [
+        { path: "auth", element: <Auth /> },
+      ],
+    },
+    {
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: "dashboard",
+          element: <Layout />,
+          children: [
+            { index: true, element: <Index /> },
+            { path: "clients", element: <Clients /> },
+            { path: "cases", element: <Cases /> },
+            { path: "documents", element: <Documents /> },
+            { path: "calendar", element: <Calendar /> },
+            { path: "finance", element: <Finance /> },
+            { path: "reports", element: <Reports /> },
+            { path: "settings", element: <Settings /> },
+            { path: "client-portal", element: <ClientPortal /> },
+          ],
+        },
+      ],
+    },
+    { path: "*", element: <NotFound /> },
+  ]);
+
+  return <RouterProvider router={router} />;
+};
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
+  );
 }
 
 export default App;

@@ -1,46 +1,78 @@
 
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { 
-  Users, Briefcase, FileText, Calendar, 
-  BarChart3, Settings, PieChart, Home, User
-} from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Home, FileText, Users, Briefcase, Calendar, DollarSign, BarChart, Settings, LogOut } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface SidebarProps {
   isOpen: boolean;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
-  const navItems = [
-    { to: '/', icon: <Home size={20} />, label: 'Dashboard' },
-    { to: '/clients', icon: <Users size={20} />, label: 'Clientes' },
-    { to: '/cases', icon: <Briefcase size={20} />, label: 'Processos' },
-    { to: '/documents', icon: <FileText size={20} />, label: 'Documentos' },
-    { to: '/calendar', icon: <Calendar size={20} />, label: 'Calendário' },
-    { to: '/finance', icon: <BarChart3 size={20} />, label: 'Finanças' },
-    { to: '/reports', icon: <PieChart size={20} />, label: 'Relatórios' },
-    { to: '/client-portal', icon: <User size={20} />, label: 'Portal Cliente' },
-    { to: '/settings', icon: <Settings size={20} />, label: 'Definições' },
+  const location = useLocation();
+  const { signOut, user } = useAuth();
+
+  const menuItems = [
+    { name: 'Dashboard', icon: Home, path: '/dashboard' },
+    { name: 'Documentos', icon: FileText, path: '/dashboard/documents' },
+    { name: 'Clientes', icon: Users, path: '/dashboard/clients' },
+    { name: 'Processos', icon: Briefcase, path: '/dashboard/cases' },
+    { name: 'Agenda', icon: Calendar, path: '/dashboard/calendar' },
+    { name: 'Financeiro', icon: DollarSign, path: '/dashboard/finance' },
+    { name: 'Relatórios', icon: BarChart, path: '/dashboard/reports' },
+    { name: 'Configurações', icon: Settings, path: '/dashboard/settings' },
   ];
-  
+
   return (
-    <div className={`h-screen fixed left-0 pt-16 bg-card border-r border-border transition-all duration-300 z-30 ${isOpen ? 'w-64' : 'w-20'}`}>
-      <nav className="space-y-2 p-4">
-        {navItems.map((item, index) => (
-          <NavLink
-            key={index}
-            to={item.to}
-            className={({ isActive }) => 
-              `flex items-center p-3 rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-accent ${
-                isActive ? 'bg-accent text-foreground font-medium' : ''
-              }`
-            }
-          >
-            <span className="mr-3">{item.icon}</span>
-            {isOpen && <span>{item.label}</span>}
-          </NavLink>
-        ))}
-      </nav>
+    <div className={cn(
+      "fixed left-0 top-0 bottom-0 z-30 h-full bg-sidebar border-r border-sidebar-border transition-all duration-300 mt-16 overflow-y-auto",
+      isOpen ? "w-64" : "w-20"
+    )}>
+      <div className="flex flex-col h-full py-6">
+        <div className="px-4 space-y-1">
+          {menuItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={cn(
+                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                location.pathname === item.path || location.pathname.startsWith(item.path + '/')
+                  ? "bg-sidebar-primary text-sidebar-primary-foreground" 
+                  : "text-sidebar-foreground hover:bg-sidebar-accent"
+              )}
+            >
+              <item.icon className="h-5 w-5" />
+              {isOpen && <span>{item.name}</span>}
+            </Link>
+          ))}
+        </div>
+
+        <div className="mt-auto px-4">
+          <div className="border-t border-sidebar-border pt-4 mt-4">
+            {isOpen && (
+              <div className="mb-4 px-3 flex flex-col">
+                <span className="text-xs text-muted-foreground">CONTA</span>
+                <span className="text-sm font-medium truncate">
+                  {user?.email}
+                </span>
+              </div>
+            )}
+            <Button 
+              variant="ghost" 
+              className={cn(
+                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent",
+                !isOpen && "justify-center px-0"
+              )}
+              onClick={signOut}
+            >
+              <LogOut className="h-5 w-5" />
+              {isOpen && <span>Sair</span>}
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

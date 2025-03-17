@@ -47,13 +47,13 @@ const DocumentContent: React.FC<DocumentContentProps> = ({
   setActiveTab
 }) => {
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-      <TabsList className="mb-4">
-        <TabsTrigger value="documentos">
+    <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 w-full">
+      <TabsList className="mb-4 w-full sm:w-auto">
+        <TabsTrigger value="documentos" className="flex items-center">
           <FileText size={16} className="mr-2" />
           Documentos
         </TabsTrigger>
-        <TabsTrigger value="templates">
+        <TabsTrigger value="templates" className="flex items-center">
           <LayoutTemplate size={16} className="mr-2" />
           Templates
         </TabsTrigger>

@@ -4,7 +4,7 @@ import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Eye, Calendar, Clock } from 'lucide-react';
+import { FileText, Download, Eye, Calendar, Clock, DollarSign } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { mockDocuments } from '@/data';
 import { Document } from '@/types';
@@ -31,6 +31,31 @@ const ClientPortal = () => {
       createdAt: '2023-08-22',
       documents: ['doc3'],
       nextHearing: null,
+    }
+  ];
+  
+  // Exemplo de dados da conta corrente
+  const contaCorrenteItems = [
+    {
+      id: '1',
+      data: '2023-10-15',
+      descricao: 'Honorários Iniciais',
+      valor: 500,
+      tipo: 'débito'
+    },
+    {
+      id: '2',
+      data: '2023-10-30',
+      descricao: 'Pagamento de Honorários',
+      valor: 500,
+      tipo: 'crédito'
+    },
+    {
+      id: '3',
+      data: '2023-11-05',
+      descricao: 'Custas Processuais',
+      valor: 150,
+      tipo: 'débito'
     }
   ];
   
@@ -76,10 +101,11 @@ const ClientPortal = () => {
       />
       
       <Tabs defaultValue="processos" className="w-full">
-        <TabsList className="mb-4">
+        <TabsList className="mb-4 overflow-x-auto flex w-full sm:w-auto">
           <TabsTrigger value="processos">Meus Processos</TabsTrigger>
           <TabsTrigger value="documentos">Documentos</TabsTrigger>
           <TabsTrigger value="agenda">Agenda</TabsTrigger>
+          <TabsTrigger value="conta-corrente">Conta Corrente</TabsTrigger>
         </TabsList>
         
         <TabsContent value="processos" className="space-y-4">
@@ -272,6 +298,58 @@ const ClientPortal = () => {
                   </p>
                 </div>
               )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="conta-corrente" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Conta Corrente</CardTitle>
+              <CardDescription>
+                Histórico financeiro dos seus processos
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-6 flex justify-between items-center">
+                <div>
+                  <h3 className="text-lg font-medium">Saldo Atual</h3>
+                  <p className="text-2xl font-bold text-green-600">€350,00</p>
+                </div>
+                <Button>
+                  <Download size={16} className="mr-2" />
+                  Exportar Extrato
+                </Button>
+              </div>
+              
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Data</TableHead>
+                    <TableHead>Descrição</TableHead>
+                    <TableHead>Valor</TableHead>
+                    <TableHead>Tipo</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {contaCorrenteItems.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>{new Date(item.data).toLocaleDateString('pt-PT')}</TableCell>
+                      <TableCell>{item.descricao}</TableCell>
+                      <TableCell className={item.tipo === 'crédito' ? 'text-green-600' : 'text-red-600'}>
+                        {item.tipo === 'crédito' ? '+' : '-'}€{item.valor.toFixed(2)}
+                      </TableCell>
+                      <TableCell>
+                        <span className={`px-2 py-1 rounded text-xs ${
+                          item.tipo === 'crédito' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        }`}>
+                          {item.tipo === 'crédito' ? 'Crédito' : 'Débito'}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </CardContent>
           </Card>
         </TabsContent>
