@@ -1,357 +1,144 @@
 
 import React, { useState } from 'react';
-import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import PageHeader from '@/components/layout/PageHeader';
+import { Card } from '@/components/ui/card';
+import { mockCases, mockClients, mockDocuments } from '@/data';
+import { Users, FileText, CreditCard } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Eye, Calendar, Clock, DollarSign } from 'lucide-react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { mockDocuments } from '@/data';
-import { Document } from '@/types';
+import CaseCard from '@/components/cases/CaseCard';
+import DocumentCard from '@/components/documents/DocumentCard';
+import ClientAccount from '@/components/client/ClientAccount';
 
-const ClientPortal = () => {
-  const [activeCase, setActiveCase] = useState(null);
-  
-  // Exemplo de casos do cliente (isto seria carregado do Supabase na implementação real)
-  const clientCases = [
-    {
-      id: '1',
-      title: 'Processo de Partilha de Bens',
-      description: 'Partilha de bens após divórcio',
-      status: 'active',
-      createdAt: '2023-06-15',
-      documents: ['doc1', 'doc2'],
-      nextHearing: '2023-12-10',
-    },
-    {
-      id: '2',
-      title: 'Ação de Indemnização',
-      description: 'Processo de indemnização por danos pessoais',
-      status: 'active',
-      createdAt: '2023-08-22',
-      documents: ['doc3'],
-      nextHearing: null,
-    }
-  ];
-  
-  // Exemplo de dados da conta corrente
-  const contaCorrenteItems = [
-    {
-      id: '1',
-      data: '2023-10-15',
-      descricao: 'Honorários Iniciais',
-      valor: 500,
-      tipo: 'débito'
-    },
-    {
-      id: '2',
-      data: '2023-10-30',
-      descricao: 'Pagamento de Honorários',
-      valor: 500,
-      tipo: 'crédito'
-    },
-    {
-      id: '3',
-      data: '2023-11-05',
-      descricao: 'Custas Processuais',
-      valor: 150,
-      tipo: 'débito'
-    }
-  ];
-  
-  // Filtra documentos com base no caso selecionado (simulação)
-  const getDocumentsForCase = (caseId) => {
-    if (!caseId) return [];
-    return mockDocuments.slice(0, caseId === '1' ? 3 : 2);
-  };
-  
-  const handleDownload = (document: Document) => {
-    console.log('Download document:', document);
-    // Implementação real faria o download do documento
-  };
-  
-  const handleView = (document: Document) => {
-    console.log('View document:', document);
-    // Implementação real abriria o documento para visualização
-  };
-  
-  const getStatusColor = (status: string) => {
-    switch(status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'closed': return 'bg-gray-100 text-gray-800';
-      case 'archived': return 'bg-blue-100 text-blue-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-  
-  const getStatusText = (status: string) => {
-    switch(status) {
-      case 'active': return 'Ativo';
-      case 'closed': return 'Encerrado';
-      case 'archived': return 'Arquivado';
-      default: return status;
-    }
-  };
+// Mock data for the account
+const mockTransactions = [
+  {
+    id: '1',
+    clienteId: '123',
+    casoId: '123',
+    data: new Date('2023-10-15'),
+    descricao: 'Honorários iniciais',
+    valor: 500,
+    tipo: 'honorario',
+    createdAt: new Date('2023-10-15'),
+    updatedAt: new Date('2023-10-15')
+  },
+  {
+    id: '2',
+    clienteId: '123',
+    casoId: '123',
+    data: new Date('2023-10-20'),
+    descricao: 'Pagamento parcial',
+    valor: 300,
+    tipo: 'pagamento',
+    createdAt: new Date('2023-10-20'),
+    updatedAt: new Date('2023-10-20')
+  },
+  {
+    id: '3',
+    clienteId: '123',
+    casoId: '123',
+    data: new Date('2023-11-05'),
+    descricao: 'Custas processuais',
+    valor: 150,
+    tipo: 'despesa',
+    createdAt: new Date('2023-11-05'),
+    updatedAt: new Date('2023-11-05')
+  }
+];
 
+const mockAccountSummary = {
+  total: 650,
+  totalPago: 300,
+  saldo: -350,
+  pendente: 350,
+  ultimoPagamento: new Date('2023-10-20'),
+  valorUltimoPagamento: 300
+};
+
+const ClientPortal: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('cases');
+  const { user } = useAuth();
+  
+  // Mock client for demo
+  const client = mockClients[0];
+  
+  // Filter cases and documents for this client
+  const clientCases = mockCases.filter(c => c.clientId === client.id);
+  const clientDocuments = mockDocuments.filter(d => d.clientId === client.id);
+  
   return (
-    <div className="container py-6 space-y-6">
-      <PageHeader 
-        title="Portal do Cliente" 
-        description="Acompanhe seus processos e documentos"
+    <div className="container mx-auto px-4 pt-6 pb-16 max-w-7xl">
+      <PageHeader
+        title="Portal do Cliente"
+        description="Aceda à informação dos seus processos e documentos"
+        icon={<Users className="mr-2" />}
       />
       
-      <Tabs defaultValue="processos" className="w-full">
-        <TabsList className="mb-4 overflow-x-auto flex w-full sm:w-auto">
-          <TabsTrigger value="processos">Meus Processos</TabsTrigger>
-          <TabsTrigger value="documentos">Documentos</TabsTrigger>
-          <TabsTrigger value="agenda">Agenda</TabsTrigger>
-          <TabsTrigger value="conta-corrente">Conta Corrente</TabsTrigger>
-        </TabsList>
+      <Tabs
+        defaultValue="cases"
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="mt-6"
+      >
+        <div className="flex justify-between items-center mb-6">
+          <TabsList className="w-full md:w-auto justify-start overflow-x-auto">
+            <TabsTrigger value="cases" className="flex items-center">
+              <Users className="mr-2 h-4 w-4" />
+              <span>Processos</span>
+            </TabsTrigger>
+            <TabsTrigger value="documents" className="flex items-center">
+              <FileText className="mr-2 h-4 w-4" />
+              <span>Documentos</span>
+            </TabsTrigger>
+            <TabsTrigger value="account" className="flex items-center">
+              <CreditCard className="mr-2 h-4 w-4" />
+              <span>Conta Corrente</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
         
-        <TabsContent value="processos" className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {clientCases.map(caseItem => (
-              <Card 
-                key={caseItem.id} 
-                className="cursor-pointer hover:shadow-md transition-shadow"
-                onClick={() => setActiveCase(caseItem.id)}
-              >
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start">
-                    <CardTitle className="text-lg">{caseItem.title}</CardTitle>
-                    <span className={`px-2 py-1 rounded text-xs ${getStatusColor(caseItem.status)}`}>
-                      {getStatusText(caseItem.status)}
-                    </span>
-                  </div>
-                  <CardDescription>{caseItem.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Data de Abertura:</span>
-                      <span>{new Date(caseItem.createdAt).toLocaleDateString('pt-PT')}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Documentos:</span>
-                      <span>{caseItem.documents.length}</span>
-                    </div>
-                    {caseItem.nextHearing && (
-                      <div className="flex justify-between items-center mt-2 pt-2 border-t">
-                        <span className="flex items-center text-amber-600">
-                          <Calendar size={14} className="mr-1" />
-                          Próxima Audiência:
-                        </span>
-                        <span>{new Date(caseItem.nextHearing).toLocaleDateString('pt-PT')}</span>
-                      </div>
-                    )}
-                  </div>
-                </CardContent>
+        <TabsContent value="cases" className="mt-0 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {clientCases.length > 0 ? (
+              clientCases.map(legalCase => (
+                <CaseCard
+                  key={legalCase.id}
+                  legalCase={{
+                    ...legalCase,
+                    client: client
+                  }}
+                />
+              ))
+            ) : (
+              <Card className="p-6 col-span-full">
+                <p className="text-center text-muted-foreground">Não tem processos ativos de momento.</p>
               </Card>
-            ))}
+            )}
           </div>
-          
-          {activeCase && (
-            <Card className="mt-6">
-              <CardHeader>
-                <CardTitle>Detalhes do Processo</CardTitle>
-                <CardDescription>
-                  {clientCases.find(c => c.id === activeCase)?.title}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-medium mb-2">Linha do Tempo</h4>
-                    <div className="relative pl-6 border-l-2 border-muted space-y-4">
-                      <div className="relative">
-                        <div className="absolute -left-[27px] w-4 h-4 rounded-full bg-primary"></div>
-                        <div className="pb-4">
-                          <p className="font-medium">Abertura do Processo</p>
-                          <p className="text-sm text-muted-foreground">
-                            {new Date(clientCases.find(c => c.id === activeCase)?.createdAt).toLocaleDateString('pt-PT')}
-                          </p>
-                          <p className="text-sm mt-1">
-                            Processo iniciado com a entrada da petição inicial.
-                          </p>
-                        </div>
-                      </div>
-                      
-                      <div className="relative">
-                        <div className="absolute -left-[27px] w-4 h-4 rounded-full bg-muted"></div>
-                        <div className="pb-4">
-                          <p className="font-medium">Aguardando Resposta</p>
-                          <p className="text-sm text-muted-foreground">
-                            {new Date().toLocaleDateString('pt-PT')}
-                          </p>
-                          <p className="text-sm mt-1">
-                            Aguardando resposta da parte contrária.
-                          </p>
-                        </div>
-                      </div>
-                      
-                      {clientCases.find(c => c.id === activeCase)?.nextHearing && (
-                        <div className="relative">
-                          <div className="absolute -left-[27px] w-4 h-4 rounded-full bg-muted"></div>
-                          <div className="pb-4">
-                            <p className="font-medium">Audiência Agendada</p>
-                            <p className="text-sm text-muted-foreground">
-                              {new Date(clientCases.find(c => c.id === activeCase)?.nextHearing).toLocaleDateString('pt-PT')}
-                            </p>
-                            <p className="text-sm mt-1">
-                              Audiência agendada para apreciação do caso.
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
         </TabsContent>
         
-        <TabsContent value="documentos" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Meus Documentos</CardTitle>
-              <CardDescription>
-                Documentos relacionados aos seus processos
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {activeCase ? (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Nome</TableHead>
-                      <TableHead>Tipo</TableHead>
-                      <TableHead>Data</TableHead>
-                      <TableHead className="text-right">Ações</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {getDocumentsForCase(activeCase).map((doc) => (
-                      <TableRow key={doc.id}>
-                        <TableCell className="font-medium">
-                          <div className="flex items-center">
-                            <FileText size={16} className="mr-2 text-primary" />
-                            {doc.name}
-                          </div>
-                        </TableCell>
-                        <TableCell>{doc.type}</TableCell>
-                        <TableCell>{new Date(doc.uploadedAt).toLocaleDateString('pt-PT')}</TableCell>
-                        <TableCell className="text-right space-x-2">
-                          <Button variant="ghost" size="sm" onClick={() => handleView(doc)}>
-                            <Eye size={16} />
-                          </Button>
-                          <Button variant="ghost" size="sm" onClick={() => handleDownload(doc)}>
-                            <Download size={16} />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              ) : (
-                <div className="text-center py-8">
-                  <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-medium">Selecione um processo</h3>
-                  <p className="mt-1 text-muted-foreground">
-                    Selecione um processo para ver os documentos associados
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+        <TabsContent value="documents" className="mt-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {clientDocuments.length > 0 ? (
+              clientDocuments.map(document => (
+                <DocumentCard key={document.id} document={document} />
+              ))
+            ) : (
+              <Card className="p-6 col-span-full">
+                <p className="text-center text-muted-foreground">Não tem documentos disponíveis de momento.</p>
+              </Card>
+            )}
+          </div>
         </TabsContent>
         
-        <TabsContent value="agenda" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Agenda</CardTitle>
-              <CardDescription>
-                Próximos eventos e prazos dos seus processos
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {clientCases.some(c => c.nextHearing) ? (
-                <div className="space-y-4">
-                  {clientCases.filter(c => c.nextHearing).map(caseItem => (
-                    <div key={caseItem.id} className="flex items-start p-4 border rounded-md">
-                      <Calendar size={24} className="text-primary mr-4 mt-1" />
-                      <div>
-                        <h4 className="font-medium">{caseItem.title}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Audiência em {new Date(caseItem.nextHearing).toLocaleDateString('pt-PT')}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <Clock className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-medium">Sem eventos agendados</h3>
-                  <p className="mt-1 text-muted-foreground">
-                    Não há eventos agendados para os próximos dias
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="conta-corrente" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Conta Corrente</CardTitle>
-              <CardDescription>
-                Histórico financeiro dos seus processos
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="mb-6 flex justify-between items-center">
-                <div>
-                  <h3 className="text-lg font-medium">Saldo Atual</h3>
-                  <p className="text-2xl font-bold text-green-600">€350,00</p>
-                </div>
-                <Button>
-                  <Download size={16} className="mr-2" />
-                  Exportar Extrato
-                </Button>
-              </div>
-              
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Data</TableHead>
-                    <TableHead>Descrição</TableHead>
-                    <TableHead>Valor</TableHead>
-                    <TableHead>Tipo</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {contaCorrenteItems.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell>{new Date(item.data).toLocaleDateString('pt-PT')}</TableCell>
-                      <TableCell>{item.descricao}</TableCell>
-                      <TableCell className={item.tipo === 'crédito' ? 'text-green-600' : 'text-red-600'}>
-                        {item.tipo === 'crédito' ? '+' : '-'}€{item.valor.toFixed(2)}
-                      </TableCell>
-                      <TableCell>
-                        <span className={`px-2 py-1 rounded text-xs ${
-                          item.tipo === 'crédito' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                        }`}>
-                          {item.tipo === 'crédito' ? 'Crédito' : 'Débito'}
-                        </span>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+        <TabsContent value="account" className="mt-0">
+          <ClientAccount
+            clientId={client.id}
+            transactions={mockTransactions}
+            summary={mockAccountSummary}
+          />
         </TabsContent>
       </Tabs>
     </div>

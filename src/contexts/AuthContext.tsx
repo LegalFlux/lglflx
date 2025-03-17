@@ -8,6 +8,8 @@ type AuthContextType = {
   user: User | null;
   session: Session | null;
   isLoading: boolean;
+  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string, userData: object) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
 };
 
@@ -46,9 +48,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsLoading(false);
 
         if (event === 'SIGNED_IN') {
-          console.log('Usuário conectado');
+          console.log('Utilizador conectado');
+          toast({
+            title: 'Bem-vindo',
+            description: 'Sessão iniciada com sucesso',
+          });
         } else if (event === 'SIGNED_OUT') {
-          console.log('Usuário desconectado');
+          console.log('Utilizador desconectado');
+          toast({
+            title: 'Sessão terminada',
+            description: 'Sessão encerrada com sucesso',
+          });
         }
       }
     );
@@ -59,6 +69,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     };
   }, []);
+
+  const signIn = async (email: string, password: string) => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      return { error: error };
+    } catch (error) {
+      console.error('Erro ao iniciar sessão:', error);
+      return { error: error as Error };
+    }
+  };
+
+  const signUp = async (email: string, password: string, userData: object) => {
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: userData,
+        },
+      });
+      
+      return { error: error };
+    } catch (error) {
+      console.error('Erro ao registar:', error);
+      return { error: error as Error };
+    }
+  };
 
   const signOut = async () => {
     try {
@@ -81,6 +122,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     user,
     session,
     isLoading,
+    signIn,
+    signUp,
     signOut,
   };
 

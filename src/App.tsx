@@ -15,6 +15,7 @@ import Home from "@/pages/Home";
 import Auth from "@/pages/Auth";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import "./App.css";
+import { Toaster } from "@/components/ui/toaster";
 
 // Componente para rotas protegidas
 const ProtectedRoute = () => {
@@ -22,7 +23,11 @@ const ProtectedRoute = () => {
 
   // Se ainda estiver carregando, não faz nada
   if (isLoading) {
-    return <div className="flex items-center justify-center h-screen">Carregando...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+      </div>
+    );
   }
 
   // Se não estiver autenticado, redireciona para a página de login
@@ -40,12 +45,16 @@ const RedirectIfAuthenticated = () => {
 
   // Se ainda estiver carregando, não faz nada
   if (isLoading) {
-    return <div className="flex items-center justify-center h-screen">Carregando...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
+      </div>
+    );
   }
 
   // Se estiver autenticado, redireciona para o dashboard
   if (user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   // Se não estiver autenticado, renderiza as rotas filhas
@@ -95,6 +104,7 @@ function App() {
   return (
     <AuthProvider>
       <AppRoutes />
+      <Toaster />
     </AuthProvider>
   );
 }
