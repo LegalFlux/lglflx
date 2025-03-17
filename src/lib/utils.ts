@@ -1,7 +1,7 @@
 
 import { type ClassValue, clsx } from "clsx";
 import { format } from "date-fns";
-import { ptPT } from "date-fns/locale";
+import { pt } from "date-fns/locale"; // Changed from ptPT to pt which is the correct locale code
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -15,7 +15,7 @@ export function cn(...inputs: ClassValue[]) {
  * @returns The formatted date string
  */
 export function formatDate(date: Date, formatString: string = "dd/MM/yyyy") {
-  return format(date, formatString, { locale: ptPT });
+  return format(date, formatString, { locale: pt });
 }
 
 /**
