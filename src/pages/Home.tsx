@@ -1,4 +1,3 @@
-
 import React, { lazy, Suspense } from 'react';
 
 const Navbar = lazy(() => import('@/components/home/Navbar'));
@@ -28,9 +27,13 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   render() {
     if (this.state.hasError) {
-      return <div>Something went wrong.</div>;
+      return (
+        <div className="error-boundary">
+          <h1>Something went wrong.</h1>
+          <button onClick={() => window.location.reload()}>Reload</button>
+        </div>
+      );
     }
-
     return this.props.children;
   }
 }
