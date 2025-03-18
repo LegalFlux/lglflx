@@ -1,4 +1,7 @@
+
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Euro, Instagram, Linkedin, MessageSquare } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const primaryColor = '#33254C';
@@ -13,6 +16,13 @@ const Footer: React.FC = () => {
               <span className="text-foreground font-display text-xl">Flux</span>
             </div>
             <p className="text-muted-foreground">Gestão jurídica simplificada para advogados, solicitadores e agentes de execução.</p>
+            
+            <div className="mt-4">
+              <div className="flex items-center space-x-1 text-muted-foreground">
+                <Euro size={16} />
+                <span>Planos desde 49€/mês</span>
+              </div>
+            </div>
           </div>
 
           <div>
@@ -23,14 +33,17 @@ const Footer: React.FC = () => {
               <li>www.legalflux.pt</li>
               <li>
                 <div className="flex space-x-4 mt-4">
-                  <a href="https://www.instagram.com/legalflux.pt/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary" aria-label="Instagram">
-                    Instagram
+                  <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" 
+                     className="text-muted-foreground hover:text-primary" aria-label="Instagram">
+                    <Instagram size={20} />
                   </a>
-                  <a href="https://vimeo.com/user119294787" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary" aria-label="Vimeo">
-                    Vimeo
+                  <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" 
+                     className="text-muted-foreground hover:text-primary" aria-label="LinkedIn">
+                    <Linkedin size={20} />
                   </a>
-                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary" aria-label="LinkedIn">
-                    LinkedIn
+                  <a href="https://vimeo.com/" target="_blank" rel="noopener noreferrer" 
+                     className="text-muted-foreground hover:text-primary" aria-label="Vimeo">
+                    <MessageSquare size={20} />
                   </a>
                 </div>
               </li>
@@ -40,10 +53,11 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Links Rápidos</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-primary">Termos e Condições</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary">Política de Privacidade</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary">FAQ</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary">Suporte</a></li>
+              <li><Link to="/planos" className="text-muted-foreground hover:text-primary">Planos e Preços</Link></li>
+              <li><Link to="/termos" className="text-muted-foreground hover:text-primary">Termos e Condições</Link></li>
+              <li><Link to="/privacidade" className="text-muted-foreground hover:text-primary">Política de Privacidade</Link></li>
+              <li><Link to="/faq" className="text-muted-foreground hover:text-primary">FAQ</Link></li>
+              <li><Link to="/suporte" className="text-muted-foreground hover:text-primary">Suporte</Link></li>
             </ul>
           </div>
         </div>

@@ -3,13 +3,15 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
+import { UserRole } from '@/types/lexflow';
 
 type AuthContextType = {
   user: User | null;
   session: Session | null;
   isLoading: boolean;
+  userRole: UserRole | null;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signUp: (email: string, password: string, userData: object) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string, userData: { nome: string; apelido: string; role?: UserRole }) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
 };
 
@@ -19,6 +21,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
+
+  const fetchUserRole = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', userId)
+        .single();
+      
+      if (error) {
+        console.error('Erro ao obter role do utilizador:', error);
+      } else if (data) {
+        setUserRole(data.role as UserRole);
+      }
+    } catch (error) {
+      console.error('Erro ao obter role do utilizador:', error);
+    }
+  };
 
   useEffect(() => {
     const getSession = async () => {
@@ -30,6 +51,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } else {
           setSession(data.session);
           setUser(data.session?.user || null);
+          
+          if (data.session?.user) {
+            fetchUserRole(data.session.user.id);
+          }
         }
       } catch (error) {
         console.error('Erro ao obter sessão:', error);
@@ -45,6 +70,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.log('Auth state change:', event);
         setSession(newSession);
         setUser(newSession?.user || null);
+        
+        if (newSession?.user) {
+          fetchUserRole(newSession.user.id);
+        } else {
+          setUserRole(null);
+        }
+        
         setIsLoading(false);
 
         if (event === 'SIGNED_IN') {
@@ -84,13 +116,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signUp = async (email: string, password: string, userData: object) => {
+  const signUp = async (email: string, password: string, userData: { nome: string; apelido: string; role?: UserRole }) => {
     try {
+      // Se não for especificado um role, atribui 'cliente' por defeito
+      const role = userData.role || 'cliente';
+      
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: userData,
+          data: {
+            nome: userData.nome,
+            apelido: userData.apelido,
+            role: role,
+          },
         },
       });
       
@@ -104,6 +143,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
+      setUserRole(null);
       toast({
         title: 'Desconectado',
         description: 'Sessão encerrada com sucesso',
@@ -122,6 +162,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     user,
     session,
     isLoading,
+    userRole,
     signIn,
     signUp,
     signOut,

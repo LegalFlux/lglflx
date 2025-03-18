@@ -49,13 +49,10 @@ export type ProcessoType =
  * @typedef {string} UserRole
  */
 export type UserRole = 
+  | 'administrador' 
+  | 'advogado_senior' 
   | 'advogado' 
-  | 'solicitador' 
-  | 'agente_execucao' 
-  | 'estagiario'
   | 'assistente'
-  | 'gestor'
-  | 'administrador'
   | 'cliente';
 
 /**
@@ -113,6 +110,110 @@ export type TipoDocumentoJuridico =
   | 'requerimento'
   | 'relatorio'
   | 'outro';
+
+/**
+ * Interface para os planos de subscrição 
+ * @interface Plano
+ */
+export interface Plano {
+  /** Identificador único do plano */
+  id: string;
+  /** Nome do plano */
+  nome: string;
+  /** Descrição do plano */
+  descricao?: string;
+  /** Preço mensal do plano em euros */
+  preco: number;
+  /** Intervalo de cobrança do plano */
+  intervalo_cobranca: 'mensal' | 'trimestral' | 'semestral' | 'anual';
+  /** Limite de casos que podem ser geridos com este plano */
+  limite_casos?: number;
+  /** Limite de armazenamento em MB */
+  limite_armazenamento?: number;
+  /** Data de criação do plano */
+  created_at?: string;
+  /** Data da última atualização do plano */
+  updated_at?: string;
+}
+
+/**
+ * Interface para as assinaturas dos utilizadores
+ * @interface Assinatura
+ */
+export interface Assinatura {
+  /** Identificador único da assinatura */
+  id: string;
+  /** ID do utilizador */
+  user_id: string;
+  /** ID do plano */
+  plano_id: string;
+  /** Estado atual da assinatura */
+  estado: 'ativa' | 'cancelada' | 'expirada' | 'pendente' | 'teste';
+  /** Data de início da assinatura */
+  data_inicio: string;
+  /** Data de término da assinatura */
+  data_termino?: string;
+  /** Método de pagamento usado */
+  metodo_pagamento?: string;
+  /** ID do pagamento no sistema externo (Stripe, PayPal, etc.) */
+  id_pagamento_externo?: string;
+  /** Indica se está em período de teste */
+  periodo_teste: boolean;
+  /** Data do próximo pagamento */
+  data_proximo_pagamento?: string;
+  /** Data de criação do registo */
+  created_at?: string;
+  /** Data da última atualização */
+  updated_at?: string;
+}
+
+/**
+ * Interface para os registos de pagamentos
+ * @interface Pagamento
+ */
+export interface Pagamento {
+  /** Identificador único do pagamento */
+  id: string;
+  /** ID da assinatura relacionada */
+  assinatura_id: string;
+  /** Valor do pagamento em euros */
+  valor: number;
+  /** Data do pagamento */
+  data_pagamento: string;
+  /** Método usado para o pagamento */
+  metodo: 'cartao' | 'paypal' | 'transferencia' | 'bitcoin' | 'outro';
+  /** Estado do pagamento */
+  estado: 'processado' | 'pendente' | 'falhou' | 'reembolsado';
+  /** Referência externa do pagamento */
+  referencia_externa?: string;
+  /** Data de criação do registo */
+  created_at?: string;
+}
+
+/**
+ * Interface para as permissões dos assistentes
+ * @interface PermissaoAssistente
+ */
+export interface PermissaoAssistente {
+  /** Identificador único da permissão */
+  id: string;
+  /** ID do assistente */
+  assistente_id: string;
+  /** ID do advogado que concedeu a permissão */
+  advogado_id: string;
+  /** Permissão para editar documentos */
+  pode_editar_documentos: boolean;
+  /** Permissão para ver dados financeiros */
+  pode_ver_financas: boolean;
+  /** Permissão para criar tarefas */
+  pode_criar_tarefas: boolean;
+  /** Permissão para ver todos os casos do advogado */
+  pode_ver_todos_casos: boolean;
+  /** Data de criação do registo */
+  created_at?: string;
+  /** Data da última atualização */
+  updated_at?: string;
+}
 
 /**
  * Interface para configurações do sistema

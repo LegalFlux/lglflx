@@ -6,19 +6,21 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { supabase } from '@/integrations/supabase/client';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from '@/hooks/use-toast';
-import { useAuth } from '@/contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { UserRole } from '@/types/lexflow';
 
 const Auth: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [nome, setNome] = useState('');
   const [apelido, setApelido] = useState('');
+  const [role, setRole] = useState<UserRole>('cliente');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, signIn, signUp } = useAuth();
   
   if (user) {
     navigate('/dashboard');
@@ -30,10 +32,7 @@ const Auth: React.FC = () => {
     setIsLoading(true);
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { error } = await signIn(email, password);
       
       if (error) {
         toast({
@@ -65,17 +64,7 @@ const Auth: React.FC = () => {
     setIsLoading(true);
     
     try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            nome,
-            apelido,
-            role: 'cliente',
-          },
-        },
-      });
+      const { error } = await signUp(email, password, { nome, apelido, role });
       
       if (error) {
         toast({
@@ -226,6 +215,23 @@ const Auth: React.FC = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="role">Perfil</Label>
+                    <Select
+                      value={role}
+                      onValueChange={(value) => setRole(value as UserRole)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o perfil" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="cliente">Cliente</SelectItem>
+                        <SelectItem value="advogado">Advogado</SelectItem>
+                        <SelectItem value="advogado_senior">Advogado Sénior</SelectItem>
+                        <SelectItem value="assistente">Assistente</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </CardContent>
                 <CardFooter>

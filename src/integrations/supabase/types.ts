@@ -126,6 +126,45 @@ export type Database = {
           },
         ]
       }
+      comunicacoes: {
+        Row: {
+          caso_id: string | null
+          created_at: string | null
+          id: string
+          mensagem: string
+          remetente_id: string
+        }
+        Insert: {
+          caso_id?: string | null
+          created_at?: string | null
+          id?: string
+          mensagem: string
+          remetente_id: string
+        }
+        Update: {
+          caso_id?: string | null
+          created_at?: string | null
+          id?: string
+          mensagem?: string
+          remetente_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comunicacoes_caso_id_fkey"
+            columns: ["caso_id"]
+            isOneToOne: false
+            referencedRelation: "casos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comunicacoes_remetente_id_fkey"
+            columns: ["remetente_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       documentos: {
         Row: {
           arquivado: boolean | null
@@ -223,6 +262,7 @@ export type Database = {
           foto_url: string | null
           id: string
           nome: string
+          password: string | null
           role: Database["public"]["Enums"]["user_role"]
           telefone: string | null
           updated_at: string
@@ -233,8 +273,9 @@ export type Database = {
           created_at?: string
           email: string
           foto_url?: string | null
-          id: string
+          id?: string
           nome: string
+          password?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           telefone?: string | null
           updated_at?: string
@@ -247,6 +288,7 @@ export type Database = {
           foto_url?: string | null
           id?: string
           nome?: string
+          password?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           telefone?: string | null
           updated_at?: string
@@ -334,6 +376,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Database["public"]["Enums"]["user_role"]
       }
+      handle_new_user_v2: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       user_can_access_case:
         | {
             Args: Record<PropertyKey, never>
@@ -345,9 +391,21 @@ export type Database = {
             }
             Returns: boolean
           }
+        | {
+            Args: {
+              user_id: string
+              case_id: string
+            }
+            Returns: boolean
+          }
     }
     Enums: {
-      user_role: "administrador" | "advogado" | "assistente" | "cliente"
+      user_role:
+        | "administrador"
+        | "advogado"
+        | "assistente"
+        | "cliente"
+        | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
