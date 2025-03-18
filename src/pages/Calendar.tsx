@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarIcon, Plus } from 'lucide-react';
 import PageHeader from '@/components/layout/PageHeader';
@@ -12,22 +11,23 @@ import WeekView from '@/components/calendar/WeekView';
 import MonthView from '@/components/calendar/MonthView';
 import { getDaysInMonth, getMonthName, getWeekDays } from '@/utils/calendarUtils';
 
-const Calendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+const Calendar: React.FC = () => {
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [view, setView] = useState<'day' | 'week' | 'month'>('week');
-  
-  const getEventsForDate = (date: Date) => {
+
+  const getEventsForDate = useCallback((date: Date): CalendarEvent[] => {
     return mockEvents.filter(event => {
       const eventDate = new Date(event.start);
-      return eventDate.getDate() === date.getDate() &&
+      return (
+        eventDate.getDate() === date.getDate() &&
         eventDate.getMonth() === date.getMonth() &&
-        eventDate.getFullYear() === date.getFullYear();
+        eventDate.getFullYear() === date.getFullYear()
+      );
     });
-  };
-  
+  }, []);
+
   const handlePrevious = () => {
     const newDate = new Date(currentDate);
-    
     if (view === 'day') {
       newDate.setDate(newDate.getDate() - 1);
     } else if (view === 'week') {
@@ -35,13 +35,11 @@ const Calendar = () => {
     } else if (view === 'month') {
       newDate.setMonth(newDate.getMonth() - 1);
     }
-    
     setCurrentDate(newDate);
   };
-  
+
   const handleNext = () => {
     const newDate = new Date(currentDate);
-    
     if (view === 'day') {
       newDate.setDate(newDate.getDate() + 1);
     } else if (view === 'week') {
@@ -49,14 +47,13 @@ const Calendar = () => {
     } else if (view === 'month') {
       newDate.setMonth(newDate.getMonth() + 1);
     }
-    
     setCurrentDate(newDate);
   };
-  
+
   const handleToday = () => {
     setCurrentDate(new Date());
   };
-  
+
   return (
     <div className="min-h-screen bg-background pt-16 animate-fade-in">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -71,7 +68,6 @@ const Calendar = () => {
             </Button>
           }
         />
-        
         <Card>
           <CardContent className="p-6">
             <CalendarHeader 
@@ -81,21 +77,18 @@ const Calendar = () => {
               handleNext={handleNext}
               handleToday={handleToday}
             />
-            
             {view === 'day' && (
               <DayView
                 currentDate={currentDate}
                 events={getEventsForDate(currentDate)}
               />
             )}
-            
             {view === 'week' && (
               <WeekView
                 weekDays={getWeekDays(currentDate)}
                 getEventsForDate={getEventsForDate}
               />
             )}
-            
             {view === 'month' && (
               <MonthView
                 currentDate={currentDate}
