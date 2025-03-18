@@ -1,3 +1,4 @@
+
 import React, { lazy, Suspense } from 'react';
 
 const Navbar = lazy(() => import('@/components/home/Navbar'));
@@ -6,7 +7,15 @@ const Features = lazy(() => import('@/components/home/Features'));
 const Pricing = lazy(() => import('@/components/home/Pricing'));
 const Footer = lazy(() => import('@/components/home/Footer'));
 
-class ErrorBoundary extends React.Component {
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state = { hasError: false };
 
   static getDerivedStateFromError() {
