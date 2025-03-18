@@ -1,15 +1,15 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from './AuthLogo.module.css'; // Assuming you are using CSS Modules
 
 const AuthLogo: React.FC = () => {
   return (
-    <Link to="/" className="text-center block mb-8">
-      <div className="flex items-center justify-center mb-2">
-        <span className="text-primary font-display text-3xl font-semibold" style={{ color: '#33254C' }}>Legal</span>
-        <span className="text-foreground font-display text-3xl">Flux</span>
+    <Link to="/" className={styles.logoLink} aria-label="LegalFlux Home">
+      <div className={styles.logoContainer}>
+        <span className={styles.logoTextPrimary}>Legal</span>
+        <span className={styles.logoText}>Flux</span>
       </div>
-      <p className="text-muted-foreground">Gestão jurídica simplificada</p>
+      <p className={styles.logoSubtitle}>Gestão jurídica simplificada</p>
     </Link>
   );
 };
