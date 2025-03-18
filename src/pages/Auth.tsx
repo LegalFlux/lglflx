@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,13 +19,26 @@ const Auth: React.FC = () => {
   const [apelido, setApelido] = useState('');
   const [role, setRole] = useState<UserRole>('cliente');
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('login');
+  
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, signIn, signUp } = useAuth();
   
-  if (user) {
-    navigate('/dashboard');
-    return null;
-  }
+  // Define o tab ativo com base nos parâmetros da URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab');
+    if (tab === 'register') {
+      setActiveTab('register');
+    }
+  }, [location]);
+  
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,6 +90,7 @@ const Auth: React.FC = () => {
           title: 'Registo com sucesso',
           description: 'Verifique o seu email para confirmar o registo',
         });
+        setActiveTab('login');
       }
     } catch (error) {
       console.error('Erro ao registar:', error);
@@ -101,7 +115,7 @@ const Auth: React.FC = () => {
           <p className="text-muted-foreground">Gestão jurídica simplificada</p>
         </div>
         
-        <Tabs defaultValue="login" className="w-full">
+        <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login">Entrar</TabsTrigger>
             <TabsTrigger value="register">Registar</TabsTrigger>

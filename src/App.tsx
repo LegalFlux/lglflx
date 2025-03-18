@@ -21,7 +21,7 @@ import { Toaster } from "@/components/ui/toaster";
 const ProtectedRoute = () => {
   const { user, isLoading } = useAuth();
 
-  // Se ainda estiver carregando, não faz nada
+  // Se ainda estiver carregando, mostra um spinner
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -43,7 +43,7 @@ const ProtectedRoute = () => {
 const RedirectIfAuthenticated = () => {
   const { user, isLoading } = useAuth();
 
-  // Se ainda estiver carregando, não faz nada
+  // Se ainda estiver carregando, mostra um spinner
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -66,7 +66,6 @@ const AppRoutes = () => {
     {
       path: "/",
       element: <Home />,
-      index: true,
     },
     {
       element: <RedirectIfAuthenticated />,
@@ -75,23 +74,18 @@ const AppRoutes = () => {
       ],
     },
     {
-      element: <ProtectedRoute />,
+      path: "dashboard",
+      element: <Layout />,
       children: [
-        {
-          path: "dashboard",
-          element: <Layout />,
-          children: [
-            { index: true, element: <Index /> },
-            { path: "clients", element: <Clients /> },
-            { path: "cases", element: <Cases /> },
-            { path: "documents", element: <Documents /> },
-            { path: "calendar", element: <Calendar /> },
-            { path: "finance", element: <Finance /> },
-            { path: "reports", element: <Reports /> },
-            { path: "settings", element: <Settings /> },
-            { path: "client-portal", element: <ClientPortal /> },
-          ],
-        },
+        { index: true, element: <Index /> },
+        { path: "clients", element: <Clients /> },
+        { path: "cases", element: <Cases /> },
+        { path: "documents", element: <Documents /> },
+        { path: "calendar", element: <Calendar /> },
+        { path: "finance", element: <Finance /> },
+        { path: "reports", element: <Reports /> },
+        { path: "settings", element: <Settings /> },
+        { path: "client-portal", element: <ClientPortal /> },
       ],
     },
     { path: "*", element: <NotFound /> },
