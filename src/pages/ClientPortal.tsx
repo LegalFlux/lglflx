@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PageHeader from '@/components/layout/PageHeader';
@@ -85,15 +84,15 @@ const ClientPortal: React.FC = () => {
         <div className="flex justify-between items-center mb-6">
           <TabsList className="w-full md:w-auto justify-start overflow-x-auto">
             <TabsTrigger value="cases" className="flex items-center">
-              <Users className="mr-2 h-4 w-4" />
+              <Users className="mr-2 h-4 w-4" alt="Cases Icon"/>
               <span>Processos</span>
             </TabsTrigger>
             <TabsTrigger value="documents" className="flex items-center">
-              <FileText className="mr-2 h-4 w-4" />
+              <FileText className="mr-2 h-4 w-4" alt="Documents Icon"/>
               <span>Documentos</span>
             </TabsTrigger>
             <TabsTrigger value="account" className="flex items-center">
-              <CreditCard className="mr-2 h-4 w-4" />
+              <CreditCard className="mr-2 h-4 w-4" alt="Account Icon"/>
               <span>Conta Corrente</span>
             </TabsTrigger>
           </TabsList>
