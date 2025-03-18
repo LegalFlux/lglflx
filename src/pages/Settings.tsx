@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { Settings as SettingsIcon, Save } from 'lucide-react';
 import PageHeader from '@/components/layout/PageHeader';
@@ -7,26 +6,32 @@ import { SystemConfig } from '@/types/lexflow';
 import SettingsTabs from '@/components/settings/SettingsTabs';
 
 const Settings = () => {
-  const [config, setConfig] = useState<SystemConfig>({
+  const initialConfig: SystemConfig = {
     escritorioNome: "LexFlow Advocacia",
     moeda: "EUR",
     taxaIVA: 23,
     diasAlertaPrazos: 5,
     backupAutomatico: true,
-    frequenciaBackup: 1
-  });
+    frequenciaBackup: 1,
+  };
 
-  const handleChange = (key: keyof SystemConfig, value: any) => {
+  const [config, setConfig] = useState<SystemConfig>(initialConfig);
+
+  const handleChange = useCallback((key: keyof SystemConfig, value: any) => {
     setConfig(prev => ({
       ...prev,
       [key]: value
     }));
-  };
+  }, []);
 
-  const handleSave = () => {
-    console.log("Configurações salvas:", config);
-    // Aqui seria implementada a lógica para salvar as configurações
-  };
+  const handleSave = useCallback(() => {
+    try {
+      console.log("Configurações salvas:", config);
+      // Implement logic to save the configurations here
+    } catch (error) {
+      console.error("Failed to save configurations", error);
+    }
+  }, [config]);
 
   return (
     <div className="min-h-screen bg-background pt-16 animate-fade-in">
@@ -42,7 +47,6 @@ const Settings = () => {
             </Button>
           }
         />
-
         <SettingsTabs config={config} handleChange={handleChange} />
       </div>
     </div>
