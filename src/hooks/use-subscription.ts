@@ -86,10 +86,14 @@ export const useSubscription = () => {
           percentualRestante = 100 - Math.min(100, Math.max(0, (tempoDecorrido / duracaoTotal) * 100));
         }
 
+        // Garantir que periodo_faturacao é 'mensal' ou 'anual'
+        const periodoFaturacao = data.periodo_faturacao === 'anual' ? 'anual' : 'mensal';
+        
         const assinaturaDisplay: AssinaturaDisplay = {
           ...data,
           diasRestantes,
           percentualRestante,
+          periodo_faturacao: periodoFaturacao,
           plano: data.plano as Plano
         };
         
@@ -358,3 +362,4 @@ export const useSubscription = () => {
     iniciarTrial
   };
 };
+
