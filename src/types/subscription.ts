@@ -18,7 +18,7 @@ export interface Assinatura {
   plano_id: string;
   data_inicio: string;
   data_fim: string | null;
-  periodo_faturacao: 'mensal' | 'anual';
+  periodo_faturacao: string;
   estado: 'ativa' | 'pendente' | 'cancelada' | 'expirada' | 'trial';
   metodo_pagamento: string | null;
   id_transacao: string | null;

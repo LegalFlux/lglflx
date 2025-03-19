@@ -89,11 +89,34 @@ export const useSubscription = () => {
         // Garantir que periodo_faturacao é 'mensal' ou 'anual'
         const periodoFaturacao = data.periodo_faturacao === 'anual' ? 'anual' : 'mensal';
         
+        // Garantir que estado é um dos valores válidos
+        let estado: 'ativa' | 'pendente' | 'cancelada' | 'expirada' | 'trial';
+        switch (data.estado) {
+          case 'ativa':
+            estado = 'ativa';
+            break;
+          case 'trial':
+            estado = 'trial';
+            break;
+          case 'pendente':
+            estado = 'pendente';
+            break;
+          case 'cancelada':
+            estado = 'cancelada';
+            break;
+          case 'expirada':
+            estado = 'expirada';
+            break;
+          default:
+            estado = 'pendente';
+        }
+        
         const assinaturaDisplay: AssinaturaDisplay = {
           ...data,
           diasRestantes,
           percentualRestante,
           periodo_faturacao: periodoFaturacao,
+          estado: estado,
           plano: data.plano as Plano
         };
         
@@ -362,4 +385,3 @@ export const useSubscription = () => {
     iniciarTrial
   };
 };
-
