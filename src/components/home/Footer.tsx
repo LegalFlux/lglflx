@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   const primaryColor = '#33254C';
 
   return (
-    <footer className="mt-auto py-12 bg-background border-t border-border">
+    <footer className="mt-auto py-12 bg-background border-t border-border w-full">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-8">
           <div>
@@ -34,15 +34,15 @@ const Footer: React.FC = () => {
               <li>
                 <div className="flex space-x-4 mt-4">
                   <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" 
-                     className="text-muted-foreground hover:text-primary" aria-label="Instagram">
+                     className="text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram">
                     <Instagram size={20} />
                   </a>
                   <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" 
-                     className="text-muted-foreground hover:text-primary" aria-label="LinkedIn">
+                     className="text-muted-foreground hover:text-primary transition-colors" aria-label="LinkedIn">
                     <Linkedin size={20} />
                   </a>
                   <a href="https://vimeo.com/" target="_blank" rel="noopener noreferrer" 
-                     className="text-muted-foreground hover:text-primary" aria-label="Vimeo">
+                     className="text-muted-foreground hover:text-primary transition-colors" aria-label="Vimeo">
                     <MessageSquare size={20} />
                   </a>
                 </div>
@@ -53,11 +53,11 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Links Rápidos</h3>
             <ul className="space-y-2">
-              <li><Link to="/planos" className="text-muted-foreground hover:text-primary">Planos e Preços</Link></li>
-              <li><Link to="/termos" className="text-muted-foreground hover:text-primary">Termos e Condições</Link></li>
-              <li><Link to="/privacidade" className="text-muted-foreground hover:text-primary">Política de Privacidade</Link></li>
-              <li><Link to="/faq" className="text-muted-foreground hover:text-primary">FAQ</Link></li>
-              <li><Link to="/suporte" className="text-muted-foreground hover:text-primary">Suporte</Link></li>
+              <li><Link to="/planos" className="text-muted-foreground hover:text-primary transition-colors">Planos e Preços</Link></li>
+              <li><Link to="/termos" className="text-muted-foreground hover:text-primary transition-colors">Termos e Condições</Link></li>
+              <li><Link to="/privacidade" className="text-muted-foreground hover:text-primary transition-colors">Política de Privacidade</Link></li>
+              <li><Link to="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
+              <li><Link to="/suporte" className="text-muted-foreground hover:text-primary transition-colors">Suporte</Link></li>
             </ul>
           </div>
         </div>

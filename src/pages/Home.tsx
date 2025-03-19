@@ -10,9 +10,11 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen w-full">
       <Navbar />
-      <Hero />
-      <Features />
-      <Pricing />
+      <main className="flex-grow">
+        <Hero />
+        <Features />
+        <Pricing />
+      </main>
       <Footer />
     </div>
   );
