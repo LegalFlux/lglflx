@@ -16,7 +16,6 @@ export interface Assinatura {
   id: string;
   user_id: string;
   plano_id: string;
-  plano?: Plano;
   data_inicio: string;
   data_fim: string | null;
   periodo_faturacao: 'mensal' | 'anual';
@@ -27,10 +26,10 @@ export interface Assinatura {
   trial_end_date: string | null;
   created_at: string;
   updated_at: string;
+  plano?: Plano;
 }
 
 export interface AssinaturaDisplay extends Assinatura {
-  plano: Plano;
   diasRestantes?: number;
   percentualRestante?: number;
 }

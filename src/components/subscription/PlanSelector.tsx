@@ -1,211 +1,192 @@
 
 import React, { useState } from 'react';
-import { useSubscription } from '@/hooks/use-subscription';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Check, X } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSubscription } from '@/hooks/use-subscription';
+import PricingCard from '@/components/pricing/PricingCard';
+import { Button } from '@/components/ui/button';
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from '@/components/ui/card';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { Loader2, CheckCircle } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { useNavigate } from 'react-router-dom';
-import { toast } from '@/hooks/use-toast';
 
 const PlanSelector: React.FC = () => {
-  const { planos, loading, assinaturaAtual, subscreverPlano, iniciarTrial } = useSubscription();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [isAnual, setIsAnual] = useState(false);
-  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const { planos, loading, subscreverPlano, iniciarTrial, assinaturaAtual } = useSubscription();
+  const [selectedPeriod, setSelectedPeriod] = useState<'mensal' | 'anual'>('mensal');
+  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  // Função para lidar com a seleção de um plano
+  const handleSelectPlan = (planId: string) => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+    
+    setSelectedPlanId(planId);
+    setIsDialogOpen(true);
+  };
+
+  // Função para iniciar o trial
+  const handleStartTrial = async () => {
+    if (!selectedPlanId || !user) return;
+    
+    setIsProcessing(true);
+    await iniciarTrial(selectedPlanId);
+    setIsProcessing(false);
+    setIsDialogOpen(false);
+  };
+
+  // Função para subscrever plano
+  const handleSubscribe = async () => {
+    if (!selectedPlanId || !user) return;
+    
+    setIsProcessing(true);
+    await subscreverPlano(selectedPlanId, selectedPeriod);
+    setIsProcessing(false);
+    setIsDialogOpen(false);
+  };
+
+  // Helper para calcular desconto anual
+  const getDesconto = (mensal: number, anual: number) => {
+    return Math.round(100 - ((anual / 12) * 100) / mensal);
+  };
+
+  // Helper para formatar preço
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('pt-PT', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
-        <span className="ml-2">A carregar planos...</span>
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
-  const handleSubscribe = async (planoId: string) => {
-    if (!user) {
-      toast({
-        title: 'Login necessário',
-        description: 'Faça login para subscrever um plano',
-        variant: 'destructive',
-      });
-      navigate('/auth');
-      return;
-    }
-
-    setLoadingPlan(planoId);
-    try {
-      await subscreverPlano(planoId, isAnual ? 'anual' : 'mensal');
-      navigate('/dashboard');
-    } finally {
-      setLoadingPlan(null);
-    }
-  };
-
-  const handleTrial = async (planoId: string) => {
-    if (!user) {
-      toast({
-        title: 'Login necessário',
-        description: 'Faça login para iniciar um período de teste',
-        variant: 'destructive',
-      });
-      navigate('/auth');
-      return;
-    }
-
-    setLoadingPlan(planoId);
-    try {
-      await iniciarTrial(planoId);
-      navigate('/dashboard');
-    } finally {
-      setLoadingPlan(null);
-    }
-  };
-
-  const isPlanActive = (planoId: string) => {
-    return assinaturaAtual?.plano_id === planoId && 
-      (assinaturaAtual?.estado === 'ativa' || assinaturaAtual?.estado === 'trial');
-  };
-
   return (
-    <div className="container mx-auto py-8">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-4">Escolha o Plano Ideal para Si</h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          Selecione o plano que melhor se adapta às necessidades do seu escritório jurídico. 
-          Todos os planos incluem suporte técnico e atualizações regulares.
-        </p>
+    <div>
+      <div className="flex justify-center mb-8">
+        <RadioGroup
+          value={selectedPeriod}
+          onValueChange={(value) => setSelectedPeriod(value as 'mensal' | 'anual')}
+          className="flex items-center space-x-2 bg-muted p-1 rounded-lg"
+        >
+          <div className={`flex items-center space-x-2 rounded-md px-3 py-2 ${selectedPeriod === 'mensal' ? 'bg-background shadow-sm' : ''}`}>
+            <RadioGroupItem value="mensal" id="mensal" className="sr-only" />
+            <Label htmlFor="mensal" className={`cursor-pointer ${selectedPeriod === 'mensal' ? 'font-medium' : ''}`}>
+              Mensal
+            </Label>
+          </div>
+          <div className={`flex items-center space-x-2 rounded-md px-3 py-2 ${selectedPeriod === 'anual' ? 'bg-background shadow-sm' : ''}`}>
+            <RadioGroupItem value="anual" id="anual" className="sr-only" />
+            <Label htmlFor="anual" className={`cursor-pointer ${selectedPeriod === 'anual' ? 'font-medium' : ''}`}>
+              Anual <span className="text-xs text-green-600 font-semibold ml-1">-17%</span>
+            </Label>
+          </div>
+        </RadioGroup>
       </div>
 
-      <div className="flex justify-center items-center space-x-2 mb-8">
-        <Label htmlFor="billing-toggle" className={isAnual ? 'text-muted-foreground' : 'font-medium'}>Mensal</Label>
-        <Switch
-          id="billing-toggle"
-          checked={isAnual}
-          onCheckedChange={setIsAnual}
-        />
-        <Label htmlFor="billing-toggle" className={!isAnual ? 'text-muted-foreground' : 'font-medium'}>
-          Anual <span className="text-sm text-green-600 ml-1">(2 meses grátis)</span>
-        </Label>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {planos.map((plano) => {
-          const preco = isAnual ? plano.preco_anual / 12 : plano.preco_mensal;
-          const isActive = isPlanActive(plano.id);
+          const isPopular = plano.nome === 'Solo';
+          const price = selectedPeriod === 'mensal' 
+            ? plano.preco_mensal 
+            : Math.round(plano.preco_anual / 12);
           
+          const formattedPrice = formatPrice(price);
+          
+          // Verificar se o plano é o plano atual do usuário
+          const isPlanoCurrent = assinaturaAtual?.plano_id === plano.id;
+
+          // Montar lista de recursos
+          const features = plano.recursos.map(recurso => ({
+            name: recurso,
+            included: true
+          }));
+
           return (
-            <Card 
-              key={plano.id} 
-              className={`flex flex-col h-full transition-all duration-200 hover:shadow-md ${
-                plano.nome === 'Enterprise' ? 'border-primary scale-[1.02] shadow-md' : ''
-              }`}
-            >
-              {plano.nome === 'Enterprise' && (
-                <div className="bg-primary text-primary-foreground text-xs font-medium py-1 px-3 rounded-t-md w-full text-center">
-                  Mais Popular
-                </div>
-              )}
-              <CardHeader>
-                <CardTitle className="text-xl font-bold">{plano.nome}</CardTitle>
-                <div className="mt-2">
-                  <span className="text-3xl font-bold">{preco.toFixed(2)}€</span>
-                  <span className="text-muted-foreground text-sm">/mês</span>
-                </div>
-                <CardDescription className="mt-2">{plano.descricao}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <ul className="space-y-2">
-                  {plano.recursos.map((recurso, index) => (
-                    <li key={index} className="flex items-start">
-                      <Check size={18} className="text-green-500 mr-2 flex-shrink-0 mt-1" />
-                      <span className="text-sm">{recurso}</span>
-                    </li>
-                  ))}
-                  <li className="flex items-start mt-3 pt-2 border-t">
-                    <span className="text-sm font-medium">
-                      {plano.limite_usuarios === 1 
-                        ? '1 utilizador'
-                        : `Até ${plano.limite_usuarios} utilizadores`}
-                    </span>
-                  </li>
-                </ul>
-              </CardContent>
-              <CardFooter className="flex flex-col space-y-3">
-                {isActive ? (
-                  <Button 
-                    className="w-full" 
-                    variant="outline" 
-                    disabled
-                  >
-                    Plano Atual
-                  </Button>
-                ) : (
-                  <>
-                    <Button 
-                      className="w-full" 
-                      onClick={() => handleSubscribe(plano.id)}
-                      disabled={loadingPlan === plano.id}
-                    >
-                      {loadingPlan === plano.id ? (
-                        <>
-                          <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-background border-t-transparent"></div>
-                          A processar
-                        </>
-                      ) : (
-                        `Subscrever ${isAnual ? 'Anual' : 'Mensal'}`
-                      )}
-                    </Button>
-                    {!isAnual && (
-                      <Button 
-                        className="w-full" 
-                        variant="outline"
-                        onClick={() => handleTrial(plano.id)}
-                        disabled={loadingPlan === plano.id || !!assinaturaAtual}
-                      >
-                        {loadingPlan === plano.id ? (
-                          <>
-                            <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
-                            A processar
-                          </>
-                        ) : (
-                          'Experimentar 15 dias'
-                        )}
-                      </Button>
-                    )}
-                  </>
-                )}
-              </CardFooter>
-            </Card>
+            <PricingCard
+              key={plano.id}
+              title={plano.nome}
+              price={formattedPrice}
+              period={selectedPeriod === 'mensal' ? '/mês' : '/mês, faturado anualmente'}
+              description={plano.descricao || ''}
+              features={features}
+              buttonText={isPlanoCurrent ? 'Plano Atual' : 'Selecionar Plano'}
+              buttonVariant={isPlanoCurrent ? 'outline' : 'default'}
+              popular={isPopular}
+              onClick={() => !isPlanoCurrent && handleSelectPlan(plano.id)}
+              disabled={isPlanoCurrent}
+            />
           );
         })}
       </div>
 
-      <div className="mt-12 bg-muted p-6 rounded-lg">
-        <h3 className="text-xl font-bold mb-4">🛠 Add-ons Disponíveis</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 bg-background rounded-md">
-            <h4 className="font-medium">📦 Armazenamento adicional</h4>
-            <p className="text-sm text-muted-foreground mt-1">Expansão do espaço de documentos conforme a necessidade.</p>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Confirmar Subscrição</DialogTitle>
+            <DialogDescription>
+              Escolha como deseja prosseguir com a subscrição do plano selecionado.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            {!assinaturaAtual && (
+              <Button 
+                onClick={handleStartTrial} 
+                variant="outline" 
+                className="w-full justify-start text-left"
+                disabled={isProcessing}
+              >
+                {isProcessing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <CheckCircle className="mr-2 h-4 w-4" />}
+                Começar com 15 dias grátis
+              </Button>
+            )}
+            <Button 
+              onClick={handleSubscribe} 
+              className="w-full justify-start text-left"
+              disabled={isProcessing}
+            >
+              {isProcessing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <CheckCircle className="mr-2 h-4 w-4" />}
+              Subscrever agora
+            </Button>
           </div>
-          <div className="p-4 bg-background rounded-md">
-            <h4 className="font-medium">🔗 Integrações avançadas</h4>
-            <p className="text-sm text-muted-foreground mt-1">Conexão com CRMs, ERPs e outras plataformas.</p>
-          </div>
-          <div className="p-4 bg-background rounded-md">
-            <h4 className="font-medium">📊 Relatórios personalizados</h4>
-            <p className="text-sm text-muted-foreground mt-1">Criação de dashboards customizados para análise jurídica.</p>
-          </div>
-          <div className="p-4 bg-background rounded-md">
-            <h4 className="font-medium">🤖 IA Integrada</h4>
-            <p className="text-sm text-muted-foreground mt-1">Sugestões inteligentes, automação de tarefas, análise de documentos.</p>
-          </div>
-        </div>
-      </div>
+          <DialogFooter className="sm:justify-start">
+            <Button 
+              variant="secondary" 
+              onClick={() => setIsDialogOpen(false)}
+              disabled={isProcessing}
+            >
+              Cancelar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

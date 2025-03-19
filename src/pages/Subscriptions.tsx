@@ -42,7 +42,7 @@ const Subscriptions: React.FC = () => {
             {user && (
               <TabsTrigger value="minha-assinatura">Minha Subscrição</TabsTrigger>
             )}
-            <TabsTrigger value="planos">Planos Disponíveis</TabsTrigger>
+            <TabsTrigger value="planos" id="planos">Planos Disponíveis</TabsTrigger>
           </TabsList>
 
           {user && (

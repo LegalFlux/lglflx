@@ -69,8 +69,8 @@ export const useSubscription = () => {
         console.log('Assinatura obtida:', data);
         
         // Calcular dias restantes para assinaturas não vitalícias
-        let diasRestantes;
-        let percentualRestante;
+        let diasRestantes: number | undefined;
+        let percentualRestante: number | undefined;
 
         if (data.data_fim) {
           const hoje = new Date();
@@ -86,11 +86,13 @@ export const useSubscription = () => {
           percentualRestante = 100 - Math.min(100, Math.max(0, (tempoDecorrido / duracaoTotal) * 100));
         }
 
-        setAssinaturaAtual({
-          ...data,
+        const assinaturaDisplay: AssinaturaDisplay = {
+          ...data as unknown as Assinatura,
           diasRestantes,
           percentualRestante
-        } as AssinaturaDisplay);
+        };
+        
+        setAssinaturaAtual(assinaturaDisplay);
       } else {
         console.log('Nenhuma assinatura ativa encontrada');
         setAssinaturaAtual(null);

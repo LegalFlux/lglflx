@@ -20,6 +20,8 @@ interface PricingCardProps {
   buttonText: string;
   buttonVariant?: 'default' | 'outline' | 'secondary';
   popular?: boolean;
+  onClick?: () => void;
+  disabled?: boolean;
 }
 
 const PricingCard: React.FC<PricingCardProps> = ({
@@ -31,6 +33,8 @@ const PricingCard: React.FC<PricingCardProps> = ({
   buttonText,
   buttonVariant = 'default',
   popular = false,
+  onClick,
+  disabled = false,
 }) => {
   return (
     <Card className={cn(
@@ -68,7 +72,12 @@ const PricingCard: React.FC<PricingCardProps> = ({
         </ul>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" variant={buttonVariant}>
+        <Button 
+          className="w-full" 
+          variant={buttonVariant}
+          onClick={onClick}
+          disabled={disabled}
+        >
           {buttonText}
         </Button>
       </CardFooter>

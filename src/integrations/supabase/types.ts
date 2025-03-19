@@ -11,18 +11,59 @@ export type Database = {
     Tables: {
       assinaturas: {
         Row: {
-          created_at: string
-          id: number
+          created_at: string | null
+          data_fim: string | null
+          data_inicio: string
+          estado: string
+          id: string
+          id_transacao: string | null
+          metodo_pagamento: string | null
+          periodo_faturacao: string
+          plano_id: string
+          trial: boolean
+          trial_end_date: string | null
+          updated_at: string | null
+          user_id: string
         }
         Insert: {
-          created_at?: string
-          id?: number
+          created_at?: string | null
+          data_fim?: string | null
+          data_inicio?: string
+          estado?: string
+          id?: string
+          id_transacao?: string | null
+          metodo_pagamento?: string | null
+          periodo_faturacao?: string
+          plano_id: string
+          trial?: boolean
+          trial_end_date?: string | null
+          updated_at?: string | null
+          user_id: string
         }
         Update: {
-          created_at?: string
-          id?: number
+          created_at?: string | null
+          data_fim?: string | null
+          data_inicio?: string
+          estado?: string
+          id?: string
+          id_transacao?: string | null
+          metodo_pagamento?: string | null
+          periodo_faturacao?: string
+          plano_id?: string
+          trial?: boolean
+          trial_end_date?: string | null
+          updated_at?: string | null
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "assinaturas_plano_id_fkey"
+            columns: ["plano_id"]
+            isOneToOne: false
+            referencedRelation: "planos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       caso_assistentes: {
         Row: {
@@ -270,16 +311,40 @@ export type Database = {
       }
       planos: {
         Row: {
-          created_at: string
-          id: number
+          ativo: boolean
+          created_at: string | null
+          descricao: string | null
+          id: string
+          limite_usuarios: number
+          nome: string
+          preco_anual: number
+          preco_mensal: number
+          recursos: string[]
+          updated_at: string | null
         }
         Insert: {
-          created_at?: string
-          id?: number
+          ativo?: boolean
+          created_at?: string | null
+          descricao?: string | null
+          id?: string
+          limite_usuarios?: number
+          nome: string
+          preco_anual: number
+          preco_mensal: number
+          recursos?: string[]
+          updated_at?: string | null
         }
         Update: {
-          created_at?: string
-          id?: number
+          ativo?: boolean
+          created_at?: string | null
+          descricao?: string | null
+          id?: string
+          limite_usuarios?: number
+          nome?: string
+          preco_anual?: number
+          preco_mensal?: number
+          recursos?: string[]
+          updated_at?: string | null
         }
         Relationships: []
       }
