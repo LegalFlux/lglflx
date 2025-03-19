@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Settings as SettingsIcon, Save } from 'lucide-react';
-import PageHeader from '@/components/layout/PageHeader';
-import { SystemConfig } from '@/types/lexflow';
-import SettingsTabs from '@/components/settings/SettingsTabs';
+import { Settings as SettingsIcon, Save } from "lucide-react";
+import PageHeader from "@/components/layout/PageHeader";
+import { SystemConfig } from "@/types/lexflow";
+import SettingsTabs from "@/components/settings/SettingsTabs";
 
 const Settings = () => {
   const initialConfig: SystemConfig = {
@@ -17,21 +17,18 @@ const Settings = () => {
 
   const [config, setConfig] = useState<SystemConfig>(initialConfig);
 
-  const handleChange = useCallback((key: keyof SystemConfig, value: any) => {
-    setConfig(prev => ({
-      ...prev,
-      [key]: value
-    }));
-  }, []);
+  const handleChange = (key: keyof SystemConfig, value: string | number | boolean) => {
+    setConfig((prev) => ({ ...prev, [key]: value }));
+  };
 
-  const handleSave = useCallback(() => {
+  const handleSave = () => {
     try {
       console.log("Configurações salvas:", config);
-      // Implement logic to save the configurations here
+      localStorage.setItem("systemConfig", JSON.stringify(config)); // Simulação de persistência
     } catch (error) {
-      console.error("Failed to save configurations", error);
+      console.error("Erro ao salvar configurações", error);
     }
-  }, [config]);
+  };
 
   return (
     <div className="min-h-screen bg-background pt-16 animate-fade-in">
