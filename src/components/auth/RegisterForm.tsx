@@ -60,7 +60,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
 
   return (
     <form onSubmit={handleSignUp}>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 pt-6">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="nome">Nome</Label>
@@ -69,6 +69,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               required
+              className="w-full"
             />
           </div>
           <div className="space-y-2">
@@ -78,6 +79,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
               value={apelido}
               onChange={(e) => setApelido(e.target.value)}
               required
+              className="w-full"
             />
           </div>
         </div>
@@ -90,6 +92,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="w-full"
           />
         </div>
         <div className="space-y-2">
@@ -101,6 +104,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
+            className="w-full"
           />
         </div>
         <div className="space-y-2">
@@ -109,7 +113,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             value={role}
             onValueChange={(value) => setRole(value as UserRole)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="Selecione o perfil" />
             </SelectTrigger>
             <SelectContent>
@@ -121,7 +125,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
           </Select>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="pt-4">
         <Button 
           type="submit" 
           className="w-full"

@@ -75,24 +75,29 @@ const AppRoutes = () => {
       ],
     },
     {
-      path: "dashboard",
-      element: <Layout />,
+      element: <ProtectedRoute />,
       children: [
-        { index: true, element: <Index /> },
-        { path: "clients", element: <Clients /> },
-        { path: "cases", element: <Cases /> },
-        { path: "documents", element: <Documents /> },
-        { path: "calendar", element: <Calendar /> },
-        { path: "finance", element: <Finance /> },
-        { path: "reports", element: <Reports /> },
-        { path: "settings", element: <Settings /> },
-        { path: "client-portal", element: <ClientPortal /> },
-        { path: "subscriptions", element: <Subscriptions /> },
-      ],
-    },
-    {
-      path: "subscriptions",
-      element: <Subscriptions />,
+        {
+          path: "dashboard",
+          element: <Layout />,
+          children: [
+            { index: true, element: <Index /> },
+            { path: "clients", element: <Clients /> },
+            { path: "cases", element: <Cases /> },
+            { path: "documents", element: <Documents /> },
+            { path: "calendar", element: <Calendar /> },
+            { path: "finance", element: <Finance /> },
+            { path: "reports", element: <Reports /> },
+            { path: "settings", element: <Settings /> },
+            { path: "client-portal", element: <ClientPortal /> },
+            { path: "subscriptions", element: <Subscriptions /> },
+          ],
+        },
+        {
+          path: "subscriptions",
+          element: <Subscriptions />,
+        },
+      ]
     },
     { path: "*", element: <NotFound /> },
   ]);

@@ -46,15 +46,15 @@ const UserSubscription: React.FC = () => {
 
   if (!assinaturaAtual) {
     return (
-      <Card className="w-full">
+      <Card className="w-full border-2 shadow-md">
         <CardHeader>
-          <CardTitle>Sem Subscrição Ativa</CardTitle>
+          <CardTitle className="text-xl md:text-2xl">Sem Subscrição Ativa</CardTitle>
           <CardDescription>
             Atualmente não tem nenhuma subscrição ativa no sistema.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center space-x-2 text-amber-600">
+          <div className="flex items-center space-x-2 text-amber-600 p-4 bg-amber-50 rounded-md">
             <AlertTriangle size={20} />
             <p>Subscreva um plano para aceder a todas as funcionalidades.</p>
           </div>
@@ -62,6 +62,7 @@ const UserSubscription: React.FC = () => {
         <CardFooter>
           <Button 
             variant="default" 
+            className="w-full md:w-auto"
             onClick={() => window.scrollTo({ top: document.getElementById('planos')?.offsetTop, behavior: 'smooth' })}
           >
             Ver Planos Disponíveis
@@ -82,61 +83,73 @@ const UserSubscription: React.FC = () => {
   const dataInicio = formatDate(assinaturaAtual.data_inicio);
 
   return (
-    <Card className="w-full">
+    <Card className="w-full border-2 shadow-md">
       <CardHeader>
-        <CardTitle className="flex items-center">
-          <span className="mr-2">
-            {plano?.nome || 'Plano Ativo'}
-          </span>
-          {isTrial && (
-            <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
-              Período de Teste
-            </span>
-          )}
-        </CardTitle>
-        <CardDescription>
-          {plano?.descricao || 'Informações sobre o seu plano atual'}
-        </CardDescription>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+          <div>
+            <CardTitle className="text-xl md:text-2xl flex flex-wrap items-center gap-2">
+              <span>
+                {plano?.nome || 'Plano Ativo'}
+              </span>
+              {isTrial && (
+                <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                  Período de Teste
+                </span>
+              )}
+            </CardTitle>
+            <CardDescription className="mt-1">
+              {plano?.descricao || 'Informações sobre o seu plano atual'}
+            </CardDescription>
+          </div>
+          <div className="text-xl font-bold text-primary">
+            {plano?.preco_mensal ? `${plano.preco_mensal}€` : ''} 
+            <span className="text-sm text-muted-foreground font-normal">/mês</span>
+          </div>
+        </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <p className="text-sm font-medium">Estado da Subscrição</p>
-            <div className="flex items-center">
-              <CheckCircle className="text-green-500 mr-2 h-5 w-5" />
-              <span className="capitalize">{assinaturaAtual.estado}</span>
+      <CardContent className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground mb-1">Estado da Subscrição</p>
+              <div className="flex items-center">
+                <CheckCircle className="text-green-500 mr-2 h-5 w-5" />
+                <span className="font-medium capitalize">{assinaturaAtual.estado}</span>
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-muted-foreground mb-1">Faturação</p>
+              <p className="font-medium capitalize">{assinaturaAtual.periodo_faturacao}</p>
             </div>
           </div>
-          <div className="space-y-2">
-            <p className="text-sm font-medium">Faturação</p>
-            <p className="capitalize">{assinaturaAtual.periodo_faturacao}</p>
-          </div>
-          <div className="space-y-2">
-            <p className="text-sm font-medium">Data de Início</p>
-            <p>{dataInicio}</p>
-          </div>
-          <div className="space-y-2">
-            <p className="text-sm font-medium">Data de Expiração</p>
-            <p>{dataFim}</p>
+          <div className="space-y-4">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground mb-1">Data de Início</p>
+              <p className="font-medium">{dataInicio}</p>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-muted-foreground mb-1">Data de Expiração</p>
+              <p className="font-medium">{dataFim}</p>
+            </div>
           </div>
         </div>
 
         {/* Progress bar for time remaining */}
         {typeof assinaturaAtual.percentualRestante === 'number' && (
-          <div className="mt-6 space-y-2">
+          <div className="mt-6 space-y-3 p-4 bg-slate-50 rounded-lg">
             <div className="flex justify-between text-sm">
-              <span>Tempo Restante</span>
-              <span>{assinaturaAtual.diasRestantes} dias</span>
+              <span className="font-medium">Tempo Restante</span>
+              <span className="font-bold">{assinaturaAtual.diasRestantes} dias</span>
             </div>
-            <Progress value={assinaturaAtual.percentualRestante} />
+            <Progress value={assinaturaAtual.percentualRestante} className="h-2" />
           </div>
         )}
 
         {/* Features */}
         {plano?.recursos && plano.recursos.length > 0 && (
-          <div className="mt-6">
-            <p className="text-sm font-medium mb-2">Recursos Incluídos</p>
-            <ul className="space-y-1">
+          <div className="mt-6 p-4 bg-slate-50 rounded-lg">
+            <p className="text-sm font-medium mb-3">Recursos Incluídos</p>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {plano.recursos.map((recurso, index) => (
                 <li key={index} className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 h-4 w-4 mt-0.5 flex-shrink-0" />
@@ -147,7 +160,7 @@ const UserSubscription: React.FC = () => {
           </div>
         )}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-end pt-4">
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive">

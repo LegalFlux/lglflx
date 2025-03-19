@@ -52,7 +52,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleLogin}>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 pt-6">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input 
@@ -62,6 +62,7 @@ const LoginForm: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="w-full"
           />
         </div>
         <div className="space-y-2">
@@ -77,10 +78,11 @@ const LoginForm: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="w-full"
           />
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-end pt-4">
         <Button 
           type="submit" 
           className="w-full" 

@@ -38,9 +38,11 @@ const Auth: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="max-w-md w-full">
-        <AuthLogo />
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md mx-auto">
+        <div className="mb-8 text-center">
+          <AuthLogo />
+        </div>
 
         <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-6">
@@ -49,9 +51,9 @@ const Auth: React.FC = () => {
           </TabsList>
           
           <TabsContent value="login">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-xl">Iniciar Sessão</CardTitle>
+            <Card className="border-2">
+              <CardHeader className="space-y-1">
+                <CardTitle className="text-2xl font-bold">Iniciar Sessão</CardTitle>
                 <CardDescription>Entre na sua conta para aceder à plataforma</CardDescription>
               </CardHeader>
               <LoginForm />
@@ -59,9 +61,9 @@ const Auth: React.FC = () => {
           </TabsContent>
           
           <TabsContent value="register">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-xl">Criar Conta</CardTitle>
+            <Card className="border-2">
+              <CardHeader className="space-y-1">
+                <CardTitle className="text-2xl font-bold">Criar Conta</CardTitle>
                 <CardDescription>Registe-se para começar a utilizar a plataforma</CardDescription>
               </CardHeader>
               <RegisterForm onSuccess={handleRegisterSuccess} />
