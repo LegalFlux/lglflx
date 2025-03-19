@@ -13,6 +13,7 @@ import NotFound from "@/pages/NotFound";
 import ClientPortal from "@/pages/ClientPortal";
 import Home from "@/pages/Home";
 import Auth from "@/pages/Auth";
+import Subscriptions from "@/pages/Subscriptions";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import "./App.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -86,7 +87,12 @@ const AppRoutes = () => {
         { path: "reports", element: <Reports /> },
         { path: "settings", element: <Settings /> },
         { path: "client-portal", element: <ClientPortal /> },
+        { path: "subscriptions", element: <Subscriptions /> },
       ],
+    },
+    {
+      path: "subscriptions",
+      element: <Subscriptions />,
     },
     { path: "*", element: <NotFound /> },
   ]);

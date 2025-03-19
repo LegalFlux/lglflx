@@ -52,7 +52,7 @@ export const useSubscription = () => {
         .from('assinaturas')
         .select(`
           *,
-          plano:plano_id(*)
+          plano:planos(*)
         `)
         .eq('user_id', user.id)
         .in('estado', ['ativa', 'trial'])
@@ -87,9 +87,10 @@ export const useSubscription = () => {
         }
 
         const assinaturaDisplay: AssinaturaDisplay = {
-          ...data as unknown as Assinatura,
+          ...data,
           diasRestantes,
-          percentualRestante
+          percentualRestante,
+          plano: data.plano as Plano
         };
         
         setAssinaturaAtual(assinaturaDisplay);

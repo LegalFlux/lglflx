@@ -8,8 +8,8 @@ export interface Plano {
   limite_usuarios: number;
   recursos: string[];
   ativo: boolean;
-  created_at: string;
-  updated_at: string;
+  created_at: string | null;
+  updated_at: string | null;
 }
 
 export interface Assinatura {
@@ -24,8 +24,8 @@ export interface Assinatura {
   id_transacao: string | null;
   trial: boolean;
   trial_end_date: string | null;
-  created_at: string;
-  updated_at: string;
+  created_at: string | null;
+  updated_at: string | null;
   plano?: Plano;
 }
 
