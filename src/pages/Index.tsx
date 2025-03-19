@@ -1,9 +1,12 @@
+import React from "react";
+import DashboardOverview from "@/components/dashboard/DashboardOverview";
 
-import React from 'react';
-import DashboardOverview from '@/components/dashboard/DashboardOverview';
-
-const Index = () => {
-  return <DashboardOverview />;
+const Dashboard: React.FC = () => {
+  return (
+    <main>
+      <DashboardOverview />
+    </main>
+  );
 };
 
-export default Index;
+export default Dashboard;
