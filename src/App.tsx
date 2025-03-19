@@ -1,4 +1,3 @@
-
 import { RouterProvider, createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import Index from "@/pages/Index";
@@ -93,11 +92,7 @@ const AppRoutes = () => {
             { path: "subscriptions", element: <Subscriptions /> },
           ],
         },
-        {
-          path: "subscriptions",
-          element: <Subscriptions />,
-        },
-      ]
+      ],
     },
     { path: "*", element: <NotFound /> },
   ]);
