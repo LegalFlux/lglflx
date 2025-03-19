@@ -7,9 +7,9 @@ const Hero: React.FC = () => {
   const primaryColor = '#33254C';
 
   return (
-    <section className="py-16 md:py-24 bg-background">
+    <section className="w-full py-16 md:py-24 bg-background">
       <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
-        <div>
+        <div className="text-left">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Gestão Jurídica Simplificada</h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-8">
             Uma plataforma completa para advogados, solicitadores e agentes de execução gerir processos, 
