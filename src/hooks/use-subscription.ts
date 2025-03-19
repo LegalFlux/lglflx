@@ -23,16 +23,17 @@ export const useSubscription = () => {
         .order('preco_mensal', { ascending: true });
 
       if (error) {
+        console.error('Erro ao buscar planos:', error);
         throw error;
       }
 
-      // Converter recursos de JSONB para array
-      const planosFormatados = data.map(plano => ({
-        ...plano,
-        recursos: plano.recursos as unknown as string[]
-      }));
-
-      setPlanos(planosFormatados);
+      if (data) {
+        console.log('Planos obtidos:', data);
+        setPlanos(data as Plano[]);
+      } else {
+        console.log('Nenhum plano encontrado');
+        setPlanos([]);
+      }
     } catch (error) {
       console.error('Erro ao buscar planos:', error);
       setError(error as Error);
@@ -54,16 +55,19 @@ export const useSubscription = () => {
           plano:plano_id(*)
         `)
         .eq('user_id', user.id)
-        .eq('estado', 'ativa')
+        .in('estado', ['ativa', 'trial'])
         .order('created_at', { ascending: false })
         .limit(1)
-        .single();
+        .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') { // PGRST116: No rows returned
+      if (error) {
+        console.error('Erro ao buscar assinatura:', error);
         throw error;
       }
 
       if (data) {
+        console.log('Assinatura obtida:', data);
+        
         // Calcular dias restantes para assinaturas não vitalícias
         let diasRestantes;
         let percentualRestante;
@@ -82,19 +86,13 @@ export const useSubscription = () => {
           percentualRestante = 100 - Math.min(100, Math.max(0, (tempoDecorrido / duracaoTotal) * 100));
         }
 
-        // Formatar recursos do plano
-        const planoFormatado = {
-          ...data.plano,
-          recursos: data.plano.recursos as unknown as string[]
-        };
-
         setAssinaturaAtual({
           ...data,
-          plano: planoFormatado,
           diasRestantes,
           percentualRestante
-        });
+        } as AssinaturaDisplay);
       } else {
+        console.log('Nenhuma assinatura ativa encontrada');
         setAssinaturaAtual(null);
       }
     } catch (error) {
@@ -163,6 +161,7 @@ export const useSubscription = () => {
         .single();
       
       if (error) {
+        console.error('Erro ao subscrever plano:', error);
         throw error;
       }
       
@@ -209,6 +208,7 @@ export const useSubscription = () => {
         .eq('id', assinaturaAtual.id);
       
       if (error) {
+        console.error('Erro ao cancelar assinatura:', error);
         throw error;
       }
       
@@ -262,6 +262,24 @@ export const useSubscription = () => {
         return null;
       }
       
+      // Cancelar qualquer assinatura ativa atual
+      const { data: assinaturasAtivas } = await supabase
+        .from('assinaturas')
+        .select('*')
+        .eq('user_id', user.id)
+        .in('estado', ['ativa', 'trial']);
+      
+      if (assinaturasAtivas && assinaturasAtivas.length > 0) {
+        const atualizacoes = assinaturasAtivas.map(async (assinatura) => {
+          await supabase
+            .from('assinaturas')
+            .update({ estado: 'cancelada' })
+            .eq('id', assinatura.id);
+        });
+        
+        await Promise.all(atualizacoes);
+      }
+      
       // Calcular data de fim do trial (15 dias)
       const hoje = new Date();
       const trialEndDate = new Date(hoje);
@@ -284,6 +302,7 @@ export const useSubscription = () => {
         .single();
       
       if (error) {
+        console.error('Erro ao iniciar trial:', error);
         throw error;
       }
       

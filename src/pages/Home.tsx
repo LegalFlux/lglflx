@@ -1,4 +1,6 @@
+
 import React, { lazy, Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
 
 const Navbar = lazy(() => import('@/components/home/Navbar'));
 const Hero = lazy(() => import('@/components/home/Hero'));
@@ -28,9 +30,15 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   render() {
     if (this.state.hasError) {
       return (
-        <div className="error-boundary">
-          <h1>Something went wrong.</h1>
-          <button onClick={() => window.location.reload()}>Reload</button>
+        <div className="error-boundary flex flex-col items-center justify-center min-h-[40vh] text-center p-4">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">Algo correu mal.</h1>
+          <p className="mb-4 text-gray-600">Lamentamos o inconveniente. Por favor tente novamente.</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+          >
+            Recarregar a página
+          </button>
         </div>
       );
     }
@@ -38,10 +46,19 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 }
 
+const LoadingFallback = () => (
+  <div className="w-full h-screen flex items-center justify-center">
+    <div className="flex flex-col items-center">
+      <Loader2 className="h-12 w-12 animate-spin text-primary" />
+      <p className="mt-4 text-lg text-muted-foreground">A carregar...</p>
+    </div>
+  </div>
+);
+
 const Home: React.FC = () => {
   return (
     <ErrorBoundary>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingFallback />}>
         <div className="min-h-screen bg-background flex flex-col">
           <Navbar />
           <Hero />

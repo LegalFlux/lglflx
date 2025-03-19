@@ -25,9 +25,10 @@ const LoginForm: React.FC = () => {
       const { error } = await signIn(email, password);
       
       if (error) {
+        console.error("Erro de login:", error);
         toast({
           title: 'Erro ao entrar',
-          description: error.message,
+          description: error.message || 'Credenciais inválidas. Verifique o seu email e senha.',
           variant: 'destructive',
         });
       } else {
@@ -83,7 +84,6 @@ const LoginForm: React.FC = () => {
         <Button 
           type="submit" 
           className="w-full" 
-          style={{ backgroundColor: '#33254C' }}
           disabled={isLoading}
         >
           {isLoading ? (

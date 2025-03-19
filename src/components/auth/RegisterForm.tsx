@@ -29,12 +29,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
     setIsLoading(true);
     
     try {
+      console.log("Tentando registar utilizador:", { email, nome, apelido, role });
       const { error } = await signUp(email, password, { nome, apelido, role });
       
       if (error) {
+        console.error("Erro ao registar:", error);
         toast({
           title: 'Erro ao registar',
-          description: error.message,
+          description: error.message || 'Não foi possível criar a conta. Tente novamente.',
           variant: 'destructive',
         });
       } else {
@@ -98,6 +100,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            minLength={6}
           />
         </div>
         <div className="space-y-2">
@@ -122,7 +125,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         <Button 
           type="submit" 
           className="w-full"
-          style={{ backgroundColor: '#33254C' }}
           disabled={isLoading}
         >
           {isLoading ? (

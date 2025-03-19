@@ -1,17 +1,23 @@
-/* src/components/auth/AuthLogo.module.css */
+
 .logoLink {
   text-decoration: none;
   color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
 .logoContainer {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .logoTextPrimary {
   font-weight: bold;
-  color: #000;
+  color: #33254C;
+  font-size: 1.5rem;
 }
 
 .logoText {
@@ -22,4 +28,6 @@
 .logoSubtitle {
   font-size: 12px;
   color: #777;
+  text-align: center;
+  margin-top: 0.5rem;
 }

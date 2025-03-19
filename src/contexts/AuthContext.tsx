@@ -104,12 +104,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signIn = async (email: string, password: string) => {
     try {
+      console.log("Tentando fazer login com:", email);
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+
+      if (error) {
+        console.error("Erro de autenticação:", error);
+      } else {
+        console.log("Login bem-sucedido");
+      }
       
-      return { error: error };
+      return { error: error as Error | null };
     } catch (error) {
       console.error('Erro ao iniciar sessão:', error);
       return { error: error as Error };
@@ -120,6 +127,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       // Se não for especificado um role, atribui 'cliente' por defeito
       const role = userData.role || 'cliente';
+      
+      console.log("Registando utilizador:", email, { ...userData, role });
       
       const { error } = await supabase.auth.signUp({
         email,
@@ -133,7 +142,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         },
       });
       
-      return { error: error };
+      if (error) {
+        console.error("Erro no registo:", error);
+      } else {
+        console.log("Registo bem-sucedido");
+      }
+      
+      return { error: error as Error | null };
     } catch (error) {
       console.error('Erro ao registar:', error);
       return { error: error as Error };
