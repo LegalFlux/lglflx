@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -17,8 +16,34 @@ const LoginForm: React.FC = () => {
   const navigate = useNavigate();
   const { signIn } = useAuth();
 
+  // Validação básica do email
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validação dos campos
+    if (!validateEmail(email)) {
+      toast({
+        title: 'Erro',
+        description: 'Por favor, insira um email válido.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      toast({
+        title: 'Erro',
+        description: 'A senha deve ter pelo menos 6 caracteres.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setIsLoading(true);
     
     try {
@@ -50,6 +75,10 @@ const LoginForm: React.FC = () => {
     }
   };
 
+  const handleForgotPassword = () => {
+    navigate('/forgot-password'); // Redireciona para a página de recuperação de senha
+  };
+
   return (
     <form onSubmit={handleLogin}>
       <CardContent className="space-y-4 pt-6">
@@ -68,7 +97,12 @@ const LoginForm: React.FC = () => {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Senha</Label>
-            <Button variant="link" className="p-0 h-auto" type="button">
+            <Button 
+              variant="link" 
+              className="p-0 h-auto" 
+              type="button"
+              onClick={handleForgotPassword}
+            >
               Esqueceu a senha?
             </Button>
           </div>
