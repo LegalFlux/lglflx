@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -28,10 +27,8 @@ export const useSubscription = () => {
       }
 
       if (data) {
-        console.log('Planos obtidos:', data);
         setPlanos(data as Plano[]);
       } else {
-        console.log('Nenhum plano encontrado');
         setPlanos([]);
       }
     } catch (error) {
@@ -45,7 +42,7 @@ export const useSubscription = () => {
   // Buscar assinatura atual do utilizador
   const fetchAssinaturaAtual = async () => {
     if (!user) return;
-    
+
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -66,9 +63,7 @@ export const useSubscription = () => {
       }
 
       if (data) {
-        console.log('Assinatura obtida:', data);
-        
-        // Calcular dias restantes para assinaturas não vitalícias
+        // Calcular dias restantes e percentual restante
         let diasRestantes: number | undefined;
         let percentualRestante: number | undefined;
 
@@ -76,19 +71,19 @@ export const useSubscription = () => {
           const hoje = new Date();
           const dataFim = new Date(data.data_fim);
           const dataInicio = new Date(data.data_inicio);
-          
+
           const diffFimHoje = dataFim.getTime() - hoje.getTime();
           diasRestantes = Math.ceil(diffFimHoje / (1000 * 3600 * 24));
-          
+
           const duracaoTotal = dataFim.getTime() - dataInicio.getTime();
           const tempoDecorrido = hoje.getTime() - dataInicio.getTime();
-          
+
           percentualRestante = 100 - Math.min(100, Math.max(0, (tempoDecorrido / duracaoTotal) * 100));
         }
 
         // Garantir que periodo_faturacao é 'mensal' ou 'anual'
         const periodoFaturacao = data.periodo_faturacao === 'anual' ? 'anual' : 'mensal';
-        
+
         // Garantir que estado é um dos valores válidos
         let estado: 'ativa' | 'pendente' | 'cancelada' | 'expirada' | 'trial';
         switch (data.estado) {
@@ -110,19 +105,18 @@ export const useSubscription = () => {
           default:
             estado = 'pendente';
         }
-        
+
         const assinaturaDisplay: AssinaturaDisplay = {
           ...data,
           diasRestantes,
           percentualRestante,
           periodo_faturacao: periodoFaturacao,
           estado: estado,
-          plano: data.plano as Plano
+          plano: data.plano as Plano,
         };
-        
+
         setAssinaturaAtual(assinaturaDisplay);
       } else {
-        console.log('Nenhuma assinatura ativa encontrada');
         setAssinaturaAtual(null);
       }
     } catch (error) {
@@ -135,37 +129,29 @@ export const useSubscription = () => {
 
   // Inscrever num plano
   const subscreverPlano = async (planoId: string, periodoFaturacao: 'mensal' | 'anual' = 'mensal') => {
-    if (!user) {
-      toast({
-        title: 'Erro',
-        description: 'É necessário estar autenticado para subscrever um plano',
-        variant: 'destructive',
-      });
+    if (!user || !planoId) {
+      toast({ title: 'Erro', description: 'Dados inválidos', variant: 'destructive' });
       return;
     }
 
     try {
       setLoading(true);
-      
+
       // Verificar se já existe uma assinatura ativa
       const { data: assinaturasAtivas } = await supabase
         .from('assinaturas')
         .select('*')
         .eq('user_id', user.id)
         .in('estado', ['ativa', 'trial']);
-      
-      // Se existir, marcar como cancelada
+
+      // Cancelar assinaturas ativas
       if (assinaturasAtivas && assinaturasAtivas.length > 0) {
-        const atualizacoes = assinaturasAtivas.map(async (assinatura) => {
-          await supabase
-            .from('assinaturas')
-            .update({ estado: 'cancelada' })
-            .eq('id', assinatura.id);
-        });
-        
-        await Promise.all(atualizacoes);
+        await supabase
+          .from('assinaturas')
+          .update({ estado: 'cancelada' })
+          .in('id', assinaturasAtivas.map(a => a.id));
       }
-      
+
       // Calcular data de fim com base no período de faturação
       const hoje = new Date();
       const dataFim = new Date(hoje);
@@ -174,44 +160,30 @@ export const useSubscription = () => {
       } else {
         dataFim.setFullYear(dataFim.getFullYear() + 1);
       }
-      
+
       // Criar nova assinatura
       const { data, error } = await supabase
         .from('assinaturas')
         .insert({
           user_id: user.id,
           plano_id: planoId,
-          periodo_faturacao: periodoFaturacao,
+          periodo_faturacao,
           data_inicio: hoje.toISOString(),
           data_fim: dataFim.toISOString(),
           estado: 'ativa',
-          trial: false
+          trial: false,
         })
         .select()
         .single();
-      
-      if (error) {
-        console.error('Erro ao subscrever plano:', error);
-        throw error;
-      }
-      
-      toast({
-        title: 'Sucesso',
-        description: 'Plano subscrito com sucesso',
-      });
-      
-      // Atualizar assinatura atual
-      await fetchAssinaturaAtual();
-      
+
+      if (error) throw error;
+
+      toast({ title: 'Sucesso', description: 'Plano subscrito com sucesso' });
+      setAssinaturaAtual(data); // Atualizar estado local
       return data;
     } catch (error) {
       console.error('Erro ao subscrever plano:', error);
-      setError(error as Error);
-      toast({
-        title: 'Erro',
-        description: 'Ocorreu um erro ao subscrever o plano',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erro', description: 'Ocorreu um erro ao subscrever o plano', variant: 'destructive' });
       return null;
     } finally {
       setLoading(false);
@@ -221,42 +193,25 @@ export const useSubscription = () => {
   // Cancelar assinatura atual
   const cancelarAssinatura = async () => {
     if (!user || !assinaturaAtual) {
-      toast({
-        title: 'Erro',
-        description: 'Não há assinatura ativa para cancelar',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erro', description: 'Não há assinatura ativa para cancelar', variant: 'destructive' });
       return;
     }
 
     try {
       setLoading(true);
-      
+
       const { error } = await supabase
         .from('assinaturas')
         .update({ estado: 'cancelada' })
         .eq('id', assinaturaAtual.id);
-      
-      if (error) {
-        console.error('Erro ao cancelar assinatura:', error);
-        throw error;
-      }
-      
-      toast({
-        title: 'Sucesso',
-        description: 'Assinatura cancelada com sucesso',
-      });
-      
-      // Atualizar assinatura atual
-      await fetchAssinaturaAtual();
+
+      if (error) throw error;
+
+      toast({ title: 'Sucesso', description: 'Assinatura cancelada com sucesso' });
+      setAssinaturaAtual(null); // Atualizar estado local
     } catch (error) {
       console.error('Erro ao cancelar assinatura:', error);
-      setError(error as Error);
-      toast({
-        title: 'Erro',
-        description: 'Ocorreu um erro ao cancelar a assinatura',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erro', description: 'Ocorreu um erro ao cancelar a assinatura', variant: 'destructive' });
     } finally {
       setLoading(false);
     }
@@ -264,57 +219,46 @@ export const useSubscription = () => {
 
   // Iniciar período de teste
   const iniciarTrial = async (planoId: string) => {
-    if (!user) {
-      toast({
-        title: 'Erro',
-        description: 'É necessário estar autenticado para iniciar um período de teste',
-        variant: 'destructive',
-      });
+    if (!user || !planoId) {
+      toast({ title: 'Erro', description: 'Dados inválidos', variant: 'destructive' });
       return;
     }
 
     try {
       setLoading(true);
-      
+
       // Verificar se já utilizou trial antes
-      const { data: assinaturasAnteriores } = await supabase
+      const { data: trialAnterior } = await supabase
         .from('assinaturas')
         .select('*')
         .eq('user_id', user.id)
-        .eq('trial', true);
-      
-      if (assinaturasAnteriores && assinaturasAnteriores.length > 0) {
-        toast({
-          title: 'Aviso',
-          description: 'Você já utilizou o período de teste anteriormente',
-          variant: 'destructive',
-        });
-        return null;
+        .eq('trial', true)
+        .single();
+
+      if (trialAnterior) {
+        toast({ title: 'Aviso', description: 'Você já utilizou o período de teste', variant: 'destructive' });
+        return;
       }
-      
+
       // Cancelar qualquer assinatura ativa atual
       const { data: assinaturasAtivas } = await supabase
         .from('assinaturas')
         .select('*')
         .eq('user_id', user.id)
         .in('estado', ['ativa', 'trial']);
-      
+
       if (assinaturasAtivas && assinaturasAtivas.length > 0) {
-        const atualizacoes = assinaturasAtivas.map(async (assinatura) => {
-          await supabase
-            .from('assinaturas')
-            .update({ estado: 'cancelada' })
-            .eq('id', assinatura.id);
-        });
-        
-        await Promise.all(atualizacoes);
+        await supabase
+          .from('assinaturas')
+          .update({ estado: 'cancelada' })
+          .in('id', assinaturasAtivas.map(a => a.id));
       }
-      
+
       // Calcular data de fim do trial (15 dias)
       const hoje = new Date();
       const trialEndDate = new Date(hoje);
       trialEndDate.setDate(trialEndDate.getDate() + 15);
-      
+
       // Criar nova assinatura de trial
       const { data, error } = await supabase
         .from('assinaturas')
@@ -326,33 +270,18 @@ export const useSubscription = () => {
           data_fim: trialEndDate.toISOString(),
           estado: 'trial',
           trial: true,
-          trial_end_date: trialEndDate.toISOString()
         })
         .select()
         .single();
-      
-      if (error) {
-        console.error('Erro ao iniciar trial:', error);
-        throw error;
-      }
-      
-      toast({
-        title: 'Sucesso',
-        description: 'Período de teste iniciado com sucesso',
-      });
-      
-      // Atualizar assinatura atual
-      await fetchAssinaturaAtual();
-      
+
+      if (error) throw error;
+
+      toast({ title: 'Sucesso', description: 'Período de teste iniciado com sucesso' });
+      setAssinaturaAtual(data); // Atualizar estado local
       return data;
     } catch (error) {
       console.error('Erro ao iniciar trial:', error);
-      setError(error as Error);
-      toast({
-        title: 'Erro',
-        description: 'Ocorreu um erro ao iniciar o período de teste',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erro', description: 'Ocorreu um erro ao iniciar o período de teste', variant: 'destructive' });
       return null;
     } finally {
       setLoading(false);
@@ -382,6 +311,6 @@ export const useSubscription = () => {
     fetchAssinaturaAtual,
     subscreverPlano,
     cancelarAssinatura,
-    iniciarTrial
+    iniciarTrial,
   };
 };
