@@ -29,7 +29,8 @@ export interface Assinatura {
   plano?: Plano;
 }
 
-export interface AssinaturaDisplay extends Assinatura {
+export interface AssinaturaDisplay extends Omit<Assinatura, 'periodo_faturacao'> {
+  periodo_faturacao: 'mensal' | 'anual';
   diasRestantes?: number;
   percentualRestante?: number;
 }
