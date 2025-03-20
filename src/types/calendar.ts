@@ -1,18 +1,17 @@
-
 /**
  * Interface representing a calendar event in the legal management system
  * @interface CalendarEvent
  */
 export interface CalendarEvent {
-  /** Unique identifier for the event */
-  id: string;
+  /** Unique identifier for the event (read-only) */
+  readonly id: string;
   /** Title or name of the event */
   title: string;
   /** Detailed description of the event */
   description?: string;
-  /** Start date and time of the event (ISO format) */
+  /** Start date and time of the event (ISO 8601 format) */
   start: string;
-  /** End date and time of the event (ISO format) */
+  /** End date and time of the event (ISO 8601 format) */
   end: string;
   /** Physical location where the event will take place */
   location?: string;
@@ -27,9 +26,9 @@ export interface CalendarEvent {
   /** Whether the event lasts the entire day */
   isAllDay?: boolean;
   /** When to send a reminder about this event */
-  reminder?: '5min' | '15min' | '30min' | '1hour' | '1day' | 'none';
+  reminder?: '5min' | '10min' | '15min' | '30min' | '1hour' | '2hours' | '1day' | 'custom' | 'none';
   /** How often the event recurs, if applicable */
-  recurrence?: 'daily' | 'weekly' | 'monthly' | 'yearly' | 'none';
+  recurrence?: 'daily' | 'weekly' | 'biweekly' | 'monthly' | 'yearly' | 'custom' | 'none';
   /** Display color for the event on the calendar */
   color?: string;
   /** Current confirmation status of the event */
