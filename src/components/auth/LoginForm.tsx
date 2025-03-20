@@ -6,15 +6,15 @@ import { Label } from '@/components/ui/label';
 import { CardContent, CardFooter } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth'; // Importa o useAuth
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { signIn } = useAuth(); // Usa o hook useAuth
 
   // Validação básica do email
   const validateEmail = (email: string) => {
@@ -24,7 +24,7 @@ const LoginForm: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validação dos campos
     if (!validateEmail(email)) {
       toast({
@@ -45,12 +45,12 @@ const LoginForm: React.FC = () => {
     }
 
     setIsLoading(true);
-    
+
     try {
-      const { error } = await signIn(email, password);
-      
+      const { error } = await signIn(email, password); // Usa a função signIn do useAuth
+
       if (error) {
-        console.error("Erro de login:", error);
+        console.error('Erro no login:', error.message);
         toast({
           title: 'Erro ao entrar',
           description: error.message || 'Credenciais inválidas. Verifique o seu email e senha.',
@@ -61,7 +61,7 @@ const LoginForm: React.FC = () => {
           title: 'Bem-vindo',
           description: 'Iniciou sessão com sucesso',
         });
-        navigate('/dashboard');
+        navigate('/dashboard'); // Redireciona para o dashboard após o login
       }
     } catch (error) {
       console.error('Erro ao iniciar sessão:', error);
@@ -84,10 +84,10 @@ const LoginForm: React.FC = () => {
       <CardContent className="space-y-4 pt-6">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
-          <Input 
-            id="email" 
-            type="email" 
-            placeholder="seu.email@exemplo.com" 
+          <Input
+            id="email"
+            type="email"
+            placeholder="seu.email@exemplo.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -97,18 +97,18 @@ const LoginForm: React.FC = () => {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Senha</Label>
-            <Button 
-              variant="link" 
-              className="p-0 h-auto" 
+            <Button
+              variant="link"
+              className="p-0 h-auto"
               type="button"
               onClick={handleForgotPassword}
             >
               Esqueceu a senha?
             </Button>
           </div>
-          <Input 
-            id="password" 
-            type="password" 
+          <Input
+            id="password"
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -117,9 +117,9 @@ const LoginForm: React.FC = () => {
         </div>
       </CardContent>
       <CardFooter className="flex justify-end pt-4">
-        <Button 
-          type="submit" 
-          className="w-full" 
+        <Button
+          type="submit"
+          className="w-full"
           disabled={isLoading}
         >
           {isLoading ? (
