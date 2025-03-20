@@ -6,8 +6,8 @@ import { CardContent, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import { UserRole } from '@/types/lexflow';
+import { useAuth } from '@/hooks/useAuth'; // Importa o useAuth
+import { UserRole } from '@/types/lexflow'; // Ajusta o caminho conforme necessário
 
 interface RegisterFormProps {
   onSuccess: () => void;
@@ -20,8 +20,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
   const [apelido, setApelido] = useState('');
   const [role, setRole] = useState<UserRole>('cliente');
   const [isLoading, setIsLoading] = useState(false);
-  
-  const { signUp } = useAuth();
+
+  const { signUp } = useAuth(); // Usa o hook useAuth
 
   // Validação básica do email
   const validateEmail = (email: string) => {
@@ -31,7 +31,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validação dos campos
     if (!validateEmail(email)) {
       toast({
@@ -52,13 +52,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
     }
 
     setIsLoading(true);
-    
+
     try {
-      console.log("Tentando registar utilizador:", { email, nome, apelido, role });
-      const { error } = await signUp(email, password, { nome, apelido, role });
-      
+      const { error } = await signUp(email, password, { nome, apelido, role }); // Usa a função signUp do useAuth
+
       if (error) {
-        console.error("Erro ao registar:", error);
+        console.error('Erro ao registar:', error.message);
         toast({
           title: 'Erro ao registar',
           description: error.message || 'Não foi possível criar a conta. Tente novamente.',
@@ -69,7 +68,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
           title: 'Registo com sucesso',
           description: 'Verifique o seu email para confirmar o registo',
         });
-        onSuccess();
+        onSuccess(); // Chama a função de sucesso (ex: redirecionar para o login)
       }
     } catch (error) {
       console.error('Erro ao registar:', error);
@@ -89,8 +88,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="nome">Nome</Label>
-            <Input 
-              id="nome" 
+            <Input
+              id="nome"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               required
@@ -99,8 +98,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
           </div>
           <div className="space-y-2">
             <Label htmlFor="apelido">Apelido</Label>
-            <Input 
-              id="apelido" 
+            <Input
+              id="apelido"
               value={apelido}
               onChange={(e) => setApelido(e.target.value)}
               required
@@ -110,9 +109,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         </div>
         <div className="space-y-2">
           <Label htmlFor="register-email">Email</Label>
-          <Input 
-            id="register-email" 
-            type="email" 
+          <Input
+            id="register-email"
+            type="email"
             placeholder="seu.email@exemplo.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -122,8 +121,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         </div>
         <div className="space-y-2">
           <Label htmlFor="register-password">Senha</Label>
-          <Input 
-            id="register-password" 
+          <Input
+            id="register-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -151,8 +150,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         </div>
       </CardContent>
       <CardFooter className="pt-4">
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           className="w-full"
           disabled={isLoading}
         >
