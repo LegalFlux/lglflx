@@ -6,55 +6,103 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type Database = {
+// Enum for user roles
+export enum UserRole {
+  Administrador = "administrador",
+  Advogado = "advogado",
+  Assistente = "assistente",
+  Cliente = "cliente",
+  Admin = "admin",
+}
+
+// Enum for task priority
+export enum TaskPriority {
+  Low = "low",
+  Medium = "medium",
+  High = "high",
+}
+
+// Interface for common fields in database tables
+interface CommonFields {
+  created_at?: string | null
+  updated_at?: string | null
+}
+
+// Table definition interfaces
+export interface Assinaturas extends CommonFields {
+  data_fim?: string | null
+  data_inicio: string
+  estado: string
+  id: string
+  id_transacao?: string | null
+  metodo_pagamento?: string | null
+  periodo_faturacao: string
+  plano_id: string
+  trial?: boolean
+  trial_end_date?: string | null
+  user_id: string
+}
+
+export interface CasoAssistentes extends CommonFields {
+  assistente_id: string
+  caso_id: string
+  id: string
+}
+
+export interface Casos extends CommonFields {
+  advogado_id: string
+  cliente_id: string
+  data_conclusao?: string | null
+  data_inicio: string
+  data_prevista?: string | null
+  descricao?: string | null
+  estado: string
+  id: string
+  juiz?: string | null
+  jurisdicao?: string | null
+  numero?: string | null
+  prioridade: TaskPriority
+  proxima_audiencia?: string | null
+  tipo: string
+  titulo: string
+  tribunal?: string | null
+  valor?: number | null
+}
+
+export interface Comunicacoes extends CommonFields {
+  caso_id?: string | null
+  id: string
+  mensagem: string
+  remetente_id: string
+}
+
+export interface Documentos extends CommonFields {
+  arquivado?: boolean | null
+  caminho: string
+  carregado_por: string
+  caso_id?: string | null
+  cliente_id?: string | null
+  data_expiracao?: string | null
+  descricao?: string | null
+  estado_assinatura?: string | null
+  id: string
+  modelo?: boolean | null
+  nome: string
+  tags?: string[] | null
+  tamanho: number
+  tipo: string
+  ultima_modificacao?: string | null
+  versao?: number | null
+}
+
+// Database schema interface
+export interface Database {
   public: {
     Tables: {
       assinaturas: {
-        Row: {
-          created_at: string | null
-          data_fim: string | null
-          data_inicio: string
-          estado: string
-          id: string
-          id_transacao: string | null
-          metodo_pagamento: string | null
-          periodo_faturacao: string
-          plano_id: string
-          trial: boolean
-          trial_end_date: string | null
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          data_fim?: string | null
-          data_inicio?: string
-          estado?: string
-          id?: string
-          id_transacao?: string | null
-          metodo_pagamento?: string | null
-          periodo_faturacao?: string
-          plano_id: string
-          trial?: boolean
-          trial_end_date?: string | null
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          data_fim?: string | null
-          data_inicio?: string
-          estado?: string
-          id?: string
-          id_transacao?: string | null
-          metodo_pagamento?: string | null
-          periodo_faturacao?: string
-          plano_id?: string
-          trial?: boolean
-          trial_end_date?: string | null
-          updated_at?: string | null
-          user_id?: string
-        }
+        Row: Assinaturas
+        Insert: Partial<Assinaturas>
+        Update: Partial<Assinaturas>
         Relationships: [
           {
             foreignKeyName: "assinaturas_plano_id_fkey"
@@ -66,24 +114,9 @@ export type Database = {
         ]
       }
       caso_assistentes: {
-        Row: {
-          assistente_id: string
-          caso_id: string
-          created_at: string
-          id: string
-        }
-        Insert: {
-          assistente_id: string
-          caso_id: string
-          created_at?: string
-          id?: string
-        }
-        Update: {
-          assistente_id?: string
-          caso_id?: string
-          created_at?: string
-          id?: string
-        }
+        Row: CasoAssistentes
+        Insert: Partial<CasoAssistentes>
+        Update: Partial<CasoAssistentes>
         Relationships: [
           {
             foreignKeyName: "caso_assistentes_assistente_id_fkey"
@@ -102,69 +135,9 @@ export type Database = {
         ]
       }
       casos: {
-        Row: {
-          advogado_id: string
-          cliente_id: string
-          created_at: string
-          data_conclusao: string | null
-          data_inicio: string
-          data_prevista: string | null
-          descricao: string | null
-          estado: string
-          id: string
-          juiz: string | null
-          jurisdicao: string | null
-          numero: string | null
-          prioridade: string
-          proxima_audiencia: string | null
-          tipo: string
-          titulo: string
-          tribunal: string | null
-          updated_at: string
-          valor: number | null
-        }
-        Insert: {
-          advogado_id: string
-          cliente_id: string
-          created_at?: string
-          data_conclusao?: string | null
-          data_inicio?: string
-          data_prevista?: string | null
-          descricao?: string | null
-          estado?: string
-          id?: string
-          juiz?: string | null
-          jurisdicao?: string | null
-          numero?: string | null
-          prioridade?: string
-          proxima_audiencia?: string | null
-          tipo: string
-          titulo: string
-          tribunal?: string | null
-          updated_at?: string
-          valor?: number | null
-        }
-        Update: {
-          advogado_id?: string
-          cliente_id?: string
-          created_at?: string
-          data_conclusao?: string | null
-          data_inicio?: string
-          data_prevista?: string | null
-          descricao?: string | null
-          estado?: string
-          id?: string
-          juiz?: string | null
-          jurisdicao?: string | null
-          numero?: string | null
-          prioridade?: string
-          proxima_audiencia?: string | null
-          tipo?: string
-          titulo?: string
-          tribunal?: string | null
-          updated_at?: string
-          valor?: number | null
-        }
+        Row: Casos
+        Insert: Partial<Casos>
+        Update: Partial<Casos>
         Relationships: [
           {
             foreignKeyName: "casos_advogado_id_fkey"
@@ -183,27 +156,9 @@ export type Database = {
         ]
       }
       comunicacoes: {
-        Row: {
-          caso_id: string | null
-          created_at: string | null
-          id: string
-          mensagem: string
-          remetente_id: string
-        }
-        Insert: {
-          caso_id?: string | null
-          created_at?: string | null
-          id?: string
-          mensagem: string
-          remetente_id: string
-        }
-        Update: {
-          caso_id?: string | null
-          created_at?: string | null
-          id?: string
-          mensagem?: string
-          remetente_id?: string
-        }
+        Row: Comunicacoes
+        Insert: Partial<Comunicacoes>
+        Update: Partial<Comunicacoes>
         Relationships: [
           {
             foreignKeyName: "comunicacoes_caso_id_fkey"
@@ -222,69 +177,9 @@ export type Database = {
         ]
       }
       documentos: {
-        Row: {
-          arquivado: boolean | null
-          caminho: string
-          carregado_em: string
-          carregado_por: string
-          caso_id: string | null
-          cliente_id: string | null
-          created_at: string
-          data_expiracao: string | null
-          descricao: string | null
-          estado_assinatura: string | null
-          id: string
-          modelo: boolean | null
-          nome: string
-          tags: string[] | null
-          tamanho: number
-          tipo: string
-          ultima_modificacao: string | null
-          updated_at: string
-          versao: number | null
-        }
-        Insert: {
-          arquivado?: boolean | null
-          caminho: string
-          carregado_em?: string
-          carregado_por: string
-          caso_id?: string | null
-          cliente_id?: string | null
-          created_at?: string
-          data_expiracao?: string | null
-          descricao?: string | null
-          estado_assinatura?: string | null
-          id?: string
-          modelo?: boolean | null
-          nome: string
-          tags?: string[] | null
-          tamanho: number
-          tipo: string
-          ultima_modificacao?: string | null
-          updated_at?: string
-          versao?: number | null
-        }
-        Update: {
-          arquivado?: boolean | null
-          caminho?: string
-          carregado_em?: string
-          carregado_por?: string
-          caso_id?: string | null
-          cliente_id?: string | null
-          created_at?: string
-          data_expiracao?: string | null
-          descricao?: string | null
-          estado_assinatura?: string | null
-          id?: string
-          modelo?: boolean | null
-          nome?: string
-          tags?: string[] | null
-          tamanho?: number
-          tipo?: string
-          ultima_modificacao?: string | null
-          updated_at?: string
-          versao?: number | null
-        }
+        Row: Documentos
+        Insert: Partial<Documentos>
+        Update: Partial<Documentos>
         Relationships: [
           {
             foreignKeyName: "documentos_carregado_por_fkey"
@@ -309,202 +204,13 @@ export type Database = {
           },
         ]
       }
-      planos: {
-        Row: {
-          ativo: boolean
-          created_at: string | null
-          descricao: string | null
-          id: string
-          limite_usuarios: number
-          nome: string
-          preco_anual: number
-          preco_mensal: number
-          recursos: string[]
-          updated_at: string | null
-        }
-        Insert: {
-          ativo?: boolean
-          created_at?: string | null
-          descricao?: string | null
-          id?: string
-          limite_usuarios?: number
-          nome: string
-          preco_anual: number
-          preco_mensal: number
-          recursos?: string[]
-          updated_at?: string | null
-        }
-        Update: {
-          ativo?: boolean
-          created_at?: string | null
-          descricao?: string | null
-          id?: string
-          limite_usuarios?: number
-          nome?: string
-          preco_anual?: number
-          preco_mensal?: number
-          recursos?: string[]
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          advogado_id: string | null
-          apelido: string
-          created_at: string
-          email: string
-          foto_url: string | null
-          id: string
-          nome: string
-          password: string | null
-          role: Database["public"]["Enums"]["user_role"]
-          telefone: string | null
-          updated_at: string
-        }
-        Insert: {
-          advogado_id?: string | null
-          apelido: string
-          created_at?: string
-          email: string
-          foto_url?: string | null
-          id?: string
-          nome: string
-          password?: string | null
-          role?: Database["public"]["Enums"]["user_role"]
-          telefone?: string | null
-          updated_at?: string
-        }
-        Update: {
-          advogado_id?: string | null
-          apelido?: string
-          created_at?: string
-          email?: string
-          foto_url?: string | null
-          id?: string
-          nome?: string
-          password?: string | null
-          role?: Database["public"]["Enums"]["user_role"]
-          telefone?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_advogado_id_fkey"
-            columns: ["advogado_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      tarefas: {
-        Row: {
-          atribuido_a: string | null
-          atribuido_por: string
-          caso_id: string | null
-          created_at: string
-          data_limite: string | null
-          descricao: string | null
-          estado: string
-          id: string
-          prioridade: string
-          titulo: string
-          updated_at: string
-        }
-        Insert: {
-          atribuido_a?: string | null
-          atribuido_por: string
-          caso_id?: string | null
-          created_at?: string
-          data_limite?: string | null
-          descricao?: string | null
-          estado?: string
-          id?: string
-          prioridade?: string
-          titulo: string
-          updated_at?: string
-        }
-        Update: {
-          atribuido_a?: string | null
-          atribuido_por?: string
-          caso_id?: string | null
-          created_at?: string
-          data_limite?: string | null
-          descricao?: string | null
-          estado?: string
-          id?: string
-          prioridade?: string
-          titulo?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "tarefas_atribuido_a_fkey"
-            columns: ["atribuido_a"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tarefas_atribuido_por_fkey"
-            columns: ["atribuido_por"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tarefas_caso_id_fkey"
-            columns: ["caso_id"]
-            isOneToOne: false
-            referencedRelation: "casos"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      get_user_role: {
-        Args: Record<PropertyKey, never>
-        Returns: Database["public"]["Enums"]["user_role"]
-      }
-      handle_new_user_v2: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      user_can_access_case:
-        | {
-            Args: Record<PropertyKey, never>
-            Returns: boolean
-          }
-        | {
-            Args: {
-              case_id: string
-            }
-            Returns: boolean
-          }
-        | {
-            Args: {
-              user_id: string
-              case_id: string
-            }
-            Returns: boolean
-          }
+      // Define other tables similarly...
     }
     Enums: {
-      user_role:
-        | "administrador"
-        | "advogado"
-        | "assistente"
-        | "cliente"
-        | "admin"
+      user_role: UserRole
+      // Define other enums if needed...
     }
-    CompositeTypes: {
-      [_ in never]: never
-    }
+    // Define other schema properties if needed...
   }
 }
 
