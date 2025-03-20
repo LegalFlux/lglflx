@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,6 +21,7 @@ interface PricingCardProps {
   popular?: boolean;
   onClick?: () => void;
   disabled?: boolean;
+  className?: string;
 }
 
 const PricingCard: React.FC<PricingCardProps> = ({
@@ -35,12 +35,17 @@ const PricingCard: React.FC<PricingCardProps> = ({
   popular = false,
   onClick,
   disabled = false,
+  className,
 }) => {
   return (
-    <Card className={cn(
-      "flex flex-col h-full transition-all duration-200 hover:shadow-md",
-      popular && "border-primary scale-[1.02] shadow-md"
-    )}>
+    <Card
+      className={cn(
+        "flex flex-col h-full transition-all duration-200 hover:shadow-lg rounded-2xl",
+        popular && "border-primary scale-[1.02] shadow-md",
+        className
+      )}
+      aria-live={popular ? "polite" : undefined}
+    >
       {popular && (
         <div className="bg-primary text-primary-foreground text-xs font-medium py-1 px-3 rounded-t-md w-full text-center">
           Mais Popular
@@ -50,18 +55,18 @@ const PricingCard: React.FC<PricingCardProps> = ({
         <CardTitle className="text-xl font-bold">{title}</CardTitle>
         <div className="mt-2">
           <span className="text-3xl font-bold">{price}</span>
-          {period && <span className="text-muted-foreground text-sm">{period}</span>}
+          {period && <span className="text-muted-foreground text-sm">/{period}</span>}
         </div>
         <CardDescription className="mt-2">{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
-        <ul className="space-y-2">
+        <ul className="grid gap-2">
           {features.map((feature, index) => (
             <li key={index} className="flex items-start">
               {feature.included ? (
-                <Check size={18} className="text-green-500 mr-2 flex-shrink-0 mt-1" />
+                <Check size={18} className="text-green-500 mr-2 flex-shrink-0 mt-1" aria-hidden="true" />
               ) : (
-                <X size={18} className="text-red-500 mr-2 flex-shrink-0 mt-1" />
+                <X size={18} className="text-red-500 mr-2 flex-shrink-0 mt-1" aria-hidden="true" />
               )}
               <span className="text-sm">
                 {feature.name}
@@ -73,7 +78,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
       </CardContent>
       <CardFooter>
         <Button 
-          className="w-full" 
+          className="w-full md:w-auto" 
           variant={buttonVariant}
           onClick={onClick}
           disabled={disabled}
