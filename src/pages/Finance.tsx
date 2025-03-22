@@ -16,6 +16,14 @@ const revenueData = [
 ];
 
 const Finance = () => {
+  const handleGenerateInvoice = () => {
+    // Lógica para gerar nova fatura
+  };
+
+  const handleConfigureFees = () => {
+    // Lógica para configurar honorários
+  };
+
   return (
     <div className="container py-6 space-y-6">
       <PageHeader title="Finanças" description="Gerencie faturamento, honorários e análise financeira" />
@@ -61,7 +69,7 @@ const Finance = () => {
                       </li>
                     </ul>
                   </div>
-                  <Button>Gerar Nova Fatura</Button>
+                  <Button onClick={handleGenerateInvoice}>Gerar Nova Fatura</Button>
                 </div>
               </CardContent>
             </Card>
@@ -121,7 +129,7 @@ const Finance = () => {
                     </ul>
                   </div>
                 </div>
-                <Button>Configurar Honorários</Button>
+                <Button onClick={handleConfigureFees}>Configurar Honorários</Button>
               </div>
             </CardContent>
           </Card>
