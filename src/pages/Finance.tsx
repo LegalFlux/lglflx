@@ -26,7 +26,7 @@ const Finance = () => {
           <TabsTrigger value="faturacao">Faturação</TabsTrigger>
           <TabsTrigger value="honorarios">Honorários</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="faturacao" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
@@ -68,7 +68,7 @@ const Finance = () => {
             </Card>
           </div>
         </TabsContent>
-        
+
         <TabsContent value="honorarios" className="space-y-4">
           <Card>
             <CardHeader>
@@ -128,7 +128,7 @@ const Finance = () => {
           </Card>
         </TabsContent>
       </Tabs>
-      
+
       {/* Nova seção de Análise Financeira */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <Card className="p-4">
@@ -165,7 +165,7 @@ const Finance = () => {
                 tickRotation: 0,
                 legend: 'Mês',
                 legendPosition: 'middle',
-                legendOffset: 40
+                legendOffset: 40,
               }}
               axisLeft={{
                 tickSize: 5,
@@ -174,24 +174,14 @@ const Finance = () => {
                 legend: 'Valor (€)',
                 legendPosition: 'middle',
                 legendOffset: -40,
-                format: value => `€${value}`
+                format: (value) => `€${value}`,
               }}
               enableGridY={true}
               labelSkipWidth={12}
               labelSkipHeight={12}
-              label={d => `€${d.value}`}
+              label={(d) => `€${d.value}`}
               role="application"
               ariaLabel="Gráfico de receitas mensais"
-              theme={{
-                axis: {
-                  legend: {
-                    text: {
-                      fontSize: 12,
-                      fill: '#64748b'
-                    }
-                  }
-                }
-              }}
             />
           </div>
         </Card>
