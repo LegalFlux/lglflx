@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { CardContent, CardFooter } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth'; // Importa o useAuth
+import { useAuth } from '@/contexts/AuthContext'; // Alterado para importar do AuthContext
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +14,7 @@ const LoginForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { signIn } = useAuth(); // Usa o hook useAuth
+  const { signIn } = useAuth(); // Usa o hook useAuth do AuthContext
 
   // Validação básica do email
   const validateEmail = (email: string) => {
@@ -47,7 +47,7 @@ const LoginForm: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await signIn(email, password); // Usa a função signIn do useAuth
+      const { error } = await signIn(email, password); // Usa a função signIn do AuthContext
 
       if (error) {
         console.error('Erro no login:', error.message);
