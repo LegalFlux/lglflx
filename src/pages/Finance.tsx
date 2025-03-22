@@ -1,10 +1,11 @@
-import React from 'react';
+'use client';
+import { type ReactElement } from 'react';
 import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BarChart, TrendingUp, ArrowUpRight } from 'lucide-react';
-import { ResponsiveContainer, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { BarChart, TrendingUp, ArrowUpRight } from '@radix-ui/react-icons';
+import { ResponsiveBar } from '@nivo/bar';
 
 const revenueData = [
   { month: 'Jan', value: 4500 },
@@ -150,15 +151,49 @@ const Finance = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <Card className="p-4">
           <h3 className="text-lg font-semibold mb-4">Receitas Mensais</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={revenueData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="value" fill="#3b82f6" />
-            </BarChart>
-          </ResponsiveContainer>
+          <div style={{ height: 300 }}>
+            <ResponsiveBar
+              data={revenueData}
+              keys={['value']}
+              indexBy="month"
+              margin={{ top: 20, right: 30, bottom: 50, left: 60 }}
+              padding={0.3}
+              colors="#3b82f6"
+              axisBottom={{
+                tickSize: 5,
+                tickPadding: 5,
+                tickRotation: 0,
+                legend: 'Mês',
+                legendPosition: 'middle',
+                legendOffset: 40
+              }}
+              axisLeft={{
+                tickSize: 5,
+                tickPadding: 5,
+                tickRotation: 0,
+                legend: 'Valor (€)',
+                legendPosition: 'middle',
+                legendOffset: -40,
+                format: value => `€${value}`
+              }}
+              enableGridY={true}
+              labelSkipWidth={12}
+              labelSkipHeight={12}
+              label={d => `€${d.value}`}
+              role="application"
+              ariaLabel="Gráfico de receitas mensais"
+              theme={{
+                axis: {
+                  legend: {
+                    text: {
+                      fontSize: 12,
+                      fill: '#64748b'
+                    }
+                  }
+                }
+              }}
+            />
+          </div>
         </Card>
       </div>
     </div>
