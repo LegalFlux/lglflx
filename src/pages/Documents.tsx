@@ -1,13 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { mockDocuments } from '@/data';
 import { toast } from '@/hooks/use-toast';
-import { 
-  Search, SortAsc, SortDesc, Download, Trash2, 
-  Eye, Edit, FileSignature, Clock, CheckCircle,
-  FileText, Upload, Scanner, FolderPlus, Plus, ChevronDown,
-  Save, Users, History, Lock, Unlock, Share2, CheckSquare,
-  TrendingUp, ArrowUpRight
-} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -15,6 +8,35 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
+
+// Importar ícones de lucide-react
+import { 
+  Search, 
+  SortAsc, 
+  SortDesc, 
+  Download, 
+  Trash2, 
+  Eye, 
+  Edit, 
+  FileSignature, 
+  Clock, 
+  CheckCircle,
+  FileText, 
+  Upload, 
+  Scanner, 
+  FolderPlus, 
+  Plus, 
+  ChevronDown,
+  Save, 
+  Users, 
+  History, 
+  Lock, 
+  Unlock, 
+  Share2, 
+  CheckSquare,
+  TrendingUp, 
+  ArrowUpRight 
+} from 'lucide-react';
 
 // Definição dos tipos
 interface DocumentVersion {
