@@ -4,7 +4,8 @@ import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BarChart, TrendingUp, ArrowUpRight } from '@radix-ui/react-icons';
+import { TrendingUp, ArrowUpRight } from '@radix-ui/react-icons';
+import { BarChart } from 'lucide-react';
 import { ResponsiveBar } from '@nivo/bar';
 
 const revenueData = [
