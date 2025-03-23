@@ -4,8 +4,7 @@ import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, ArrowUpRight } from '@radix-ui/react-icons';
-import { BarChart } from 'lucide-react';
+import { TrendingUp, ArrowUpRight, DashboardIcon } from '@radix-ui/react-icons';
 import { ResponsiveBar } from '@nivo/bar';
 
 const revenueData = [
@@ -34,7 +33,7 @@ const Finance = () => {
               <CardHeader>
                 <div className="flex items-center space-x-2">
                   <div className="p-2 rounded-md bg-primary/10 text-primary">
-                    <BarChart size={20} />
+                    <DashboardIcon className="h-5 w-5" />
                   </div>
                   <CardTitle>Faturamento e Cobrança</CardTitle>
                 </div>
