@@ -23,7 +23,8 @@ import {
   CheckCircle,
   FileText, 
   Upload, 
-  Scanner, 
+  // Scanner não existe no lucide-react, substituindo por Scan
+  Scan, 
   FolderPlus, 
   Plus, 
   ChevronDown,
@@ -675,7 +676,7 @@ const DocumentHeader = ({ onScannedDocument, onSignature, onOpenTemplates }) => 
                     className="flex w-full items-center px-3 py-2 text-sm rounded-md hover:bg-muted"
                     onClick={handleUploadClick}
                   >
-                    <Scanner className="mr-2 h-4 w-4" />
+                    <Scan className="mr-2 h-4 w-4" />
                     Digitalizar Documento
                   </button>
                   <button
