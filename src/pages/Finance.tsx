@@ -4,7 +4,6 @@ import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, ArrowUpRight, DashboardIcon } from '@radix-ui/react-icons';
 import { ResponsiveBar } from '@nivo/bar';
 
 const revenueData = [
@@ -33,7 +32,12 @@ const Finance = () => {
               <CardHeader>
                 <div className="flex items-center space-x-2">
                   <div className="p-2 rounded-md bg-primary/10 text-primary">
-                    <DashboardIcon className="h-5 w-5" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <line x1="8" y1="9" x2="16" y2="9" />
+                      <line x1="8" y1="13" x2="14" y2="13" />
+                      <line x1="8" y1="17" x2="12" y2="17" />
+                    </svg>
                   </div>
                   <CardTitle>Faturamento e Cobrança</CardTitle>
                 </div>
@@ -137,12 +141,18 @@ const Finance = () => {
               <p className="text-sm font-medium text-muted-foreground">Total Receitas</p>
               <h3 className="text-2xl font-bold mt-1">€32.500</h3>
               <div className="flex items-center mt-1 text-green-500 text-sm">
-                <TrendingUp className="h-3 w-3 mr-1" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                  <polyline points="17 6 23 6 23 12" />
+                </svg>
                 <span>+8%</span>
               </div>
             </div>
             <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
-              <ArrowUpRight className="h-5 w-5 text-green-500" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
             </div>
           </div>
         </Card>
@@ -171,7 +181,7 @@ const Finance = () => {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'Valor (€)',
+                legend: 'Valor (€) ',
                 legendPosition: 'middle',
                 legendOffset: -40,
                 format: (value) => `€${value}`,
