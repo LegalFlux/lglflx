@@ -372,8 +372,8 @@ const TemplateManager = ({ templates, onUseTemplate, onCreateTemplate, onClose }
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {categories.map(category => (
-              <div key={category} className="space-y-3">
-                <h3 className="font-medium text-lg">{category}</h3>
+              <div key={String(category)} className="space-y-3">
+                <h3 className="font-medium text-lg">{String(category)}</h3>
                 {filteredTemplates
                   .filter(t => (t.templateCategory || 'Geral') === category)
                   .map(template => (
@@ -1243,7 +1243,22 @@ const Documents = () => {
       lastModifiedBy: 'João Silva',
     };
 
-    setDocuments(prev => [newDoc, ...prev]);
+setDocuments((prev: Document[]) => {
+  // Ensure newDoc has all required properties from Document interface
+  const completeDoc: Document = {
+    ...newDoc,
+    versions: [],
+    collaborators: [],
+    isTemplate: false,
+    templateCategory: '',
+    currentVersion: 1,
+    status: 'draft',
+    lastModifiedAt: new Date().toISOString(),
+    lastModifiedBy: 'João Silva'
+  };
+  
+  return [completeDoc, ...prev];
+});
     
     toast({
       title: "Documento digitalizado",
@@ -1269,7 +1284,21 @@ const Documents = () => {
       lastModifiedBy: 'João Silva',
     };
 
-    setDocuments(prev => [newDoc, ...prev]);
+setDocuments(prev => [{
+  ...newDoc,
+  versions: [] as DocumentVersion[],
+  collaborators: [] as DocumentCollaborator[],
+  isTemplate: false,
+  templateCategory: '',
+  lastModifiedAt: new Date().toISOString(),
+  lastModifiedBy: 'João Silva',
+  status: 'draft' as const,
+  currentVersion: 1,
+  signedBy: [] as string[],
+  signatureDate: undefined,
+  isLocked: false,
+  type: (newDoc.type as unknown) as DocumentType // Cast to unknown first to safely convert to DocumentType
+}, ...prev]);
     
     toast({
       title: "Assinatura salva",
@@ -1356,7 +1385,20 @@ const Documents = () => {
       lastModifiedBy: 'João Silva',
     };
     
-    setDocuments(prev => [newDoc, ...prev]);
+setDocuments(prev => [{
+  ...newDoc,
+  versions: [],
+  collaborators: [],
+  isTemplate: false,
+  templateCategory: '',
+  lastModifiedAt: new Date().toISOString(),
+  lastModifiedBy: 'João Silva',
+  status: 'draft',
+  currentVersion: 1,
+  signedBy: [],
+  signatureDate: undefined,
+  isLocked: false
+}, ...prev]);
     setShowTemplateManager(false);
     
     toast({
@@ -1390,7 +1432,27 @@ const Documents = () => {
       lastModifiedBy: 'João Silva',
     };
     
-    setDocuments(prev => [newTemplate, ...prev]);
+setDocuments((prev: Document[]) => {
+  // Create a properly typed new document object
+  const newDoc: Document = {
+    ...newTemplate,
+    currentVersion: 1,
+    versions: [],
+    collaborators: [],
+    isTemplate: true,
+    templateCategory: newTemplate.templateCategory || '',
+    lastModifiedAt: new Date().toISOString(),
+    lastModifiedBy: 'João Silva',
+    status: 'draft',
+    signedBy: [],
+    signatureDate: undefined,
+    isLocked: false,
+    // Ensure type is properly cast from the imported DocumentType
+    type: newTemplate.type
+  };
+
+  return [newDoc, ...prev];
+});
     
     // Open the new template for editing
     setEditingDocument(newTemplate);
