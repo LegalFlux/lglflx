@@ -167,7 +167,7 @@ export const useSubscription = () => {
         .insert({
           user_id: user.id,
           plano_id: planoId,
-          periodo_faturacao,
+          periodo_faturacao: periodoFaturacao, // Corrigido: mapeando explicitamente
           data_inicio: hoje.toISOString(),
           data_fim: dataFim.toISOString(),
           estado: 'ativa',
@@ -265,7 +265,7 @@ export const useSubscription = () => {
         .insert({
           user_id: user.id,
           plano_id: planoId,
-          periodo_faturacao: 'mensal',
+          periodo_faturacao: 'mensal', // Garantindo consistência
           data_inicio: hoje.toISOString(),
           data_fim: trialEndDate.toISOString(),
           estado: 'trial',
