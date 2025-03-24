@@ -55,10 +55,6 @@ const AppRoutes = () => {
       element: <Home />,
     },
     {
-      path: "screenshots",
-      element: <Screenshots />,
-    },
-    {
       element: <RedirectIfAuthenticated />,
       children: [{ path: "auth", element: <Auth /> }],
     },
@@ -79,6 +75,7 @@ const AppRoutes = () => {
             { path: "settings", element: <Settings /> },
             { path: "client-portal", element: <ClientPortal /> },
             { path: "subscriptions", element: <Subscriptions /> },
+            { path: "screenshots", element: <Screenshots /> }, // ✅ Agora dentro do dashboard
           ],
         },
       ],
