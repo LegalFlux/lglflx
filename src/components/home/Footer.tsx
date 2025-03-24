@@ -7,16 +7,18 @@ const Footer: React.FC = () => {
 
   const quickLinks = [
     { path: "/planos", label: "Planos e Preços" },
-    { path: "/termos", label: "Termos e Condições" },
-    { path: "/privacidade", label: "Política de Privacidade" },
+    { path: "/about", label: "Sobre Nós" },
+    { path: "/terms", label: "Termos e Condições" }, // Link para terms.tsx
+    { path: "/privacy", label: "Política de Privacidade" }, // Link para privacy.tsx
+    { path: "/cookies", label: "Política de Cookies" }, // Link para cookies.tsx
     { path: "/faq", label: "FAQ" },
     { path: "/suporte", label: "Suporte" },
   ];
 
   return (
-    <footer className="mt-auto py-12 bg-background border-t border-border w-full">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-3 gap-8">
+    <footer className="mt-auto py-12 bg-background border-t border-border w-full px-4 sm:px-0">
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Coluna 1: Logo e Descrição */}
           <div>
             <div className="flex items-center mb-4">
@@ -39,11 +41,19 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-muted-foreground">
               <li>+351 220 145 169</li>
               <li>suporte@legalflux.pt</li>
-              <li><a href="https://www.legalflux.pt" className="hover:text-primary transition-colors">www.legalflux.pt</a></li>
               <li>
-                <div className="flex space-x-4 mt-4">
+                <a 
+                  href="https://www.legalflux.pt" 
+                  className="hover:text-primary transition-colors"
+                >
+                  www.legalflux.pt
+                </a>
+              </li>
+              <li className="mt-4">
+                <p className="text-sm mb-2">Siga-nos:</p>
+                <div className="flex space-x-4">
                   <a
-                    href="https://www.instagram.com/"
+                    href="https://www.instagram.com/legalflux.pt/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary transition-colors"
@@ -52,7 +62,7 @@ const Footer: React.FC = () => {
                     <Instagram size={20} />
                   </a>
                   <a
-                    href="https://www.linkedin.com/"
+                    href="https://www.linkedin.com/company/legalflux"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary transition-colors"
@@ -61,7 +71,7 @@ const Footer: React.FC = () => {
                     <Linkedin size={20} />
                   </a>
                   <a
-                    href="https://vimeo.com/"
+                    href="https://vimeo.com/user119294787"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary transition-colors"
@@ -80,7 +90,10 @@ const Footer: React.FC = () => {
             <ul className="space-y-2">
               {quickLinks.map((link, index) => (
                 <li key={index}>
-                  <Link to={link.path} className="text-muted-foreground hover:text-primary transition-colors">
+                  <Link 
+                    to={link.path} 
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
                     {link.label}
                   </Link>
                 </li>
