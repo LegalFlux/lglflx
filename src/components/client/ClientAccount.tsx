@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Table,
@@ -87,7 +86,7 @@ const ClientAccount: React.FC<ClientAccountProps> = ({
             {summary.ultimoPagamento ? (
               <div>
                 <div className="text-2xl font-bold">{formatCurrency(summary.valorUltimoPagamento || 0)}</div>
-                <div className="text-sm text-muted-foreground">{formatDate(new Date(summary.ultimoPagamento))}</div>
+                <div className="text-sm text-muted-foreground">{formatDate(summary.ultimoPagamento)}</div>
               </div>
             ) : (
               <div className="text-muted-foreground">Sem pagamentos</div>
@@ -118,7 +117,7 @@ const ClientAccount: React.FC<ClientAccountProps> = ({
               <TableBody>
                 {transactions.map((transaction) => (
                   <TableRow key={transaction.id}>
-                    <TableCell>{formatDate(new Date(transaction.data))}</TableCell>
+                    <TableCell>{formatDate(transaction.data)}</TableCell>
                     <TableCell>{transaction.descricao}</TableCell>
                     <TableCell>
                       <Badge 

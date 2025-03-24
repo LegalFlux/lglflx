@@ -5,13 +5,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatDate(input: string | number): string {
+export function formatDate(input: string | number | Date): string {
   const date = new Date(input);
   return date.toLocaleDateString('pt-PT', {
     month: 'long',
     day: 'numeric',
     year: 'numeric',
   });
+}
+
+export function formatCurrency(value: number): string {
+  return new Intl.NumberFormat('pt-PT', {
+    style: 'currency',
+    currency: 'EUR'
+  }).format(value);
 }
 
 export function absoluteUrl(path: string) {
