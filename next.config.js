@@ -8,9 +8,6 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   swcMinify: false,
-  experimental: {
-    esmExternals: 'loose',
-  },
 };
 
 export default nextConfig;
