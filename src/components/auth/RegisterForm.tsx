@@ -18,7 +18,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
   const [password, setPassword] = useState('');
   const [nome, setNome] = useState('');
   const [apelido, setApelido] = useState('');
-  const [role, setRole] = useState<UserRole>('cliente');
+  const [role, setRole] = useState<UserRole>(UserRole.cliente); // Ajustado para usar a enumeração UserRole
   const [isLoading, setIsLoading] = useState(false);
 
   const { signUp } = useAuth(); // Usa o hook useAuth
@@ -141,10 +141,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
               <SelectValue placeholder="Selecione o perfil" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="cliente">Cliente</SelectItem>
-              <SelectItem value="advogado">Advogado</SelectItem>
-              <SelectItem value="advogado_senior">Advogado Sénior</SelectItem>
-              <SelectItem value="assistente">Assistente</SelectItem>
+              <SelectItem value={UserRole.cliente}>Cliente</SelectItem>
+              <SelectItem value={UserRole.advogado}>Advogado</SelectItem>
+              <SelectItem value={UserRole.advogado_senior}>Advogado Sénior</SelectItem>
+              <SelectItem value={UserRole.assistente}>Assistente</SelectItem>
             </SelectContent>
           </Select>
         </div>
