@@ -1,10 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
+  experimental: {
+    esmExternals: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
+  // Adicione esta configuração para lidar com módulos ESM
+  webpack: (config) => {
+    config.experiments = {
+      ...config.experiments,
+      topLevelAwait: true,
+    };
+    return config;
   },
 };
 

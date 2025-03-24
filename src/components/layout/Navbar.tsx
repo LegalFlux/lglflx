@@ -1,100 +1,85 @@
+'use client';
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Bell, Search, Menu, X, User } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { useEffect, useState } from 'react';
 
-interface NavbarProps {
-  toggleSidebar: () => void;
-  isSidebarOpen: boolean;
-}
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
-const Navbar: React.FC<NavbarProps> = ({ toggleSidebar, isSidebarOpen }) => {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
+  const routes = [
+    { href: '/', label: 'Início' },
+    { href: '/suporte', label: 'Suporte' },
+    { href: '/precos', label: 'Preços' },
+    { href: '/blog', label: 'Blog' },
+  ];
 
   return (
-    <header className="w-full h-16 px-4 bg-white border-b border-border flex items-center justify-between z-50 shadow-sm">
-      <div className="flex items-center">
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          onClick={toggleSidebar} 
-          className="mr-2 smooth-transition"
-        >
-          {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
-        </Button>
-        
-        <Link to="/" className="flex items-center">
-          <span className="text-primary font-display text-xl font-semibold">Lex</span>
-          <span className="text-foreground font-display text-xl">Flow</span>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between px-4">
+        {/* Logo */}
+        <Link href="/" className="flex items-center space-x-2">
+          <span className="text-xl font-bold">LegalFlux</span>
         </Link>
-      </div>
 
-      <div className="flex items-center space-x-1">
-        <div className={`relative ${isSearchOpen ? 'w-64' : 'w-0'} transition-all duration-300 ease-in-out overflow-hidden`}>
-          <input
-            type="text"
-            placeholder="Pesquisar..."
-            className={`w-full h-9 pl-3 pr-8 rounded-md border border-input ${isSearchOpen ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
-          />
-          {isSearchOpen && (
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="absolute right-0 top-0 h-9 w-9"
-              onClick={() => setIsSearchOpen(false)}
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-6">
+          {routes.map((route) => (
+            <Link
+              key={route.href}
+              href={route.href}
+              className={cn(
+                'text-sm font-medium transition-colors hover:text-primary',
+                pathname === route.href ? 'text-primary' : 'text-muted-foreground'
+              )}
             >
-              <X size={14} />
-            </Button>
-          )}
-        </div>
+              {route.label}
+            </Link>
+          ))}
+        </nav>
 
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          onClick={() => setIsSearchOpen(!isSearchOpen)}
-          className="relative"
+        {/* Mobile Menu Button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden"
+          onClick={() => setIsOpen(!isOpen)}
         >
-          <Search size={18} />
+          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
 
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell size={18} />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full"></span>
-        </Button>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <User size={18} />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
-              Perfil
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              Configurações
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer text-destructive">
-              Sair
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="fixed inset-0 top-16 z-50 md:hidden">
+            <div className="bg-background border-t">
+              <div className="px-4 py-2">
+                {routes.map((route) => (
+                  <Link
+                    key={route.href}
+                    href={route.href}
+                    className={cn(
+                      'block py-3 px-2 text-base font-medium transition-colors border-b',
+                      pathname === route.href
+                        ? 'text-primary'
+                        : 'text-muted-foreground'
+                    )}
+                  >
+                    {route.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
-};
-
-export default Navbar;
+}
