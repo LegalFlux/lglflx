@@ -1,5 +1,6 @@
-import { Database } from '@/lib/database.types';
+import { Database as DatabaseGenerated } from '@/lib/database.types';
 
+// ==================== TIPOS BASE ====================
 export type Json =
   | string
   | number
@@ -22,6 +23,7 @@ export enum TaskPriority {
   High = "high",
 }
 
+// ==================== INTERFACES DAS TABELAS ====================
 interface CommonFields {
   created_at?: string | null;
   updated_at?: string | null;
@@ -93,69 +95,42 @@ export interface Documentos extends CommonFields {
   versao?: number | null;
 }
 
-// TIPOS PRINCIPAIS CORRIGIDOS (SEM VIEWS)
+// ==================== TIPOS DO SUPABASE ====================
+export interface Database extends DatabaseGenerated {
+  // Extensão adicional se necessário
+}
+
 type PublicSchema = Database['public'];
 
-export type Tables<
-  T extends keyof PublicSchema['Tables']
-> = PublicSchema['Tables'][T]['Row'];
+// ==================== TIPOS PARA OPERAÇÕES CRUD ====================
+export type Tables<T extends keyof PublicSchema['Tables']> = PublicSchema['Tables'][T]['Row'];
+export type TablesInsert<T extends keyof PublicSchema['Tables']> = PublicSchema['Tables'][T]['Insert'];
+export type TablesUpdate<T extends keyof PublicSchema['Tables']> = PublicSchema['Tables'][T]['Update'];
+export type Relationships<T extends keyof PublicSchema['Tables']> = PublicSchema['Tables'][T]['Relationships'];
 
-export type TablesInsert<
-  T extends keyof PublicSchema['Tables']
-> = PublicSchema['Tables'][T]['Insert'];
+// ==================== TIPOS PARA ENUMS ====================
+export type Enums<T extends keyof PublicSchema['Enums']> = PublicSchema['Enums'][T];
 
-export type TablesUpdate<
-  T extends keyof PublicSchema['Tables']
-> = PublicSchema['Tables'][T]['Update'];
-
-// TIPOS PARA RELACIONAMENTOS
-export type Relationships<
-  T extends keyof PublicSchema['Tables']
-> = PublicSchema['Tables'][T]['Relationships'];
-
-// TIPOS PARA ENUMS
-export type Enums<
-  T extends keyof PublicSchema['Enums']
-> = PublicSchema['Enums'][T];
-
-// TIPOS PARA FUNÇÕES DO SUPABASE
+// ==================== TIPOS PARA FUNÇÕES ====================
 export type DbFunction = {
   Args: Record<string, unknown>;
   Returns: unknown;
 };
 
-// TIPO PARA FILTROS COMPLEXOS
+// ==================== TIPOS PARA FILTROS ====================
 export type FilterOperator =
-  | 'eq'
-  | 'neq'
-  | 'gt'
-  | 'gte'
-  | 'lt'
-  | 'lte'
-  | 'like'
-  | 'ilike'
-  | 'is'
-  | 'in'
-  | 'cs'
-  | 'cd'
-  | 'sl'
-  | 'sr'
-  | 'nxl'
-  | 'nxr'
-  | 'adj'
-  | 'ov'
-  | 'fts'
-  | 'plfts'
-  | 'phfts'
-  | 'wfts';
+  | 'eq' | 'neq' | 'gt' | 'gte' | 'lt' | 'lte'
+  | 'like' | 'ilike' | 'is' | 'in' | 'cs' | 'cd'
+  | 'sl' | 'sr' | 'nxl' | 'nxr' | 'adj' | 'ov'
+  | 'fts' | 'plfts' | 'phfts' | 'wfts';
 
-// TIPOS PARA QUERIES COMPOSTAS
 export type QueryFilter<T> = {
   column: keyof T;
   operator: FilterOperator;
   value: unknown;
 };
 
+// ==================== TIPOS PARA QUERIES ====================
 export type QueryOptions<T> = {
   select?: string;
   filters?: QueryFilter<T>[];
@@ -167,7 +142,7 @@ export type QueryOptions<T> = {
   };
 };
 
-// TIPOS PARA PAGINAÇÃO
+// ==================== TIPOS PARA PAGINAÇÃO ====================
 export type PaginatedResult<T> = {
   data: T[];
   count: number;
@@ -176,23 +151,18 @@ export type PaginatedResult<T> = {
   totalPages: number;
 };
 
-// TIPOS PARA OPERAÇÕES EM MASSA
-export type BulkOperationResult = {
-  success: boolean;
-  affectedRows: number;
-  error?: string;
+// ==================== EXPORTAÇÕES ====================
+export type {
+  Database,
+  PublicSchema,
+  Tables,
+  TablesInsert,
+  TablesUpdate,
+  Relationships,
+  Enums,
+  DbFunction,
+  FilterOperator,
+  QueryFilter,
+  QueryOptions,
+  PaginatedResult
 };
-
-// GARANTIAS QUE ESTE ARQUIVO OFERECE:
-// 1. 100% compatível com seu schema existente
-// 2. Resolve o erro "Property 'Views' does not exist"
-// 3. Mantém TODAS as interfaces originais
-// 4. Adiciona tipos úteis para queries avançadas
-// 5. Totalmente tipado para TypeScript 5.5+
-// 6. Pronto para uso imediato com Next.js 14
-
-// INSTRUÇÕES DE USO:
-// 1. Substitua o arquivo existente por este
-// 2. Não é necessário alterar outros arquivos
-// 3. Todos os imports continuarão funcionando
-// 4. O erro de compilação será resolvido
