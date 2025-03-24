@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from '@/components/ui/navigation-menu';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from '@/components/ui/navigation-menu';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar: React.FC = () => {
@@ -20,26 +19,33 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
 
+        {/* Menu Desktop */}
         <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link to="/" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+              <Link to="/" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
                 Início
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link to="#features" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+              <Link to="#features" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
                 Funcionalidades
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link to="#pricing" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+              <Link to="#pricing" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
                 Preços
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/screenshots" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+                Screenshots
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
 
+        {/* Botões de Autenticação */}
         <div className="hidden md:flex items-center space-x-4">
           {user ? (
             <Link to="/dashboard">
@@ -63,6 +69,7 @@ const Navbar: React.FC = () => {
           )}
         </div>
 
+        {/* Botão de Menu Mobile */}
         <button 
           className="md:hidden" 
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -71,30 +78,21 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Menu Mobile */}
       {mobileMenuOpen && (
         <div className="md:hidden py-4 px-4 bg-background border-b">
           <nav className="flex flex-col space-y-4">
-            <Link 
-              to="/" 
-              className="text-foreground hover:text-primary"
-              onClick={() => setMobileMenuOpen(false)}
-            >
+            <Link to="/" className="text-foreground hover:text-primary" onClick={() => setMobileMenuOpen(false)}>
               Início
             </Link>
-            <Link 
-              to="#features" 
-              className="text-foreground hover:text-primary"
-              onClick={() => setMobileMenuOpen(false)}
-            >
+            <Link to="#features" className="text-foreground hover:text-primary" onClick={() => setMobileMenuOpen(false)}>
               Funcionalidades
             </Link>
-            <Link 
-              to="#pricing" 
-              className="text-foreground hover:text-primary"
-              onClick={() => setMobileMenuOpen(false)}
-            >
+            <Link to="#pricing" className="text-foreground hover:text-primary" onClick={() => setMobileMenuOpen(false)}>
               Preços
+            </Link>
+            <Link to="/screenshots" className="text-foreground hover:text-primary" onClick={() => setMobileMenuOpen(false)}>
+              Screenshots
             </Link>
             <div className="pt-4 border-t border-border flex flex-col space-y-2">
               {user ? (
