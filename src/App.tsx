@@ -13,6 +13,7 @@ import ClientPortal from "@/pages/ClientPortal";
 import Home from "@/pages/Home";
 import Auth from "@/pages/Auth";
 import Subscriptions from "@/pages/Subscriptions";
+import Screenshots from "@/pages/Screenshots";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import "./App.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -21,7 +22,6 @@ import { Toaster } from "@/components/ui/toaster";
 const ProtectedRoute = () => {
   const { user, isLoading } = useAuth();
 
-  // Se ainda estiver carregando, mostra um spinner
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -30,20 +30,13 @@ const ProtectedRoute = () => {
     );
   }
 
-  // Se não estiver autenticado, redireciona para a página de login
-  if (!user) {
-    return <Navigate to="/auth" replace />;
-  }
-
-  // Se estiver autenticado, renderiza as rotas filhas
-  return <Outlet />;
+  return user ? <Outlet /> : <Navigate to="/auth" replace />;
 };
 
 // Componente para redirecionar usuários autenticados
 const RedirectIfAuthenticated = () => {
   const { user, isLoading } = useAuth();
 
-  // Se ainda estiver carregando, mostra um spinner
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -52,13 +45,7 @@ const RedirectIfAuthenticated = () => {
     );
   }
 
-  // Se estiver autenticado, redireciona para o dashboard
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  // Se não estiver autenticado, renderiza as rotas filhas
-  return <Outlet />;
+  return user ? <Navigate to="/dashboard" replace /> : <Outlet />;
 };
 
 const AppRoutes = () => {
@@ -68,10 +55,12 @@ const AppRoutes = () => {
       element: <Home />,
     },
     {
+      path: "screenshots",
+      element: <Screenshots />,
+    },
+    {
       element: <RedirectIfAuthenticated />,
-      children: [
-        { path: "auth", element: <Auth /> },
-      ],
+      children: [{ path: "auth", element: <Auth /> }],
     },
     {
       element: <ProtectedRoute />,
