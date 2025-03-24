@@ -1,12 +1,12 @@
 import React from "react";
 
-const screenshots = [
+const screenshots: string[] = [
   "/screenshots/screenshot1.png",
   "/screenshots/screenshot2.png",
   "/screenshots/screenshot3.png",
 ];
 
-const Screenshots = () => {
+const Screenshots: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold mb-4">Screenshots</h1>
