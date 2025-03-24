@@ -1,13 +1,6 @@
 // next.config.js
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+export default {
   typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  swcMinify: false,
+    ignoreBuildErrors: true
+  }
 };
-
-export default nextConfig;
