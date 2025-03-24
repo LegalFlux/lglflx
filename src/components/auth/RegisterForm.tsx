@@ -6,8 +6,8 @@ import { CardContent, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth'; // Importa o useAuth
-import { UserRole } from '@/types/lexflow'; // Ajusta o caminho conforme necessário
+import { useAuth } from '@/contexts/AuthContext'; // Corrigido para importar do AuthContext
+import { UserRole } from '@/types/lexflow';
 
 interface RegisterFormProps {
   onSuccess: () => void;
@@ -18,10 +18,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
   const [password, setPassword] = useState('');
   const [nome, setNome] = useState('');
   const [apelido, setApelido] = useState('');
-  const [role, setRole] = useState<UserRole>(UserRole.CLIENTE); // Ajustado para usar a enumeração UserRole
+  const [role, setRole] = useState<UserRole>(UserRole.CLIENTE);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { signUp } = useAuth(); // Usa o hook useAuth
+  const { signUp } = useAuth();
 
   // Validação básica do email
   const validateEmail = (email: string) => {
@@ -54,7 +54,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
     setIsLoading(true);
 
     try {
-      const { error } = await signUp(email, password, { nome, apelido, role }); // Usa a função signUp do useAuth
+      const { error } = await signUp(email, password, { nome, apelido, role });
 
       if (error) {
         console.error('Erro ao registar:', error.message);
