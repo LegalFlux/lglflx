@@ -9,7 +9,7 @@
 }
 
 .logoLink:hover {
-  opacity: 0.8; /* Efeito de hover suave */
+  opacity: 0.8;
 }
 
 .logoContainer {
@@ -20,29 +20,28 @@
 
 .logoTextPrimary {
   font-weight: bold;
-  color: var(--color-primary, #33254C); /* Usando variável de cor */
+  color: #33254C;
   font-size: 1.5rem;
 }
 
 .logoText {
   font-weight: normal;
-  color: var(--color-secondary, #555); /* Usando variável de cor */
+  color: #555;
 }
 
 .logoSubtitle {
-  font-size: 0.75rem; /* 12px */
-  color: var(--color-tertiary, #777); /* Usando variável de cor */
+  font-size: 0.75rem;
+  color: #777;
   text-align: center;
   margin-top: 0.5rem;
 }
 
-/* Estilos responsivos */
 @media (max-width: 768px) {
   .logoTextPrimary {
-    font-size: 1.25rem; /* Reduz o tamanho da fonte em telas menores */
+    font-size: 1.25rem;
   }
 
   .logoSubtitle {
-    font-size: 0.625rem; /* 10px */
+    font-size: 0.625rem;
   }
 }
