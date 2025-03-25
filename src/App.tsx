@@ -16,7 +16,14 @@ import "./App.css";
 const AppRouter = () => {
   const pathname = usePathname();
   
-  // ... lógica de roteamento ...
+  // Example routing logic
+  if (pathname === "/") {
+    return <Index />;
+  } else if (pathname === "/clients") {
+    return <Clients />;
+  } else {
+    return <div>Page not found</div>;
+  }
 };
 
 function App() {
