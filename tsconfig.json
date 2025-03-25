@@ -7,7 +7,6 @@
     {
       "path": "./tsconfig.node.json"
     }
-
   ],
   "compilerOptions": {
     "baseUrl": ".",
@@ -24,8 +23,7 @@
     "strict": true,
     "noEmit": false,
     "incremental": true,
-    "module": "commonjs",
-    "esModuleInterop": true,
+    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -33,7 +31,9 @@
     "allowImportingTsExtensions": true,
     "forceConsistentCasingInFileNames": true,
     "composite": true,
-    "target": "es2017"
+    "target": "es2017",
+    "esModuleInterop": true,
+    "types": ["vite/client"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
