@@ -1,4 +1,6 @@
-import { RouterProvider, createBrowserRouter, Navigate, Outlet } from "react-router-dom";
+'use client';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Layout from "@/components/layout/Layout";
 import Index from "@/pages/Index";
 import Clients from "@/pages/Clients";
@@ -26,57 +28,78 @@ const LoadingSpinner = () => (
 );
 
 // Componente para rotas protegidas
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/auth');
+    }
+  }, [user, isLoading, router]);
 
   if (isLoading) return <LoadingSpinner />;
-  return user ? <Outlet /> : <Navigate to="/auth" replace />;
+  return user ? children : null;
 };
 
 // Componente para redirecionar usuários autenticados
-const RedirectIfAuthenticated = () => {
+const RedirectIfAuthenticated = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, isLoading, router]);
 
   if (isLoading) return <LoadingSpinner />;
-  return user ? <Navigate to="/dashboard" replace /> : <Outlet />;
+  return !user ? children : null;
 };
 
-// Configuração das rotas da aplicação
-const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
-  {
-    element: <RedirectIfAuthenticated />,
-    children: [{ path: "auth", element: <Auth /> }],
-  },
-  {
-    element: <ProtectedRoute />,
-    children: [
-      {
-        path: "dashboard",
-        element: <Layout />,
-        children: [
-          { index: true, element: <Index /> },
-          { path: "clients", element: <Clients /> },
-          { path: "cases", element: <Cases /> },
-          { path: "documents", element: <Documents /> },
-          { path: "calendar", element: <Calendar /> },
-          { path: "finance", element: <Finance /> },
-          { path: "reports", element: <Reports /> },
-          { path: "settings", element: <Settings /> },
-          { path: "client-portal", element: <ClientPortal /> },
-          { path: "subscriptions", element: <Subscriptions /> },
-          { path: "screenshots", element: <Screenshots /> },
-        ],
-      },
-    ],
-  },
-  { path: "*", element: <NotFound /> },
-]);
+// Componente principal de roteamento
+const AppRouter = () => {
+  const pathname = usePathname();
+
+  if (pathname === '/') {
+    return <Home />;
+  }
+
+  if (pathname === '/auth') {
+    return (
+      <RedirectIfAuthenticated>
+        <Auth />
+      </RedirectIfAuthenticated>
+    );
+  }
+
+  if (pathname?.startsWith('/dashboard')) {
+    return (
+      <ProtectedRoute>
+        <Layout>
+          {pathname === '/dashboard' && <Index />}
+          {pathname === '/dashboard/clients' && <Clients />}
+          {pathname === '/dashboard/cases' && <Cases />}
+          {pathname === '/dashboard/documents' && <Documents />}
+          {pathname === '/dashboard/calendar' && <Calendar />}
+          {pathname === '/dashboard/finance' && <Finance />}
+          {pathname === '/dashboard/reports' && <Reports />}
+          {pathname === '/dashboard/settings' && <Settings />}
+          {pathname === '/dashboard/client-portal' && <ClientPortal />}
+          {pathname === '/dashboard/subscriptions' && <Subscriptions />}
+          {pathname === '/dashboard/screenshots' && <Screenshots />}
+        </Layout>
+      </ProtectedRoute>
+    );
+  }
+
+  return <NotFound />;
+};
 
 function App() {
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <AppRouter />
       <Toaster />
     </AuthProvider>
   );
