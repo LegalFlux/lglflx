@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './AuthLogo.module.css'; // Usando CSS Modules
+import styles from './AuthLogo.module.css'; // Adjust the path to your CSS module file
+export { styles }; // Usando CSS Modules
 
 // Defina as props do componente (opcional)
 interface AuthLogoProps {
@@ -24,6 +25,4 @@ const AuthLogo: React.FC<AuthLogoProps> = ({ showSubtitle = true }) => {
 
 export default AuthLogo;
 
-declare const styles: { [className: string]: string };
-// export styles if needed
-export { styles };
+// Remove redundant declaration and export
