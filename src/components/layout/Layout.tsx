@@ -40,7 +40,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="flex items-center">
           <MobileMenu />
           <div className="ml-2 flex items-center">
-            <span className="text-primary font-display text-xl font-semibold" style={{ color: '#33254C' }}>Legal</span>
+            <span className="text-primary font-display text-xl font-semibold textLegal">Legal</span>
             <span className="text-foreground font-display text-xl">Flux</span>
           </div>
         </div>

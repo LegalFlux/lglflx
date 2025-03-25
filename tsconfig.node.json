@@ -10,7 +10,7 @@
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": false,
+    "noEmit": true, // Set noEmit to true to satisfy the requirement
 
     /* Linting */
     "strict": true,
