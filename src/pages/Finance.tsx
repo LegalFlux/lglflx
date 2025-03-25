@@ -1,13 +1,19 @@
 'use client';
+
 import { type ReactElement } from 'react';
-import PageHeader from '@/components/layout/PageHeader';
+import { BarChart, TrendingUp, ArrowUpRight } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BarChart, TrendingUp, ArrowUpRightFromSquare } from 'lucide-react';
 import { ResponsiveBar } from '@nivo/bar';
+import PageHeader from '@/components/layout/PageHeader';
 
-const revenueData = [
+interface RevenueData {
+  month: string;
+  value: number;
+}
+
+const revenueData: { [key: string]: string | number }[] = [
   { month: 'Jan', value: 4500 },
   { month: 'Fev', value: 5200 },
   { month: 'Mar', value: 4800 },
@@ -16,7 +22,7 @@ const revenueData = [
   { month: 'Jun', value: 5900 },
 ];
 
-const Finance = () => {
+const Finance: React.FC = () => {
   return (
     <div className="container py-6 space-y-6">
       <PageHeader title="Finanças" description="Gerencie faturamento, honorários e análise financeira" />
@@ -61,8 +67,8 @@ const Finance = () => {
                         <span>Relatórios financeiros detalhados</span>
                       </li>
                     </ul>
+                    <Button>Gerar Nova Fatura</Button>
                   </div>
-                  <Button>Gerar Nova Fatura</Button>
                 </div>
               </CardContent>
             </Card>
@@ -96,7 +102,7 @@ const Finance = () => {
               </div>
             </div>
             <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
-              <ArrowUpRightFromSquare className="h-5 w-5 text-green-500" />
+              <ArrowUpRight className="h-5 w-5 text-green-500" />
             </div>
           </div>
         </Card>
@@ -105,7 +111,7 @@ const Finance = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <Card className="p-4">
           <h3 className="text-lg font-semibold mb-4">Receitas Mensais</h3>
-          <div style={{ height: 300 }}>
+          <div className="chart-container">
             <ResponsiveBar
               data={revenueData}
               keys={['value']}
