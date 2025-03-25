@@ -9,19 +9,7 @@ import { Button } from '@/components/ui/button';
 import CaseCard from '@/components/cases/CaseCard';
 import DocumentCard from '@/components/documents/DocumentCard';
 import ClientAccount from '@/components/client/ClientAccount';
-
-// Definição do tipo AccountTransaction
-interface AccountTransaction {
-  id: string;
-  clienteId: string;
-  casoId: string;
-  data: string;
-  descricao: string;
-  valor: number;
-  tipo: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { AccountTransaction } from '@/types/account';
 
 // Mock data for the account
 const mockTransactions: AccountTransaction[] = [
@@ -32,7 +20,7 @@ const mockTransactions: AccountTransaction[] = [
     data: new Date().toISOString(), // Converte Date para string
     descricao: 'Descrição do exemplo',
     valor: 100.00,
-    tipo: 'Crédito',
+    tipo: 'honorario',
     createdAt: new Date(),
     updatedAt: new Date()
   },
