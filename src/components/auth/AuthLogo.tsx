@@ -23,3 +23,7 @@ const AuthLogo: React.FC<AuthLogoProps> = ({ showSubtitle = true }) => {
 };
 
 export default AuthLogo;
+
+declare const styles: { [className: string]: string };
+// export styles if needed
+export { styles };
