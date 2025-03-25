@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
-module.exports = {
-  // ...existing code...
-  theme: {
-    extend: {
-      colors: {
-        'brand': '#33254C',
-      }
-    }
-  }
-  // ...existing code...
-};
 import Link from 'next/link';
-// Removed duplicate import
-// Removed duplicate import
+import { Menu, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from '@/components/ui/navigation-menu';
+import { useAuth } from '@/contexts/AuthContext';
 
 const NavLink = ({ href, scroll = true, children, onClick }: {
   href: string;
@@ -61,7 +52,6 @@ const Navbar: React.FC = () => {
 
   return (
     <header className="w-full border-b border-border sticky top-0 z-50 bg-background/80 backdrop-blur-sm">
-      {/* ...existing code... */}
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/" className="flex items-center" aria-label="LegalFlux Home">
@@ -105,19 +95,12 @@ const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="md:hidden py-4 px-4 bg-background border-b">
           <nav className="flex flex-col space-y-4">
-            {/* ...rest of mobile menu... */}
+            {/* Add mobile menu items here */}
           </nav>
         </div>
       )}
     </header>
   );
 };
-
-import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from '@/components/ui/navigation-menu';
-import { useAuth } from '@/contexts/AuthContext';
-
-// Removed duplicate Navbar component
 
 export default Navbar;
