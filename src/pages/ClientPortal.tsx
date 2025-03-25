@@ -21,8 +21,8 @@ const mockTransactions: AccountTransaction[] = [
     descricao: 'Descrição do exemplo',
     valor: 100.00,
     tipo: 'honorario',
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: new Date().toISOString(), // Converte Date para string
+    updatedAt: new Date().toISOString() // Converte Date para string
   },
   // ...outros itens
 ];
@@ -32,7 +32,7 @@ const mockAccountSummary = {
   totalPago: 300,
   saldo: -350,
   pendente: 350,
-  ultimoPagamento: new Date('2023-10-20'),
+  ultimoPagamento: new Date('2023-10-20').toISOString(),
   valorUltimoPagamento: 300
 };
 
