@@ -19,6 +19,11 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   swcMinify: false,
+  // Adicionar configurações para exportação estática
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
 };
 
 module.exports = nextConfig;
