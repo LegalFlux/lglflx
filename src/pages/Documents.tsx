@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 
-// Importar ícones de lucide-react
+// Import icons from lucide-react
 import { 
   Search, 
   SortAsc, 
@@ -38,7 +38,7 @@ import {
   ArrowUpRight 
 } from 'lucide-react';
 
-// Definição dos tipos
+// Type definitions
 interface DocumentVersion {
   id: string;
   documentId: string;
@@ -80,7 +80,7 @@ interface Document {
   isLocked: boolean;
 }
 
-// Dados de exemplo para versões
+// Mock data for versions
 const mockVersions: DocumentVersion[] = [
   {
     id: '1',
@@ -111,7 +111,7 @@ const mockVersions: DocumentVersion[] = [
   }
 ];
 
-// Dados de exemplo para colaboradores
+// Mock data for collaborators
 const mockCollaborators: DocumentCollaborator[] = [
   {
     userId: '1',
@@ -136,12 +136,17 @@ const mockCollaborators: DocumentCollaborator[] = [
   }
 ];
 
-// Componente DocumentEditor
-const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }) => {
+// DocumentEditor component
+const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }: {
+  document: Document;
+  onSave: (content: string, comment: string) => void;
+  onAddCollaborator: (email: string, role: 'editor' | 'viewer') => void;
+  onClose: () => void;
+}) => {
   const [content, setContent] = useState('');
   const [comment, setComment] = useState('');
   const [newCollaboratorEmail, setNewCollaboratorEmail] = useState('');
-  const [newCollaboratorRole, setNewCollaboratorRole] = useState('viewer');
+  const [newCollaboratorRole, setNewCollaboratorRole] = useState<'editor' | 'viewer'>('viewer');
   const [activeUsers, setActiveUsers] = useState(['João Silva', 'Maria Oliveira']);
   const [activeTab, setActiveTab] = useState('editor');
 
@@ -149,7 +154,7 @@ const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }) => {
     setContent(`# ${document.name}\n\nConteúdo do documento...\n\n`);
     
     const interval = setInterval(() => {
-      // Em uma implementação real, isso seria uma conexão WebSocket
+      // In a real implementation, this would be a WebSocket connection
     }, 5000);
     
     return () => clearInterval(interval);
@@ -229,7 +234,7 @@ const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }) => {
         <TabsContent value="versions">
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Histórico de versões</h3>
-            {document.versions?.map((version) => (
+            {document.versions.map((version) => (
               <div key={version.id} className="border rounded-md p-3 hover:bg-muted/50">
                 <div className="flex justify-between items-center">
                   <div>
@@ -248,7 +253,7 @@ const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }) => {
                 )}
               </div>
             ))}
-            {!document.versions?.length && (
+            {document.versions.length === 0 && (
               <p className="text-muted-foreground">Nenhuma versão anterior disponível.</p>
             )}
           </div>
@@ -269,7 +274,7 @@ const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }) => {
                 />
                 <select 
                   value={newCollaboratorRole}
-                  onChange={(e) => setNewCollaboratorRole(e.target.value)}
+                  onChange={(e) => setNewCollaboratorRole(e.target.value as 'editor' | 'viewer')}
                   className="border rounded-md px-3"
                 >
                   <option value="viewer">Visualizador</option>
@@ -280,7 +285,7 @@ const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }) => {
             </div>
             
             <div className="space-y-2">
-              {document.collaborators?.map((collaborator) => (
+              {document.collaborators.map((collaborator) => (
                 <div key={collaborator.userId} className="flex justify-between items-center border rounded-md p-3">
                   <div className="flex items-center">
                     <Avatar className="mr-2 h-8 w-8">
@@ -302,7 +307,7 @@ const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }) => {
                   </div>
                 </div>
               ))}
-              {!document.collaborators?.length && (
+              {document.collaborators.length === 0 && (
                 <p className="text-muted-foreground">Nenhum colaborador adicionado.</p>
               )}
             </div>
@@ -313,8 +318,13 @@ const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }) => {
   );
 };
 
-// Componente TemplateManager
-const TemplateManager = ({ templates, onUseTemplate, onCreateTemplate, onClose }) => {
+// TemplateManager component
+const TemplateManager = ({ templates, onUseTemplate, onCreateTemplate, onClose }: {
+  templates: Document[];
+  onUseTemplate: (templateId: string) => void;
+  onCreateTemplate: (name: string, category: string) => void;
+  onClose: () => void;
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [newTemplateName, setNewTemplateName] = useState('');
   const [newTemplateCategory, setNewTemplateCategory] = useState('');
@@ -432,9 +442,14 @@ const TemplateManager = ({ templates, onUseTemplate, onCreateTemplate, onClose }
   );
 };
 
-// Componente SignaturePanel
-const SignaturePanel = ({ document, onSignDocument, onRequestSignature, onClose }) => {
-  const canvasRef = useRef(null);
+// SignaturePanel component
+const SignaturePanel = ({ document, onSignDocument, onRequestSignature, onClose }: {
+  document: Document;
+  onSignDocument: (signatureDataUrl: string) => void;
+  onRequestSignature: (email: string, message: string) => void;
+  onClose: () => void;
+}) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [recipientEmail, setRecipientEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -455,7 +470,7 @@ const SignaturePanel = ({ document, onSignDocument, onRequestSignature, onClose 
     ctx.strokeStyle = '#000000';
   }, []);
   
-  const startDrawing = (e) => {
+  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     
@@ -471,7 +486,7 @@ const SignaturePanel = ({ document, onSignDocument, onRequestSignature, onClose 
     setIsDrawing(true);
   };
   
-  const draw = (e) => {
+  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isDrawing) return;
     
     const canvas = canvasRef.current;
@@ -597,11 +612,11 @@ const SignaturePanel = ({ document, onSignDocument, onRequestSignature, onClose 
           
           <div>
             <label className="block text-sm font-medium mb-1">Mensagem (opcional)</label>
-            <textarea
+            <Textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Por favor, assine este documento..."
-              className="w-full border rounded-md p-2 h-24"
+              className="h-24"
             />
           </div>
           
@@ -615,12 +630,16 @@ const SignaturePanel = ({ document, onSignDocument, onRequestSignature, onClose 
   );
 };
 
-// Componente DocumentHeader
-const DocumentHeader = ({ onScannedDocument, onSignature, onOpenTemplates }) => {
-  const fileInputRef = useRef(null);
+// DocumentHeader component
+const DocumentHeader = ({ onScannedDocument, onSignature, onOpenTemplates }: {
+  onScannedDocument: (file: File) => void;
+  onSignature: (signatureDataUrl: string) => void;
+  onOpenTemplates: () => void;
+}) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [showDropdown, setShowDropdown] = useState(false);
   
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     
@@ -740,7 +759,7 @@ const DocumentHeader = ({ onScannedDocument, onSignature, onOpenTemplates }) => 
   );
 };
 
-// Componente DocumentContent
+// DocumentContent component
 const DocumentContent = ({
   documents,
   searchQuery,
@@ -761,14 +780,37 @@ const DocumentContent = ({
   onSign,
   activeTab,
   setActiveTab
+}: {
+  documents: Document[];
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  filters: {
+    types: string[];
+    status?: 'draft' | 'review' | 'final' | 'signed';
+  };
+  documentTypes: string[];
+  documentStatuses: ('draft' | 'review' | 'final' | 'signed')[];
+  toggleTypeFilter: (type: string) => void;
+  setStatusFilter: (status: 'draft' | 'review' | 'final' | 'signed' | undefined) => void;
+  clearFilters: () => void;
+  sortOrder: 'asc' | 'desc';
+  toggleSortOrder: () => void;
+  filteredDocuments: Document[];
+  onDownload: (document: Document) => void;
+  onDelete: (document: Document) => void;
+  onView: (document: Document) => void;
+  onEdit: (document: Document) => void;
+  onSign: (document: Document) => void;
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
 }) => {
-  const formatFileSize = (bytes) => {
+  const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return bytes + ' B';
     if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
     return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
   };
   
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('pt-BR', {
       day: '2-digit',
@@ -777,7 +819,7 @@ const DocumentContent = ({
     });
   };
   
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: 'draft' | 'review' | 'final' | 'signed') => {
     switch (status) {
       case 'draft':
         return <Badge variant="outline" className="bg-blue-500/10 text-blue-500">Rascunho</Badge>;
@@ -1080,9 +1122,9 @@ const DocumentContent = ({
   );
 };
 
-// Componente principal Documents
+// Main Documents component
 const Documents = () => {
-  // Adicionar dados de exemplo aos documentos
+  // Add example data to documents
   const enhancedMockDocuments: Document[] = mockDocuments.map(doc => ({
     ...doc,
     currentVersion: 3,
@@ -1095,7 +1137,8 @@ const Documents = () => {
     status: doc.id === '2' ? 'signed' : doc.id === '3' ? 'review' : 'draft',
     signedBy: doc.id === '2' ? ['João Silva', 'Maria Oliveira'] : undefined,
     signatureDate: doc.id === '2' ? '2025-03-22T15:30:00Z' : undefined,
-    isLocked: doc.id === '2'
+    isLocked: doc.id === '2',
+    tags: doc.tags || [] // Ensure tags is always an array
   }));
 
   const [documents, setDocuments] = useState<Document[]>(enhancedMockDocuments);
@@ -1273,7 +1316,7 @@ const Documents = () => {
         ? {
             ...doc,
             currentVersion: newVersion,
-            versions: [...(doc.versions || []), newVersionObj],
+            versions: [...doc.versions, newVersionObj],
             lastModifiedAt: now,
             lastModifiedBy: 'João Silva',
           }
@@ -1297,7 +1340,7 @@ const Documents = () => {
       doc.id === editingDocument.id 
         ? {
             ...doc,
-            collaborators: [...(doc.collaborators || []), newCollaborator]
+            collaborators: [...doc.collaborators, newCollaborator]
           }
         : doc
     ));
