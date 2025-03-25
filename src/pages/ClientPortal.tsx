@@ -10,6 +10,19 @@ import CaseCard from '@/components/cases/CaseCard';
 import DocumentCard from '@/components/documents/DocumentCard';
 import ClientAccount from '@/components/client/ClientAccount';
 
+// Definição do tipo AccountTransaction
+interface AccountTransaction {
+  id: string;
+  clienteId: string;
+  casoId: string;
+  data: string;
+  descricao: string;
+  valor: number;
+  tipo: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // Mock data for the account
 const mockTransactions: AccountTransaction[] = [
   {
