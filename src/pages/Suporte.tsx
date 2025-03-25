@@ -1,13 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from "@/components/layout/Navbar";
 import { HelpCircle, ArrowRight, Mail, Phone, MessageSquare, BookOpen, Video, Users } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 // Componente Card completo
-const SimpleCard = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => {
+const SimpleCard: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className = "" }) => {
   return (
     <div className={`p-6 border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow ${className}`}>
       {children}
@@ -16,18 +16,18 @@ const SimpleCard = ({ children, className = "" }: { children: React.ReactNode, c
 };
 
 // Componente Button completo
-const SimpleButton = ({ 
-  children, 
-  variant = "default", 
-  className = "", 
-  disabled = false,
-  ...props 
-}: { 
+const SimpleButton: React.FC<{ 
   children: React.ReactNode, 
   variant?: "default" | "outline" | "ghost", 
   className?: string,
   disabled?: boolean,
   [key: string]: any 
+}> = ({ 
+  children, 
+  variant = "default", 
+  className = "", 
+  disabled = false,
+  ...props 
 }) => {
   const baseClass = "px-4 py-2 rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50";
   
@@ -49,7 +49,7 @@ const SimpleButton = ({
 };
 
 // Componente PageTransition completo
-const SimplePageTransition = ({ children }: { children: React.ReactNode }) => {
+const SimplePageTransition: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="animate-in fade-in duration-300">
       {children}
@@ -58,8 +58,8 @@ const SimplePageTransition = ({ children }: { children: React.ReactNode }) => {
 };
 
 // Componente FAQItem completo
-const FAQItem = ({ question, answer }: { question: string, answer: string }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+const FAQItem: React.FC<{ question: string, answer: string }> = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="border-b border-gray-200 py-4">
@@ -100,16 +100,16 @@ const FAQItem = ({ question, answer }: { question: string, answer: string }) => 
 };
 
 // Componente SupportChannel completo
-const SupportChannel = ({ 
-  icon: Icon, 
-  title, 
-  description,
-  actionText = "Aceder"
-}: { 
+const SupportChannel: React.FC<{ 
   icon: React.ComponentType<{ className?: string }>, 
   title: string, 
   description: string,
   actionText?: string
+}> = ({ 
+  icon: Icon, 
+  title, 
+  description,
+  actionText = "Aceder"
 }) => {
   return (
     <SimpleCard className="h-full flex flex-col">
@@ -128,7 +128,7 @@ const SupportChannel = ({
   );
 };
 
-const Support = () => {
+const Support: React.FC = () => {
   return (
     <SimplePageTransition>
       <Navbar />
@@ -248,7 +248,7 @@ const Support = () => {
               <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-sm p-6">
                 <FAQItem
                   question="Como posso começar a utilizar o LegalFlux?"
-                  answer="Para começar, basta criar uma conta gratuita no nosso site. Após o registo, será guiado através de um processo de configuração que o ajudará a preparar o seu escritório virtual."
+                  answer="Para começar, basta criar uma conta gratuita no nosso site. Após o registo, será guiado através de um processo de configuração que o ajudará a preparar o seu escritório."
                 />
                 <FAQItem
                   question="É possível migrar os meus dados de outro sistema?"
