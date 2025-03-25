@@ -1,4 +1,6 @@
-'use client';
+import { ArrowUpRight } from 'lucide-react';
+// ...existing code...import { ArrowUpRight } from 'lucide-react';
+// ...existing code...'use client';
 import { type ReactElement } from 'react';
 import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
