@@ -23,7 +23,6 @@ import {
   CheckCircle,
   FileText, 
   Upload, 
-  // Scanner não existe no lucide-react, substituindo por Scan
   Scan, 
   FolderPlus, 
   Plus, 
@@ -67,19 +66,18 @@ interface Document {
   uploadedBy: string;
   uploadedAt: string;
   tags: string[];
-  // Campos adicionais para gestão avançada
-  currentVersion?: number;
-  versions?: DocumentVersion[];
-  collaborators?: DocumentCollaborator[];
-  isTemplate?: boolean;
+  currentVersion: number;
+  versions: DocumentVersion[];
+  collaborators: DocumentCollaborator[];
+  isTemplate: boolean;
   templateCategory?: string;
-  lastModifiedAt?: string;
-  lastModifiedBy?: string;
-  status?: 'draft' | 'review' | 'final' | 'signed';
+  lastModifiedAt: string;
+  lastModifiedBy: string;
+  status: 'draft' | 'review' | 'final' | 'signed';
   signedBy?: string[];
   signatureDate?: string;
   expiryDate?: string;
-  isLocked?: boolean;
+  isLocked: boolean;
 }
 
 // Dados de exemplo para versões
@@ -148,10 +146,8 @@ const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }) => {
   const [activeTab, setActiveTab] = useState('editor');
 
   useEffect(() => {
-    // Simulação: carregar conteúdo do documento
     setContent(`# ${document.name}\n\nConteúdo do documento...\n\n`);
     
-    // Simulação: verificar usuários ativos
     const interval = setInterval(() => {
       // Em uma implementação real, isso seria uma conexão WebSocket
     }, 5000);
@@ -324,10 +320,8 @@ const TemplateManager = ({ templates, onUseTemplate, onCreateTemplate, onClose }
   const [newTemplateCategory, setNewTemplateCategory] = useState('');
   const [activeTab, setActiveTab] = useState('browse');
   
-  // Get all template categories
   const categories = Array.from(new Set(templates.map(t => t.templateCategory || 'Geral')));
   
-  // Filter templates based on search query
   const filteredTemplates = templates.filter(template => 
     template.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -453,11 +447,9 @@ const SignaturePanel = ({ document, onSignDocument, onRequestSignature, onClose 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    // Set canvas background
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Set drawing style
     ctx.lineWidth = 2;
     ctx.lineCap = 'round';
     ctx.strokeStyle = '#000000';
@@ -634,7 +626,6 @@ const DocumentHeader = ({ onScannedDocument, onSignature, onOpenTemplates }) => 
     
     onScannedDocument(file);
     
-    // Reset input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -771,14 +762,12 @@ const DocumentContent = ({
   activeTab,
   setActiveTab
 }) => {
-  // Format file size
   const formatFileSize = (bytes) => {
     if (bytes < 1024) return bytes + ' B';
     if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
     return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
   };
   
-  // Format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('pt-BR', {
@@ -788,7 +777,6 @@ const DocumentContent = ({
     });
   };
   
-  // Get status badge
   const getStatusBadge = (status) => {
     switch (status) {
       case 'draft':
@@ -1095,7 +1083,7 @@ const DocumentContent = ({
 // Componente principal Documents
 const Documents = () => {
   // Adicionar dados de exemplo aos documentos
-  const enhancedMockDocuments = mockDocuments.map(doc => ({
+  const enhancedMockDocuments: Document[] = mockDocuments.map(doc => ({
     ...doc,
     currentVersion: 3,
     versions: mockVersions.filter(v => v.documentId === doc.id),
@@ -1110,63 +1098,49 @@ const Documents = () => {
     isLocked: doc.id === '2'
   }));
 
-  const [documents, setDocuments] = useState(enhancedMockDocuments);
+  const [documents, setDocuments] = useState<Document[]>(enhancedMockDocuments);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
-    types: [],
-    status: undefined
+    types: [] as string[],
+    status: undefined as 'draft' | 'review' | 'final' | 'signed' | undefined
   });
-  const [sortOrder, setSortOrder] = useState('desc');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [activeTab, setActiveTab] = useState('documentos');
   
-  // Estado para controlar modais e painéis
-  const [editingDocument, setEditingDocument] = useState(null);
+  const [editingDocument, setEditingDocument] = useState<Document | null>(null);
   const [showTemplateManager, setShowTemplateManager] = useState(false);
-  const [signingDocument, setSigningDocument] = useState(null);
+  const [signingDocument, setSigningDocument] = useState<Document | null>(null);
   
-  // Get all document types for filter
   const documentTypes = Array.from(new Set(documents.map(doc => doc.type)));
-  
-  // Get all document statuses for filter
-  const documentStatuses = ['draft', 'review', 'final', 'signed'];
-  
-  // Get templates
+  const documentStatuses = ['draft', 'review', 'final', 'signed'] as const;
   const templates = documents.filter(doc => doc.isTemplate);
 
-  // Filter documents based on search query and filters
   const filteredDocuments = documents.filter(doc => {
-    // Search filter
     const matchesSearch = searchQuery === '' || 
       doc.name.toLowerCase().includes(searchQuery.toLowerCase());
     
-    // Type filter
     const matchesType = filters.types.length === 0 || 
       filters.types.includes(doc.type);
     
-    // Status filter
     const matchesStatus = !filters.status || 
       doc.status === filters.status;
     
-    // Template filter (only in documents tab)
     const matchesTemplate = activeTab === 'templates' ? 
       doc.isTemplate : 
       activeTab === 'documentos' ? !doc.isTemplate : true;
     
     return matchesSearch && matchesType && matchesStatus && matchesTemplate;
   }).sort((a, b) => {
-    // Sort by upload date or last modified date
     const dateA = new Date(a.lastModifiedAt || a.uploadedAt).getTime();
     const dateB = new Date(b.lastModifiedAt || b.uploadedAt).getTime();
     return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
   });
 
-  // Toggle sort order
   const toggleSortOrder = () => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
-  // Toggle document type filter
-  const toggleTypeFilter = (type) => {
+  const toggleTypeFilter = (type: string) => {
     setFilters(prev => {
       const newTypes = prev.types.includes(type)
         ? prev.types.filter(t => t !== type)
@@ -1176,26 +1150,23 @@ const Documents = () => {
     });
   };
   
-  // Set status filter
-  const setStatusFilter = (status) => {
+  const setStatusFilter = (status: 'draft' | 'review' | 'final' | 'signed' | undefined) => {
     setFilters(prev => ({ ...prev, status }));
   };
 
-  // Clear all filters
   const clearFilters = () => {
     setFilters({ types: [], status: undefined });
     setSearchQuery('');
   };
 
-  // Handle document actions
-  const handleDownload = (document) => {
+  const handleDownload = (document: Document) => {
     toast({
       title: "Download iniciado",
       description: `${document.name} será baixado em breve.`,
     });
   };
 
-  const handleDelete = (document) => {
+  const handleDelete = (document: Document) => {
     toast({
       title: "Documento removido",
       description: `${document.name} foi removido com sucesso.`,
@@ -1204,11 +1175,11 @@ const Documents = () => {
     setDocuments(docs => docs.filter(d => d.id !== document.id));
   };
 
-  const handleView = (document) => {
+  const handleView = (document: Document) => {
     setEditingDocument(document);
   };
   
-  const handleEdit = (document) => {
+  const handleEdit = (document: Document) => {
     if (document.isLocked) {
       toast({
         title: "Documento bloqueado",
@@ -1221,14 +1192,12 @@ const Documents = () => {
     setEditingDocument(document);
   };
   
-  const handleSign = (document) => {
+  const handleSign = (document: Document) => {
     setSigningDocument(document);
   };
 
-  // Handle scanned document
-  const handleScannedDocument = (file) => {
-    // Create a new document from the scanned file
-    const newDoc = {
+  const handleScannedDocument = (file: File) => {
+    const newDoc: Document = {
       id: (documents.length + 1).toString(),
       name: file.name,
       type: 'evidence',
@@ -1238,27 +1207,16 @@ const Documents = () => {
       uploadedAt: new Date().toISOString(),
       tags: ['digitalizado', 'evidência'],
       currentVersion: 1,
-      status: 'draft',
+      versions: [],
+      collaborators: [],
+      isTemplate: false,
       lastModifiedAt: new Date().toISOString(),
       lastModifiedBy: 'João Silva',
+      status: 'draft',
+      isLocked: false
     };
 
-setDocuments((prev: Document[]) => {
-  // Ensure newDoc has all required properties from Document interface
-  const completeDoc: Document = {
-    ...newDoc,
-    versions: [],
-    collaborators: [],
-    isTemplate: false,
-    templateCategory: '',
-    currentVersion: 1,
-    status: 'draft',
-    lastModifiedAt: new Date().toISOString(),
-    lastModifiedBy: 'João Silva'
-  };
-  
-  return [completeDoc, ...prev];
-});
+    setDocuments(prev => [newDoc, ...prev]);
     
     toast({
       title: "Documento digitalizado",
@@ -1266,39 +1224,27 @@ setDocuments((prev: Document[]) => {
     });
   };
 
-  // Handle signature
-  const handleSignature = (signatureDataUrl) => {
-    // Create a new document from the signature
-    const newDoc = {
+  const handleSignature = (signatureDataUrl: string) => {
+    const newDoc: Document = {
       id: (documents.length + 1).toString(),
       name: `Assinatura_${new Date().toLocaleDateString().replace(/\//g, '-')}.png`,
       type: 'evidence',
       path: signatureDataUrl,
-      size: Math.round(signatureDataUrl.length * 0.75), // Approximate size
+      size: Math.round(signatureDataUrl.length * 0.75),
       uploadedBy: '1',
       uploadedAt: new Date().toISOString(),
       tags: ['assinatura', 'documento oficial'],
       currentVersion: 1,
-      status: 'final',
+      versions: [],
+      collaborators: [],
+      isTemplate: false,
       lastModifiedAt: new Date().toISOString(),
       lastModifiedBy: 'João Silva',
+      status: 'final',
+      isLocked: false
     };
 
-setDocuments(prev => [{
-  ...newDoc,
-  versions: [] as DocumentVersion[],
-  collaborators: [] as DocumentCollaborator[],
-  isTemplate: false,
-  templateCategory: '',
-  lastModifiedAt: new Date().toISOString(),
-  lastModifiedBy: 'João Silva',
-  status: 'draft' as const,
-  currentVersion: 1,
-  signedBy: [] as string[],
-  signatureDate: undefined,
-  isLocked: false,
-  type: (newDoc.type as unknown) as DocumentType // Cast to unknown first to safely convert to DocumentType
-}, ...prev]);
+    setDocuments(prev => [newDoc, ...prev]);
     
     toast({
       title: "Assinatura salva",
@@ -1306,25 +1252,22 @@ setDocuments(prev => [{
     });
   };
 
-  // Handle document editor save
-  const handleSaveDocument = (content, comment) => {
+  const handleSaveDocument = (content: string, comment: string) => {
     if (!editingDocument) return;
     
     const now = new Date().toISOString();
     const newVersion = (editingDocument.currentVersion || 0) + 1;
     
-    // Create new version
-    const newVersionObj = {
+    const newVersionObj: DocumentVersion = {
       id: `${editingDocument.id}_v${newVersion}`,
       documentId: editingDocument.id,
       version: newVersion,
       content,
       createdAt: now,
-      createdBy: 'João Silva', // In a real app, this would be the current user
+      createdBy: 'João Silva',
       comment
     };
     
-    // Update document
     setDocuments(docs => docs.map(doc => 
       doc.id === editingDocument.id 
         ? {
@@ -1332,26 +1275,24 @@ setDocuments(prev => [{
             currentVersion: newVersion,
             versions: [...(doc.versions || []), newVersionObj],
             lastModifiedAt: now,
-            lastModifiedBy: 'João Silva', // In a real app, this would be the current user
+            lastModifiedBy: 'João Silva',
           }
         : doc
     ));
   };
   
-  // Handle adding collaborator
-  const handleAddCollaborator = (email, role) => {
+  const handleAddCollaborator = (email: string, role: 'viewer' | 'editor') => {
     if (!editingDocument) return;
     
     const now = new Date().toISOString();
-    const newCollaborator = {
-      userId: `temp_${Date.now()}`, // In a real app, this would be a real user ID
-      name: email.split('@')[0], // Simplified for demo
+    const newCollaborator: DocumentCollaborator = {
+      userId: `temp_${Date.now()}`,
+      name: email.split('@')[0],
       email,
       role,
       addedAt: now
     };
     
-    // Update document
     setDocuments(docs => docs.map(doc => 
       doc.id === editingDocument.id 
         ? {
@@ -1362,15 +1303,13 @@ setDocuments(prev => [{
     ));
   };
   
-  // Handle template usage
-  const handleUseTemplate = (templateId) => {
+  const handleUseTemplate = (templateId: string) => {
     const template = documents.find(doc => doc.id === templateId);
     if (!template) return;
     
     const now = new Date().toISOString();
     
-    // Create new document from template
-    const newDoc = {
+    const newDoc: Document = {
       id: (documents.length + 1).toString(),
       name: `${template.name} - Cópia`,
       type: template.type,
@@ -1380,25 +1319,16 @@ setDocuments(prev => [{
       uploadedAt: now,
       tags: [...template.tags, 'baseado em modelo'],
       currentVersion: 1,
-      status: 'draft',
+      versions: [],
+      collaborators: [],
+      isTemplate: false,
       lastModifiedAt: now,
       lastModifiedBy: 'João Silva',
+      status: 'draft',
+      isLocked: false
     };
     
-setDocuments(prev => [{
-  ...newDoc,
-  versions: [],
-  collaborators: [],
-  isTemplate: false,
-  templateCategory: '',
-  lastModifiedAt: new Date().toISOString(),
-  lastModifiedBy: 'João Silva',
-  status: 'draft',
-  currentVersion: 1,
-  signedBy: [],
-  signatureDate: undefined,
-  isLocked: false
-}, ...prev]);
+    setDocuments(prev => [newDoc, ...prev]);
     setShowTemplateManager(false);
     
     toast({
@@ -1406,72 +1336,48 @@ setDocuments(prev => [{
       description: `Um novo documento foi criado a partir do modelo "${template.name}".`,
     });
     
-    // Open the new document for editing
     setEditingDocument(newDoc);
   };
   
-  // Handle creating a new template
-  const handleCreateTemplate = (name, category) => {
+  const handleCreateTemplate = (name: string, category: string) => {
     const now = new Date().toISOString();
     
-    // Create new template
-    const newTemplate = {
+    const newTemplate: Document = {
       id: (documents.length + 1).toString(),
       name,
       type: 'template',
-      path: '', // In a real app, this would be a path to the template content
+      path: '',
       size: 0,
       uploadedBy: '1',
       uploadedAt: now,
       tags: ['modelo', category.toLowerCase()],
+      currentVersion: 1,
+      versions: [],
+      collaborators: [],
       isTemplate: true,
       templateCategory: category,
-      currentVersion: 1,
-      status: 'draft',
       lastModifiedAt: now,
       lastModifiedBy: 'João Silva',
+      status: 'draft',
+      isLocked: false
     };
     
-setDocuments((prev: Document[]) => {
-  // Create a properly typed new document object
-  const newDoc: Document = {
-    ...newTemplate,
-    currentVersion: 1,
-    versions: [],
-    collaborators: [],
-    isTemplate: true,
-    templateCategory: newTemplate.templateCategory || '',
-    lastModifiedAt: new Date().toISOString(),
-    lastModifiedBy: 'João Silva',
-    status: 'draft',
-    signedBy: [],
-    signatureDate: undefined,
-    isLocked: false,
-    // Ensure type is properly cast from the imported DocumentType
-    type: newTemplate.type
-  };
-
-  return [newDoc, ...prev];
-});
-    
-    // Open the new template for editing
+    setDocuments(prev => [newTemplate, ...prev]);
     setEditingDocument(newTemplate);
     setShowTemplateManager(false);
   };
   
-  // Handle signing a document
-  const handleSignDocument = (signatureDataUrl) => {
+  const handleSignDocument = (signatureDataUrl: string) => {
     if (!signingDocument) return;
     
     const now = new Date().toISOString();
     
-    // Update document
     setDocuments(docs => docs.map(doc => 
       doc.id === signingDocument.id 
         ? {
             ...doc,
             status: 'signed',
-            signedBy: [...(doc.signedBy || []), 'João Silva'], // In a real app, this would be the current user
+            signedBy: [...(doc.signedBy || []), 'João Silva'],
             signatureDate: now,
             isLocked: true
           }
@@ -1481,11 +1387,9 @@ setDocuments((prev: Document[]) => {
     setSigningDocument(null);
   };
   
-  // Handle requesting signature
-  const handleRequestSignature = (email, message) => {
+  const handleRequestSignature = (email: string, message: string) => {
     if (!signingDocument) return;
     
-    // In a real app, this would send an email to the recipient
     toast({
       title: "Solicitação enviada",
       description: `Solicitação de assinatura enviada para ${email}.`,
@@ -1525,7 +1429,6 @@ setDocuments((prev: Document[]) => {
           setActiveTab={setActiveTab}
         />
         
-        {/* Document Editor Modal */}
         {editingDocument && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
             <div className="bg-background rounded-lg shadow-lg w-full max-w-6xl max-h-[90vh] overflow-auto">
@@ -1539,7 +1442,6 @@ setDocuments((prev: Document[]) => {
           </div>
         )}
         
-        {/* Template Manager Modal */}
         {showTemplateManager && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
             <div className="bg-background rounded-lg shadow-lg w-full max-w-4xl max-h-[90vh] overflow-auto">
@@ -1553,7 +1455,6 @@ setDocuments((prev: Document[]) => {
           </div>
         )}
         
-        {/* Signature Panel Modal */}
         {signingDocument && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
             <div className="bg-background rounded-lg shadow-lg w-full max-w-3xl max-h-[90vh] overflow-auto">
