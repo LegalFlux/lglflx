@@ -4,7 +4,7 @@ import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BarChart, TrendingUp, ArrowUpRight } from 'lucide-react';
+import { BarChart, TrendingUp, ArrowUpRightFromSquare } from 'lucide-react';
 import { ResponsiveBar } from '@nivo/bar';
 
 const revenueData = [
@@ -77,51 +77,6 @@ const Finance = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="border rounded-md p-4">
-                    <h3 className="font-medium mb-2">Honorários por Tipo de Caso</h3>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex justify-between">
-                        <span>Civil</span>
-                        <span className="font-medium">€120/hora</span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span>Penal</span>
-                        <span className="font-medium">€150/hora</span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span>Trabalhista</span>
-                        <span className="font-medium">€100/hora</span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span>Fiscal</span>
-                        <span className="font-medium">€180/hora</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="border rounded-md p-4">
-                    <h3 className="font-medium mb-2">Tabela de Serviços</h3>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex justify-between">
-                        <span>Consulta Jurídica</span>
-                        <span className="font-medium">€80</span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span>Petição Inicial</span>
-                        <span className="font-medium">€500</span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span>Contestação</span>
-                        <span className="font-medium">€400</span>
-                      </li>
-                      <li className="flex justify-between">
-                        <span>Recurso</span>
-                        <span className="font-medium">€800</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
                 <Button>Configurar Honorários</Button>
               </div>
             </CardContent>
@@ -129,7 +84,6 @@ const Finance = () => {
         </TabsContent>
       </Tabs>
 
-      {/* Nova seção de Análise Financeira */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <Card className="p-4">
           <div className="flex items-start justify-between">
@@ -142,7 +96,7 @@ const Finance = () => {
               </div>
             </div>
             <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
-              <ArrowUpRight className="h-5 w-5 text-green-500" />
+              <ArrowUpRightFromSquare className="h-5 w-5 text-green-500" />
             </div>
           </div>
         </Card>
