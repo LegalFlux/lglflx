@@ -272,7 +272,9 @@ const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }: {
                   placeholder="Email do colaborador"
                   className="flex-1"
                 />
+                <label htmlFor="collaborator-role" className="sr-only">Role</label>
                 <select 
+                  id="collaborator-role"
                   value={newCollaboratorRole}
                   onChange={(e) => setNewCollaboratorRole(e.target.value as 'editor' | 'viewer')}
                   className="border rounded-md px-3"
@@ -720,6 +722,7 @@ const DocumentHeader = ({ onScannedDocument, onSignature, onOpenTemplates }: {
             onChange={handleFileChange}
             className="hidden"
             accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+            title="Upload a file"
           />
         </div>
       </div>
@@ -1155,7 +1158,7 @@ const Documents = () => {
   const [signingDocument, setSigningDocument] = useState<Document | null>(null);
   
   const documentTypes = Array.from(new Set(documents.map(doc => doc.type)));
-  const documentStatuses = ['draft', 'review', 'final', 'signed'] as const;
+  const documentStatuses = ["draft", "review", "final", "signed"] as ("draft" | "review" | "final" | "signed")[];
   const templates = documents.filter(doc => doc.isTemplate);
 
   const filteredDocuments = documents.filter(doc => {

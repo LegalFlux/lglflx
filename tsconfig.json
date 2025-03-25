@@ -7,6 +7,7 @@
     {
       "path": "./tsconfig.node.json"
     }
+
   ],
   "compilerOptions": {
     "baseUrl": ".",
@@ -20,16 +21,19 @@
     "noUnusedLocals": false,
     "strictNullChecks": false,
     "lib": ["dom", "dom.iterable", "esnext"],
-    "strict": false,
-    "noEmit": true,
+    "strict": true,
+    "noEmit": false,
     "incremental": true,
-    "module": "esnext",
+    "module": "commonjs",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "forceConsistentCasingInFileNames": true,
+    "composite": true,
+    "target": "es2017"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
