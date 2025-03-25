@@ -21,7 +21,7 @@
     "strictNullChecks": false,
     "lib": ["dom", "dom.iterable", "esnext"],
     "strict": true,
-    "noEmit": false,
+    "noEmit": true,
     "incremental": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -32,8 +32,7 @@
     "forceConsistentCasingInFileNames": true,
     "composite": true,
     "target": "es2017",
-    "esModuleInterop": true,
-    "types": ["vite/client"]
+    "esModuleInterop": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
