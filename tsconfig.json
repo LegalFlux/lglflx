@@ -1,13 +1,8 @@
 {
-  "files": {
-  "files": [],
-  "references": [],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "noImplicitAny": false,
     "noUnusedParameters": false,
@@ -15,11 +10,7 @@
     "allowJs": true,
     "noUnusedLocals": false,
     "strictNullChecks": false,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "strict": true,
     "noEmit": false,
     "emitDeclarationOnly": false,
@@ -35,48 +26,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
-}
-,
   "references": [],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
-    "noImplicitAny": false,
-    "noUnusedParameters": false,
-    "skipLibCheck": true,
-    "allowJs": true,
-    "noUnusedLocals": false,
-    "strictNullChecks": false,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
-    "strict": true,
-    "noEmit": false,
-    "emitDeclarationOnly": false,
-    "incremental": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "forceConsistentCasingInFileNames": true,
-    "composite": true,
-    "target": "ESNext",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
-  },
   "include": [
     "src"
   ],
