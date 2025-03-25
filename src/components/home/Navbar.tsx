@@ -5,12 +5,7 @@ import { Button } from '@/components/ui/button';
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from '@/components/ui/navigation-menu';
 import { useAuth } from '@/contexts/AuthContext';
 
-const NavLink = ({ href, scroll = true, children, onClick }: {
-  href: string;
-  scroll?: boolean;
-  children: React.ReactNode;
-  onClick?: () => void;
-}) => (
+const NavLink: React.FC<{ href: string; scroll?: boolean; children: React.ReactNode; onClick?: () => void }> = ({ href, scroll = true, children, onClick }) => (
   <Link
     href={href}
     scroll={scroll}
@@ -21,7 +16,7 @@ const NavLink = ({ href, scroll = true, children, onClick }: {
   </Link>
 );
 
-const AuthButtons = ({ isMobile = false }: { isMobile?: boolean }) => {
+const AuthButtons: React.FC<{ isMobile?: boolean }> = ({ isMobile = false }) => {
   const { user } = useAuth();
   const baseClassName = isMobile ? "w-full" : "";
 
@@ -49,6 +44,8 @@ const AuthButtons = ({ isMobile = false }: { isMobile?: boolean }) => {
 
 const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
 
   return (
     <header className="w-full border-b border-border sticky top-0 z-50 bg-background/80 backdrop-blur-sm">
@@ -85,7 +82,7 @@ const Navbar: React.FC = () => {
         <button 
           className="md:hidden"
           aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          onClick={toggleMobileMenu}
         >
           {mobileMenuOpen ? <X /> : <Menu />}
         </button>
@@ -95,7 +92,15 @@ const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="md:hidden py-4 px-4 bg-background border-b">
           <nav className="flex flex-col space-y-4">
-            {/* Add mobile menu items here */}
+            {[
+              { href: '/', label: 'Início' },
+              { href: '/#features', label: 'Funcionalidades', scroll: false },
+              { href: '/#pricing', label: 'Preços', scroll: false },
+              { href: '/screenshots', label: 'Screenshots' }
+            ].map((item) => (
+              <NavLink key={item.href} href={item.href} scroll={item.scroll}>{item.label}</NavLink>
+            ))}
+            <AuthButtons isMobile />
           </nav>
         </div>
       )}
