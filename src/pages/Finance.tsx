@@ -1,12 +1,10 @@
-import { ArrowUpRight } from 'lucide-react';
-// ...existing code...import { ArrowUpRight } from 'lucide-react';
-// ...existing code...'use client';
+'use client';
 import { type ReactElement } from 'react';
 import PageHeader from '@/components/layout/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BarChart, TrendingUp, ArrowUpRightFromSquare, ArrowUpRight } from 'lucide-react';lucide-react';
+import { BarChart, TrendingUp, ArrowUpRightFromSquare, ArrowUpRight } from 'lucide-react';
 import { ResponsiveBar } from '@nivo/bar';
 
 const revenueData = [
