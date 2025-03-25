@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PageHeader from '@/components/layout/PageHeader';
@@ -12,40 +11,19 @@ import DocumentCard from '@/components/documents/DocumentCard';
 import ClientAccount from '@/components/client/ClientAccount';
 
 // Mock data for the account
-const mockTransactions = [
+const mockTransactions: AccountTransaction[] = [
   {
     id: '1',
     clienteId: '123',
-    casoId: '123',
-    data: new Date('2023-10-15'),
-    descricao: 'Honorários iniciais',
-    valor: 500,
-    tipo: 'honorario',
-    createdAt: new Date('2023-10-15'),
-    updatedAt: new Date('2023-10-15')
+    casoId: '456',
+    data: new Date().toISOString(), // Converte Date para string
+    descricao: 'Descrição do exemplo',
+    valor: 100.00,
+    tipo: 'Crédito',
+    createdAt: new Date(),
+    updatedAt: new Date()
   },
-  {
-    id: '2',
-    clienteId: '123',
-    casoId: '123',
-    data: new Date('2023-10-20'),
-    descricao: 'Pagamento parcial',
-    valor: 300,
-    tipo: 'pagamento',
-    createdAt: new Date('2023-10-20'),
-    updatedAt: new Date('2023-10-20')
-  },
-  {
-    id: '3',
-    clienteId: '123',
-    casoId: '123',
-    data: new Date('2023-11-05'),
-    descricao: 'Custas processuais',
-    valor: 150,
-    tipo: 'despesa',
-    createdAt: new Date('2023-11-05'),
-    updatedAt: new Date('2023-11-05')
-  }
+  // ...outros itens
 ];
 
 const mockAccountSummary = {
