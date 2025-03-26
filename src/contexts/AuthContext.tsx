@@ -118,10 +118,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signUp = async (
+  signUp = async (
     email: string,
     password: string,
-    { nome, apelido, role = UserRole.CLIENT }: { nome: string; apelido: string; role?: UserRole }
+    { nome, apelido, role = UserRole.CLIENTE }: { nome: string; apelido: string; role?: UserRole }
   ) => {
     try {
       const { error } = await supabase.auth.signUp({
