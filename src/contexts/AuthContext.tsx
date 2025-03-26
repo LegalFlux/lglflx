@@ -1,8 +1,10 @@
+// src/context/AuthContext.tsx
+'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabase/client';
+import { toast } from '@/components/ui/use-toast';
 import { UserRole } from '@/types/lexflow';
 
 type AuthContextType = {
@@ -11,8 +13,13 @@ type AuthContextType = {
   isLoading: boolean;
   userRole: UserRole | null;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
-  signUp: (email: string, password: string, userData: { nome: string; apelido: string; role?: UserRole }) => Promise<{ error: Error | null }>;
+  signUp: (
+    email: string, 
+    password: string, 
+    userData: { nome: string; apelido: string; role?: UserRole }
+  ) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
+  refreshSession: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,7 +27,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [userRole, setUserRole] = useState<UserRole | null>(null);
 
   const fetchUserRole = async (userId: string) => {
@@ -30,166 +37,153 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .select('role')
         .eq('id', userId)
         .single();
+
+      if (error) throw error;
+      if (data) setUserRole(data.role as UserRole);
+    } catch (error) {
+      console.error('Failed to fetch user role:', error);
+      setUserRole(null);
+    }
+  };
+
+  const refreshSession = async () => {
+    setIsLoading(true);
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession();
       
-      if (error) {
-        console.error('Erro ao obter role do utilizador:', error);
-      } else if (data) {
-        setUserRole(data.role as UserRole);
+      if (error) throw error;
+      
+      setSession(session);
+      setUser(session?.user || null);
+      
+      if (session?.user) {
+        await fetchUserRole(session.user.id);
+      } else {
+        setUserRole(null);
       }
     } catch (error) {
-      console.error('Erro ao obter role do utilizador:', error);
+      console.error('Failed to refresh session:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    const getSession = async () => {
-      setIsLoading(true);
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error('Erro ao obter sessão:', error);
-        } else {
-          setSession(data.session);
-          setUser(data.session?.user || null);
-          
-          if (data.session?.user) {
-            fetchUserRole(data.session.user.id);
-          }
-        }
-      } catch (error) {
-        console.error('Erro ao obter sessão:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    refreshSession();
 
-    getSession();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, newSession) => {
-        console.log('Auth state change:', event);
-        setSession(newSession);
-        setUser(newSession?.user || null);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setSession(session);
+        setUser(session?.user || null);
         
-        if (newSession?.user) {
-          fetchUserRole(newSession.user.id);
+        if (session?.user) {
+          await fetchUserRole(session.user.id);
         } else {
           setUserRole(null);
         }
-        
-        setIsLoading(false);
 
-        if (event === 'SIGNED_IN') {
-          console.log('Utilizador conectado');
-          toast({
-            title: 'Bem-vindo',
-            description: 'Sessão iniciada com sucesso',
-          });
-        } else if (event === 'SIGNED_OUT') {
-          console.log('Utilizador desconectado');
-          toast({
-            title: 'Sessão terminada',
-            description: 'Sessão encerrada com sucesso',
-          });
+        switch (event) {
+          case 'SIGNED_IN':
+            toast({ title: 'Bem-vindo', description: 'Sessão iniciada com sucesso' });
+            break;
+          case 'SIGNED_OUT':
+            toast({ title: 'Sessão terminada', description: 'Até logo!' });
+            break;
+          case 'TOKEN_REFRESHED':
+            console.log('Token refreshed');
+            break;
         }
       }
     );
 
-    return () => {
-      if (authListener && authListener.subscription) {
-        authListener.subscription.unsubscribe();
-      }
-    };
+    return () => subscription.unsubscribe();
   }, []);
 
   const signIn = async (email: string, password: string) => {
     try {
-      console.log("Tentando fazer login com:", email);
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      
       if (error) {
-        console.error("Erro de autenticação:", error);
-      } else {
-        console.log("Login bem-sucedido");
+        toast({
+          title: 'Erro',
+          description: error.message,
+          variant: 'destructive'
+        });
       }
       
-      return { error: error as Error | null };
+      return { error: error ? new Error(error.message) : null };
     } catch (error) {
-      console.error('Erro ao iniciar sessão:', error);
-      return { error: error as Error };
+      console.error('Login error:', error);
+      return { error: error instanceof Error ? error : new Error('Unknown error') };
     }
   };
 
-  const signUp = async (email: string, password: string, userData: { nome: string; apelido: string; role?: UserRole }) => {
+  const signUp = async (
+    email: string, 
+    password: string, 
+    { nome, apelido, role = 'cliente' }: { nome: string; apelido: string; role?: UserRole }
+  ) => {
     try {
-      // Se não for especificado um role, atribui 'cliente' por defeito
-      const role = userData.role || 'cliente';
-      
-      console.log("Registando utilizador:", email, { ...userData, role });
-      
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: {
-            nome: userData.nome,
-            apelido: userData.apelido,
-            role: role,
-          },
-        },
+          data: { nome, apelido, role }
+        }
+      });
+
+      if (error) throw error;
+      
+      toast({
+        title: 'Sucesso',
+        description: 'Verifique seu email para confirmar o registro'
       });
       
-      if (error) {
-        console.error("Erro no registo:", error);
-      } else {
-        console.log("Registo bem-sucedido");
-      }
-      
-      return { error: error as Error | null };
+      return { error: null };
     } catch (error) {
-      console.error('Erro ao registar:', error);
-      return { error: error as Error };
+      console.error('Registration error:', error);
+      return { 
+        error: error instanceof Error ? error : new Error('Registration failed') 
+      };
     }
   };
 
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
-      setUserRole(null);
-      toast({
-        title: 'Desconectado',
-        description: 'Sessão encerrada com sucesso',
-      });
+      toast({ title: 'Desconectado', description: 'Sessão encerrada' });
     } catch (error) {
-      console.error('Erro ao sair:', error);
+      console.error('Logout error:', error);
       toast({
         title: 'Erro',
-        description: 'Não foi possível encerrar sua sessão',
-        variant: 'destructive',
+        description: 'Falha ao sair',
+        variant: 'destructive'
       });
     }
   };
 
-  const value = {
-    user,
-    session,
-    isLoading,
-    userRole,
-    signIn,
-    signUp,
-    signOut,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        session,
+        isLoading,
+        userRole,
+        signIn,
+        signUp,
+        signOut,
+        refreshSession
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth deve ser usado dentro de um AuthProvider');
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };
