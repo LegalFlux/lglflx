@@ -1,19 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import { ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Link from 'next/link';
 
-const ScreenshotsPage = () => {
-  const screenshots = [
-    '/screenshots/screenshot1.png',
-    '/screenshots/screenshot2.png',
-    '/screenshots/screenshot3.png',
-    '/screenshots/screenshot4.png',
-  ];
+const screenshots = [
+  '/screenshots/screenshot1.png',
+  '/screenshots/screenshot2.png',
+  '/screenshots/screenshot3.png',
+  '/screenshots/screenshot4.png',
+];
 
+export default function ScreenshotsPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -64,6 +65,7 @@ const ScreenshotsPage = () => {
               className="object-contain"
               priority
               quality={100}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 100vw"
             />
           </div>
 
@@ -92,6 +94,7 @@ const ScreenshotsPage = () => {
               className={`overflow-hidden rounded-lg border transition-all ${
                 currentIndex === index ? 'ring-2 ring-primary' : 'opacity-70 hover:opacity-100'
               }`}
+              aria-label={`Ver screenshot ${index + 1}`}
             >
               <div className="relative aspect-video">
                 <Image
@@ -100,14 +103,21 @@ const ScreenshotsPage = () => {
                   fill
                   className="object-cover"
                   quality={80}
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
                 />
               </div>
             </button>
           ))}
         </div>
+
+        <div className="mt-8 flex justify-center">
+          <Button asChild variant="outline">
+            <Link href="/">
+              Voltar à página inicial
+            </Link>
+          </Button>
+        </div>
       </div>
     </>
   );
-};
-
-export default ScreenshotsPage;
+}
