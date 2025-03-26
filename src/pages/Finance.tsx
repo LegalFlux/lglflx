@@ -102,7 +102,6 @@ const Finance: React.FC = () => {
               </div>
             </div>
             <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
-              {/* Remove the import statements and comments from JSX */}
               <ArrowUpRight className="h-5 w-5 text-green-500" />
             </div>
           </div>
