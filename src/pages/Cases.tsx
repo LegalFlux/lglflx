@@ -13,10 +13,14 @@ import CaseCard from '@/components/cases/CaseCard';
 import { mockCases, mockClients } from '@/data';
 import { mockTeamMembers } from '@/data';
 import { LegalCase, CaseStatus, CaseType, CasePriority } from '@/types';
-import { useNavigate } from 'react-router-dom';
+// Replace this import
+// import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 const Cases = () => {
-  const navigate = useNavigate();
+  // Replace this line
+  // const navigate = useNavigate();
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [typeFilter, setTypeFilter] = useState<string>('all');
@@ -133,7 +137,7 @@ const Cases = () => {
               <CaseCard 
                 key={legalCase.id} 
                 legalCase={legalCase}
-                onClick={() => navigate(`/cases/${legalCase.id}`)}
+                onClick={() => router.push(`/cases/${legalCase.id}`)}
               />
             ))
           ) : (
