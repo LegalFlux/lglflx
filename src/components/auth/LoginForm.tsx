@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,12 +8,14 @@ import { toast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext'; // Alterado para importar do AuthContext
 
+// Replace useNavigate with useRouter from Next.js
 const LoginForm: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
+// Router is already declared above, removing duplicate declaration
   const { signIn } = useAuth(); // Usa o hook useAuth do AuthContext
 
   // Validação básica do email
@@ -61,7 +63,14 @@ const LoginForm: React.FC = () => {
           title: 'Bem-vindo',
           description: 'Iniciou sessão com sucesso',
         });
-        navigate('/dashboard'); // Redireciona para o dashboard após o login
+        // Update any navigation functions to use router.push instead of navigate
+        const handleSubmit = async (e: React.FormEvent) => {
+          e.preventDefault();
+          // Your login logic here
+          
+          // Example: After successful login
+          router.push('/dashboard'); // Instead of navigate('/dashboard')
+        };
       }
     } catch (error) {
       console.error('Erro ao iniciar sessão:', error);
@@ -76,7 +85,7 @@ const LoginForm: React.FC = () => {
   };
 
   const handleForgotPassword = () => {
-    navigate('/forgot-password'); // Redireciona para a página de recuperação de senha
+    router.push('/forgot-password'); // Redireciona para a página de recuperação de senha
   };
 
   return (
