@@ -1,13 +1,20 @@
 
 import React from 'react';
-import { ArrowUpRight, Clock, Users } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import DashboardCard from '@/components/dashboard/DashboardCard';
 import { mockEvents } from '@/data';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router'; // Replace react-router-dom import
 
 const DashboardUpcomingEvents: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter(); // Use Next.js router instead of useNavigate
+  
+  // Update any navigation functions to use router.push instead of navigate
+  // For example:
+  const handleViewAll = () => {
+    router.push('/calendar');
+  };
   
   // Get upcoming events
   const upcomingEvents = [...mockEvents]
