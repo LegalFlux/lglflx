@@ -1,9 +1,4 @@
-// Replace any react-router-dom imports with Next.js equivalents
-// For example:
-// import { useNavigate } from 'react-router-dom';
 import { useRouter } from 'next/router';
-
-// Then update any navigation code to use router.push instead of navigate
 import { useEffect } from 'react';
 
 export async function getServerSideProps() {
@@ -11,13 +6,13 @@ export async function getServerSideProps() {
 }
 
 export default function About() {
-  const navigate = typeof window !== 'undefined' ? useNavigate() : null;
+  const router = useRouter();
 
   useEffect(() => {
-    if (navigate) {
-      console.log('Navigate is available');
+    if (router) {
+      console.log('Router is available');
     }
-  }, [navigate]);
+  }, [router]);
 
   return <div>About Page</div>;
 }
