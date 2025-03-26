@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,8 +11,19 @@ import RegisterForm from '@/components/auth/RegisterForm';
 const Auth: React.FC = () => {
   const [activeTab, setActiveTab] = useState('login');
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  // Replace this:
+  // const navigate = useNavigate();
+  // const location = useLocation();
+  
+  // With this:
+  const router = useRouter();
+  
+  // And replace any navigate() calls with router.push()
+  // For example:
+  // navigate('/dashboard') becomes router.push('/dashboard')
+  
+  // To get query parameters:
+  // Instead of location.state?.from, use router.query
   const { user } = useAuth();
 
   // Memoize URL params to avoid unnecessary recomputations
