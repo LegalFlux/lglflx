@@ -2,79 +2,55 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { CardContent, CardFooter } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { toast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext'; // Corrigido para importar do AuthContext
-import { UserRole } from '@/types/lexflow';
+import { useToast } from '@/components/ui/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface RegisterFormProps {
-  onSuccess: () => void;
+  onSuccess?: () => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [nome, setNome] = useState('');
-  const [apelido, setApelido] = useState('');
-  const [role, setRole] = useState<UserRole>(UserRole.CLIENTE);
   const [isLoading, setIsLoading] = useState(false);
-
+  const { toast } = useToast();
   const { signUp } = useAuth();
 
-  // Validação básica do email
-  const validateEmail = (email: string) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validação dos campos
-    if (!validateEmail(email)) {
+    
+    if (!name || !email || !password) {
       toast({
-        title: 'Erro',
-        description: 'Por favor, insira um email válido.',
+        title: 'Campos obrigatórios',
+        description: 'Por favor, preencha todos os campos.',
         variant: 'destructive',
       });
       return;
     }
-
-    if (password.length < 6) {
+    
+    if (password.length < 8) {
       toast({
-        title: 'Erro',
-        description: 'A senha deve ter pelo menos 6 caracteres.',
+        title: 'Password fraca',
+        description: 'A password deve ter pelo menos 8 caracteres.',
         variant: 'destructive',
       });
       return;
     }
-
+    
     setIsLoading(true);
-
+    
     try {
-      const { error } = await signUp(email, password, { nome, apelido, role });
-
-      if (error) {
-        console.error('Erro ao registar:', error.message);
-        toast({
-          title: 'Erro ao registar',
-          description: error.message || 'Não foi possível criar a conta. Tente novamente.',
-          variant: 'destructive',
-        });
-      } else {
-        toast({
-          title: 'Registo com sucesso',
-          description: 'Verifique o seu email para confirmar o registo',
-        });
-        onSuccess(); // Chama a função de sucesso (ex: redirecionar para o login)
-      }
-    } catch (error) {
-      console.error('Erro ao registar:', error);
+      await signUp(email, password, { name });
       toast({
-        title: 'Erro',
-        description: 'Ocorreu um erro ao tentar registar',
+        title: 'Conta criada com sucesso',
+        description: 'Verifique o seu email para confirmar a sua conta.',
+      });
+      if (onSuccess) onSuccess();
+    } catch (error: any) {
+      toast({
+        title: 'Erro ao criar conta',
+        description: error.message || 'Ocorreu um erro ao criar a sua conta. Tente novamente.',
         variant: 'destructive',
       });
     } finally {
@@ -83,88 +59,60 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSignUp}>
-      <CardContent className="space-y-4 pt-6">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="nome">Nome</Label>
-            <Input
-              id="nome"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              required
-              className="w-full"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="apelido">Apelido</Label>
-            <Input
-              id="apelido"
-              value={apelido}
-              onChange={(e) => setApelido(e.target.value)}
-              required
-              className="w-full"
-            />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="register-email">Email</Label>
-          <Input
-            id="register-email"
-            type="email"
-            placeholder="seu.email@exemplo.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="register-password">Senha</Label>
-          <Input
-            id="register-password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-            className="w-full"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="role">Perfil</Label>
-          <Select
-            value={role}
-            onValueChange={(value) => setRole(value as UserRole)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecione o perfil" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={UserRole.CLIENTE}>Cliente</SelectItem>
-              <SelectItem value={UserRole.ADVOGADO}>Advogado</SelectItem>
-              <SelectItem value={UserRole.ADVOGADO_SENIOR}>Advogado Sénior</SelectItem>
-              <SelectItem value={UserRole.ASSISTENTE}>Assistente</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </CardContent>
-      <CardFooter className="pt-4">
-        <Button
-          type="submit"
-          className="w-full"
+    <form onSubmit={handleSubmit} className="p-6 pt-0 space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="name">Nome completo</Label>
+        <Input
+          id="name"
+          placeholder="Seu nome"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              A processar
-            </>
-          ) : (
-            'Registar'
-          )}
-        </Button>
-      </CardFooter>
+        />
+      </div>
+      
+      <div className="space-y-2">
+        <Label htmlFor="email">Email</Label>
+        <Input
+          id="email"
+          type="email"
+          placeholder="seu@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
+        />
+      </div>
+      
+      <div className="space-y-2">
+        <Label htmlFor="password">Password</Label>
+        <Input
+          id="password"
+          type="password"
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
+        />
+        <p className="text-xs text-muted-foreground">
+          A password deve ter pelo menos 8 caracteres.
+        </p>
+      </div>
+      
+      <Button type="submit" className="w-full" disabled={isLoading}>
+        {isLoading ? 'A criar conta...' : 'Criar Conta'}
+      </Button>
+      
+      <p className="text-xs text-center text-muted-foreground">
+        Ao criar uma conta, você concorda com os nossos{' '}
+        <a href="/terms" className="underline underline-offset-2 hover:text-primary">
+          Termos de Serviço
+        </a>{' '}
+        e{' '}
+        <a href="/privacy" className="underline underline-offset-2 hover:text-primary">
+          Política de Privacidade
+        </a>
+        .
+      </p>
     </form>
   );
 };
