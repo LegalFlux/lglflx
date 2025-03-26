@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import Sidebar from './Sidebar';
 import MobileMenu from './MobileMenu';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,14 +11,15 @@ interface LayoutProps {
   children?: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, isLoading, signOut } = useAuth();
-  const navigate = useNavigate();
+// Router is already declared above, removing duplicate declaration
   
   const handleSignOut = async () => {
     await signOut();
-    navigate('/');
+    router.push('/');
   };
 
   if (isLoading) {
@@ -30,7 +31,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }
   
   if (!user) {
-    navigate('/auth');
+    router.replace('/auth');
     return null;
   }
   
@@ -58,7 +59,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </div>
         
         <main className={`flex-1 pt-16 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'} w-full p-4 md:p-6`}>
-          {children || <Outlet />}
+{children}
         </main>
       </div>
     </div>
