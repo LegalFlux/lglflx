@@ -1,1 +1,7 @@
-{}
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/screenshots": "pages/screenshots.js",
+  "/About": "pages/About.js",
+  "/_document": "pages/_document.js"
+}
