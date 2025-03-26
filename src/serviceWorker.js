@@ -5,7 +5,8 @@ self.addEventListener('install', (event) => {
         './',
         './index.html',
         './app.css',
-        './app.js'
+        './app.js',
+        './Locale-pt-PT.json' // Add your JSON file here
       ]);
     })
   );
@@ -13,6 +14,31 @@ self.addEventListener('install', (event) => {
 
 // Add cache-first strategy for static assets
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  
+  // Handle CORS requests for JSON files
+  if (url.pathname.endsWith('.json')) {
+    event.respondWith(
+      fetch(event.request, {
+        mode: 'cors',
+        credentials: 'same-origin',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        }
+      }).then((response) => {
+        if (!response.ok) {
+          return caches.match(event.request);
+        }
+        return response;
+      }).catch(() => {
+        return caches.match(event.request);
+      })
+    );
+    return;
+  }
+
+  // Existing cache-first strategy
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -20,7 +46,6 @@ self.addEventListener('fetch', (event) => {
           return response;
         }
         return fetch(event.request).catch(() => {
-          // Return a fallback response for 404 errors
           return new Response('Resource not found', {
             status: 404,
             statusText: 'Not Found'
