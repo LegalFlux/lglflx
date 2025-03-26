@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "./public", // Changed from ./dist to ./public
+    "baseUrl": "/", // Changed from . to /
     "sourceMap": true,
     "declaration": true,
-    "baseUrl": ".",
+    "baseUrl": "/", // Single baseUrl definition
     "paths": {
       "@/*": ["./src/*"]
     },
