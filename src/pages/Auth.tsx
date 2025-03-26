@@ -27,22 +27,27 @@ const Auth: React.FC = () => {
   const { user } = useAuth();
 
   // Memoize URL params to avoid unnecessary recomputations
-  const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const params = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      return new URLSearchParams(window.location.search);
+    }
+    return new URLSearchParams();
+  }, [router.asPath]);
 
   // Set active tab based on URL parameters
   useEffect(() => {
-    const tab = params.get('tab');
+    const tab = router.query.tab;
     if (tab === 'register') {
       setActiveTab('register');
     }
-  }, [params]);
+  }, [router.query]);
 
   // Redirect to dashboard if the user is already authenticated
   useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      router.push('/dashboard');
     }
-  }, [user, navigate]);
+  }, [user, router]);
 
   const handleRegisterSuccess = () => {
     setActiveTab('login');
