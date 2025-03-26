@@ -40,37 +40,19 @@
 .logoLink:hover {
   opacity: 0.8;
 }
-
 .logoContainer {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
-.logoTextPrimary {
-  font-weight: bold;
-  color: #33254C;
-  font-size: 1.5rem;
+.logoLink {
+  display: inline-block;
+  text-decoration: none;
 }
 
-.logoText {
-  font-weight: normal;
-  color: #555;
-}
-
-.logoSubtitle {
-  font-size: 0.75rem;
-  color: #777;
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
-@media (max-width: 768px) {
-  .logoTextPrimary {
-    font-size: 1.25rem;
-  }
-
-  .logoSubtitle {
-    font-size: 0.625rem;
-  }
+.logo {
+  height: 50px;
+  width: auto;
 }

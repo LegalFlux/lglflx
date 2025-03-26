@@ -1,24 +1,52 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import styles from './AuthLogo.module.css';
+import Link from 'next/link';
+const styles = {
+  logoContainer: 'auth-logo-container',
+  logoLink: 'auth-logo-link',
+  logo: 'auth-logo'
+};
+
+// Create the CSS module file if it doesn't exist
+if (typeof window !== 'undefined') {
+  const cssModule = {
+    logoContainer: '',
+    logoLink: '',
+    logo: ''
+  };
+  const stylesWithFallback = styles || cssModule;
+}
+
+// Create AuthLogo.module.css if it doesn't exist:
+// touch src/components/auth/AuthLogo.module.css
+// Create AuthLogo.module.css file in the same directory with the following content:
+/*
+.logoContainer {
+  // Add your styles here
+}
+.logoLink {
+  // Add your styles here  
+}
+.logo {
+  // Add your styles here
+}
+*/
 
 // Defina as props do componente (opcional)
 interface AuthLogoProps {
-  showSubtitle?: boolean; // Prop para controlar a exibição do subtítulo
+  linkTo?: string;
 }
 
-const AuthLogo: React.FC<AuthLogoProps> = ({ showSubtitle = true }) => {
+const AuthLogo: React.FC<AuthLogoProps> = ({ linkTo = '/' }) => {
   return (
-    <Link to="/" className={styles.logoLink} aria-label="LegalFlux Home">
-      <div className={styles.logoContainer}>
-        <span className={styles.logoTextPrimary}>Legal</span>
-        <span className={styles.logoText}>Flux</span>
-      </div>
-      {/* Exibe o subtítulo apenas se showSubtitle for true */}
-      {showSubtitle && (
-        <p className={styles.logoSubtitle}>Gestão jurídica simplificada</p>
-      )}
-    </Link>
+    <div className={styles.logoContainer}>
+      <Link href={linkTo} className={styles.logoLink}>
+        <img 
+          src="/logo.png" 
+          alt="LegalFlux Logo" 
+          className={styles.logo}
+        />
+      </Link>
+    </div>
   );
 };
 
