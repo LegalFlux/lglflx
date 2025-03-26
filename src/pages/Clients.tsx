@@ -10,20 +10,24 @@ import {
 import { PlusCircle, ChevronDown, Search } from 'lucide-react';
 import { mockClients } from '@/data';
 import ClientCard from '@/components/clients/ClientCard';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 const Clients = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [sortBy, setSortBy] = useState('name');
+  const router = useRouter();
   const [clients, setClients] = useState(mockClients);
-  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('name');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+  const navigate = (path: string) => {
+    router.push(path);
+  };
 
   useEffect(() => {
     let sortedClients = [...mockClients];
 
     // Apply search filter
-    if (searchQuery) {
+    if (searchQuery && searchQuery.length > 0) {
       sortedClients = sortedClients.filter(client =>
         client.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -44,7 +48,7 @@ const Clients = () => {
     });
 
     setClients(sortedClients);
-  }, [searchQuery, sortOrder, sortBy]);
+  }, [searchQuery, sortBy, sortOrder]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
