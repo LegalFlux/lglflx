@@ -7,11 +7,17 @@ import DashboardRecentCases from './DashboardRecentCases';
 import DashboardCaseAnalysis from './DashboardCaseAnalysis';
 import DashboardUpcomingEvents from './DashboardUpcomingEvents';
 import DashboardRecentDocuments from './DashboardRecentDocuments';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router'; // Replace react-router-dom import
 import { mockDashboardMetrics } from '@/data';
 
 const DashboardOverview: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter(); // Use Next.js router instead of useNavigate
+  
+  // Replace any navigate('/path') calls with router.push('/path')
+  // For example:
+  // const handleNavigate = () => {
+  //   router.push('/documents');
+  // };
   
   return (
     <div className="min-h-screen bg-background animate-fade-in">
@@ -24,7 +30,7 @@ const DashboardOverview: React.FC = () => {
             </p>
           </div>
           <div className="flex mt-4 md:mt-0 space-x-2">
-            <Button className="flex items-center" onClick={() => navigate('/cases/new')}>
+            <Button className="flex items-center" onClick={() => router.push('/cases/new')}>
               <PlusCircle size={16} className="mr-2" />
               Novo Caso
             </Button>
