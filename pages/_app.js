@@ -1,14 +1,12 @@
-import { AuthProvider } from '../context/AuthContext'; // Ajuste o caminho conforme necessário
-import { BrowserRouter } from 'react-router-dom';
+// pages/_app.tsx
+import { AuthProvider } from '@/context/AuthContext';
+import '@/styles/globals.css';
+import type { AppProps } from 'next/app';
 
-function MyApp({ Component, pageProps }) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Component {...pageProps} />
-      </BrowserRouter>
+      <Component {...pageProps} />
     </AuthProvider>
   );
 }
-
-export default MyApp;
