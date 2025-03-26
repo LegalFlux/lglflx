@@ -1,12 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  distDir: 'dist', // This tells Next.js to output to the "dist" directory
+  // Ensure proper output
+  poweredByHeader: false,
+  // Ensure routes manifest is generated
   experimental: {
-    // Remove appDir as it's deprecated in Next.js 14+
-    esmExternals: true,
+    // Any experimental features you might need
   },
-  // Add other valid configurations here
+  // Ensure proper asset handling
+  assetPrefix: process.env.NODE_ENV === 'production' ? undefined : undefined,
 };
 
 module.exports = nextConfig;
