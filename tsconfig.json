@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "outDir": "./public", // Changed from ./dist to ./public
-    "baseUrl": "/", // Changed from . to /
+    // Removed duplicate baseUrl declaration
     "sourceMap": true,
     "declaration": true,
-    "baseUrl": "/", // Single baseUrl definition
+    "baseUrl": "./src", // Changed from "/" to "./src"
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"] // Updated path mapping
     },
     "noImplicitAny": false,
     "noUnusedParameters": false,
