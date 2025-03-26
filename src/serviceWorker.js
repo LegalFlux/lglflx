@@ -1,4 +1,34 @@
-// ... existing service worker registration code ...
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open('app-shell').then((cache) => {
+      return cache.addAll([
+        './',
+        './index.html',
+        './app.css',
+        './app.js'
+      ]);
+    })
+  );
+});
+
+// Add cache-first strategy for static assets
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request).catch(() => {
+          // Return a fallback response for 404 errors
+          return new Response('Resource not found', {
+            status: 404,
+            statusText: 'Not Found'
+          });
+        });
+      })
+  );
+});
 
 // Modified message sending logic
 async function sendMessageToSW(message) {
