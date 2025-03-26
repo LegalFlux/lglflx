@@ -24,11 +24,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router'; // Changed from react-router-dom to next/router
 
 const PlanSelector: React.FC = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
+  
   const { planos, loading, subscreverPlano, iniciarTrial, assinaturaAtual } = useSubscription();
   const [selectedPeriod, setSelectedPeriod] = useState<'mensal' | 'anual'>('mensal');
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
@@ -38,7 +39,7 @@ const PlanSelector: React.FC = () => {
   // Função para lidar com a seleção de um plano
   const handleSelectPlan = (planId: string) => {
     if (!user) {
-      navigate('/auth');
+      router.push('/auth'); // Changed from navigate to router.push
       return;
     }
     
