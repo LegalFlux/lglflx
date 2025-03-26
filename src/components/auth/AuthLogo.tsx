@@ -1,59 +1,27 @@
 import React from 'react';
-import Link from 'next/link';
-const styles = {
-  logoContainer: 'auth-logo-container',
-  logoLink: 'auth-logo-link',
-  logo: 'auth-logo'
-};
+import { Link } from 'react-router-dom';
 
-// Create the CSS module file if it doesn't exist
-if (typeof window !== 'undefined') {
-  const cssModule = {
-    logoContainer: '',
-    logoLink: '',
-    logo: ''
-  };
-  const stylesWithFallback = styles || cssModule;
-}
-
-// Create AuthLogo.module.css if it doesn't exist:
-// touch src/components/auth/AuthLogo.module.css
-// Create AuthLogo.module.css file in the same directory with the following content:
-/*
-.logoContainer {
-  // Add your styles here
-}
-.logoLink {
-  // Add your styles here  
-}
-.logo {
-  // Add your styles here
-}
-*/
-
-// Defina as props do componente (opcional)
-interface AuthLogoProps {
-  linkTo?: string;
-}
-
-const AuthLogo: React.FC<AuthLogoProps> = ({ linkTo = '/' }) => {
+const AuthLogo: React.FC = () => {
   return (
-    <div className={styles.logoContainer}>
-      <Link href={linkTo} className={styles.logoLink}>
-        <img 
-          src="/logo.png" 
-          alt="LegalFlux Logo" 
-          className={styles.logo}
-        />
-      </Link>
-    </div>
+    <Link to="/" className="flex flex-col items-center">
+      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="w-6 h-6 text-primary"
+        >
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+      </div>
+      <h1 className="text-2xl font-bold">LegalFlux</h1>
+      <p className="text-sm text-muted-foreground">Gestão Jurídica Simplificada</p>
+    </Link>
   );
 };
 
 export default AuthLogo;
-
-// Remove redundant declaration and export
-
-// Styles moved to AuthLogo.module.css
-
-// Module declaration moved to a global type definition file
