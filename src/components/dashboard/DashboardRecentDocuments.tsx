@@ -1,20 +1,26 @@
 
 import React from 'react';
-import { ArrowUpRight, FileText } from 'lucide-react';
+import { mockDocuments } from '@/data';
+import DocumentCard from '@/components/documents/DocumentCard';
 import { Button } from '@/components/ui/button';
 import DashboardCard from '@/components/dashboard/DashboardCard';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import { ArrowUpRight, FileText, FileTextIcon } from 'lucide-react'; // Add missing icon imports
 
 const DashboardRecentDocuments: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
+  
+  const handleViewAll = () => {
+    router.push('/documents');
+  };
 
   return (
     <DashboardCard 
       title="Documentos Recentes" 
       actions={
-        <Button variant="ghost" size="sm" onClick={() => navigate('/documents')} className="text-primary -mr-2">
+        <Button variant="ghost" size="sm" onClick={handleViewAll} className="text-primary -mr-2">
           Ver Todos
-          <ArrowUpRight size={16} className="ml-1" />
+<ArrowUpRight size={16} className="ml-1" />
         </Button>
       }
     >
@@ -51,6 +57,7 @@ const DashboardRecentDocuments: React.FC = () => {
           <div className="flex items-center">
             <div className="p-2 rounded-md bg-green-100 text-green-800 mr-3">
               <FileText size={16} />
+
             </div>
             <div className="flex-1 min-w-0">
               <h4 className="font-medium text-sm line-clamp-1">Relatório de Análise - Caso Maria.pdf</h4>
