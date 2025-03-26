@@ -138,6 +138,7 @@ const Cases = () => {
                 key={legalCase.id} 
                 legalCase={legalCase}
                 onClick={() => router.push(`/cases/${legalCase.id}`)}
+
               />
             ))
           ) : (
