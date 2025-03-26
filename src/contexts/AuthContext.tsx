@@ -118,7 +118,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  signUp = async (
+  const signUp = async (
     email: string,
     password: string,
     { nome, apelido, role = UserRole.CLIENTE }: { nome: string; apelido: string; role?: UserRole }
