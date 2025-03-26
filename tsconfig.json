@@ -1,35 +1,25 @@
 {
   "compilerOptions": {
-    "outDir": "./public", // Changed from ./dist to ./public
-    // Removed duplicate baseUrl declaration
-    "sourceMap": true,
-    "declaration": true,
-    "baseUrl": "./src", // Changed from "/" to "./src"
-    "paths": {
-      "@/*": ["./*"] // Updated path mapping
-    },
-    "noImplicitAny": false,
-    "noUnusedParameters": false,
-    "skipLibCheck": true,
-    "allowJs": true,
-    "noUnusedLocals": false,
-    "strictNullChecks": false,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "strict": true,
-    "noEmit": false,
-    "emitDeclarationOnly": false,
-    "incremental": true,
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "skipLibCheck": true,
     "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "forceConsistentCasingInFileNames": true,
-    "composite": true,
-    "target": "ESNext",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src"],
-  "exclude": ["node_modules", "src/serviceWorker.js"]
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
