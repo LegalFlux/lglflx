@@ -1,31 +1,29 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
-import React, { ReactNode } from 'react';
-
-interface PageHeaderProps {
-  title: string;
-  description?: string;
-  icon?: ReactNode;
+const PageHeader = ({ 
+  title, 
+  description, 
+  actions 
+}: { 
+  title: string; 
+  description?: string; 
   actions?: React.ReactNode;
-}
-
-const PageHeader: React.FC<PageHeaderProps> = ({
-  title,
-  description,
-  icon,
-  actions,
 }) => {
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
-      <div className="flex items-center gap-3">
-        {icon && <div className="text-primary">{icon}</div>}
-        <div>
-          <h1 className="text-3xl font-bold">{title}</h1>
-          {description && (
-            <p className="text-muted-foreground mt-1">{description}</p>
-          )}
-        </div>
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+        {description && (
+          <p className="text-muted-foreground mt-1">{description}</p>
+        )}
       </div>
-      {actions && <div className="flex items-center gap-2">{actions}</div>}
+      {actions && (
+        <div className="flex items-center gap-2 mt-2 md:mt-0">
+          {actions}
+        </div>
+      )}
     </div>
   );
 };
