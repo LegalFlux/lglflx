@@ -102,15 +102,7 @@ const Finance: React.FC = () => {
               </div>
             </div>
             <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
-              // Replace this import
-              // import { ArrowUpRight } from '@radix-ui/react-icons';
-              
-              // With one of these alternatives:
-              import { ArrowUpIcon } from '@radix-ui/react-icons'; // Use a different icon
-              // OR
-              import { ArrowUp } from 'lucide-react'; // Use Lucide React's arrow icon instead
-              // OR
-              // Create a custom arrow icon component if needed
+              {/* Remove the import statements and comments from JSX */}
               <ArrowUpRight className="h-5 w-5 text-green-500" />
             </div>
           </div>
