@@ -5,10 +5,21 @@ import { Button } from '@/components/ui/button';
 import DashboardCard from '@/components/dashboard/DashboardCard';
 import CaseCard from '@/components/cases/CaseCard';
 import { mockCases, mockClients } from '@/data';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router'; // Replace react-router-dom import
 
 const DashboardRecentCases: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter(); // Use Next.js router instead of useNavigate
+  
+  // Update any navigation functions to use router.push instead of navigate
+  // For example, if you have code like:
+  // const handleCaseClick = (caseId: string) => {
+  //   navigate(`/cases/${caseId}`);
+  // };
+  // 
+  // Change it to:
+  // const handleCaseClick = (caseId: string) => {
+  //   router.push(`/cases/${caseId}`);
+  // };
   
   // Get recent cases
   const recentCases = [...mockCases]
@@ -19,7 +30,7 @@ const DashboardRecentCases: React.FC = () => {
     <DashboardCard 
       title="Casos Recentes" 
       actions={
-        <Button variant="ghost" size="sm" onClick={() => navigate('/cases')} className="text-primary -mr-2">
+        <Button variant="ghost" size="sm" onClick={() => router.push('/cases')} className="text-primary -mr-2">
           Ver Todos
           <ArrowUpRight size={16} className="ml-1" />
         </Button>
@@ -33,7 +44,7 @@ const DashboardRecentCases: React.FC = () => {
               ...legalCase,
               client: mockClients.find(client => client.id === legalCase.clientId)
             }}
-            onClick={() => navigate(`/cases/${legalCase.id}`)}
+            onClick={() => router.push(`/cases/${legalCase.id}`)}
           />
         ))}
       </div>
