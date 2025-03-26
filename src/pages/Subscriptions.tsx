@@ -4,21 +4,23 @@ import { useAuth } from '@/contexts/AuthContext';
 import PlanSelector from '@/components/subscription/PlanSelector';
 import UserSubscription from '@/components/subscription/UserSubscription';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useNavigate } from 'react-router-dom';
+// Replace this import
+// import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { CreditCard } from 'lucide-react';
 import PageHeader from '@/components/layout/PageHeader';
 
 const Subscriptions: React.FC = () => {
   const { user, userRole } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [activeTab, setActiveTab] = React.useState<string>(user ? 'minha-assinatura' : 'planos');
 
   // Redirecionar para login se não estiver autenticado
   React.useEffect(() => {
     if (!user) {
-      navigate('/auth');
+      router.push('/auth');
     }
-  }, [user, navigate]);
+  }, [user, router]);
 
   // Se for administrador, mostrar também a gestão de planos
   const isAdmin = userRole === 'administrador';
