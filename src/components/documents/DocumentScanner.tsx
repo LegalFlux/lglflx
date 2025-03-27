@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Camera, Image, FileText, RotateCw, Upload, Save } from 'lucide-react';
+import { Camera, Image, FileText, RotateCw, Upload } from 'lucide-react';
 
 interface DocumentScannerProps {
   onScan?: (file: File) => void;
