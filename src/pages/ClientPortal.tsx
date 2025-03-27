@@ -4,8 +4,6 @@ import PageHeader from '@/components/layout/PageHeader';
 import { Card } from '@/components/ui/card';
 import { mockCases, mockClients, mockDocuments } from '@/data';
 import { Users, FileText, CreditCard } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
 import CaseCard from '@/components/cases/CaseCard';
 import DocumentCard from '@/components/documents/DocumentCard';
 import ClientAccount from '@/components/client/ClientAccount';
@@ -38,7 +36,6 @@ const mockAccountSummary = {
 
 const ClientPortal: React.FC = () => {
   const [activeTab, setActiveTab] = useState('cases');
-  const { user } = useAuth();
   
   // Mock client for demo
   const client = mockClients[0];
@@ -52,7 +49,6 @@ const ClientPortal: React.FC = () => {
       <PageHeader
         title="Portal do Cliente"
         description="Aceda à informação dos seus processos e documentos"
-        icon={<Users className="mr-2" />}
       />
       
       <Tabs

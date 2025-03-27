@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
-import { Calendar as CalendarIcon, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import PageHeader from '@/components/layout/PageHeader';
 import { CalendarEvent } from '@/types/calendar';
 import { Card, CardContent } from '@/components/ui/card';
