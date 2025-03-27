@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -25,14 +25,6 @@ const Auth: React.FC = () => {
   // To get query parameters:
   // Instead of location.state?.from, use router.query
   const { user } = useAuth();
-
-  // Memoize URL params to avoid unnecessary recomputations
-  const params = useMemo(() => {
-    if (typeof window !== 'undefined') {
-      return new URLSearchParams(window.location.search);
-    }
-    return new URLSearchParams();
-  }, [router.asPath]);
 
   // Set active tab based on URL parameters
   useEffect(() => {
