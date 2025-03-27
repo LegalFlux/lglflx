@@ -8,12 +8,6 @@ import { useRouter } from 'next/router'; // Replace react-router-dom import
 const DashboardUpcomingEvents: React.FC = () => {
   const router = useRouter(); // Use Next.js router instead of useNavigate
   
-  // Update any navigation functions to use router.push instead of navigate
-  // For example:
-  const handleViewAll = () => {
-    router.push('/calendar');
-  };
-  
   // Get upcoming events
   const upcomingEvents = [...mockEvents]
     .filter(event => new Date(event.start) > new Date())
