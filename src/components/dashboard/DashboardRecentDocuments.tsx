@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { mockDocuments } from '@/data';
 import DocumentCard from '@/components/documents/DocumentCard';
 import { Button } from '@/components/ui/button';
 import DashboardCard from '@/components/dashboard/DashboardCard';
