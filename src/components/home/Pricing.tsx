@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import PricingCard from '@/components/pricing/PricingCard';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Check, HelpCircle } from 'lucide-react';
+import { ArrowRight, HelpCircle } from 'lucide-react';
 import { 
   Tooltip,
   TooltipContent,
