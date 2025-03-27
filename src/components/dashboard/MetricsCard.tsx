@@ -88,11 +88,7 @@ const MetricsCard: React.FC<MetricsCardProps> = ({ metric, className, onClick })
         {metric.change !== undefined && metric.trend && (
           <div className="mt-4 flex items-center">
             <span className={cn("flex items-center text-xs font-medium", getTrendColor())}>
-              {metric.trend === 'up' ? (
-                <ArrowUpRight className="mr-1 h-3 w-3" />
-              ) : (
-                <ArrowDownRight className="mr-1 h-3 w-3" />
-              )}
+              {getTrendIcon()}
               {Math.abs(metric.change)}%
             </span>
             <span className="text-xs text-muted-foreground ml-2">
