@@ -4,14 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/hooks/use-subscription';
 import PricingCard from '@/components/pricing/PricingCard';
 import { Button } from '@/components/ui/button';
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
-} from '@/components/ui/card';
+// Card components removed as they're not being used
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Loader2, CheckCircle } from 'lucide-react';
@@ -22,7 +15,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { useRouter } from 'next/router'; // Changed from react-router-dom to next/router
 
@@ -67,10 +59,7 @@ const PlanSelector: React.FC = () => {
     setIsDialogOpen(false);
   };
 
-  // Helper para calcular desconto anual
-  const getDesconto = (mensal: number, anual: number) => {
-    return Math.round(100 - ((anual / 12) * 100) / mensal);
-  };
+  // Helper para calcular desconto anual removed as it's not being used
 
   // Helper para formatar preço
   const formatPrice = (price: number) => {
