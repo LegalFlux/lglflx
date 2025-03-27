@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import DashboardCard from '@/components/dashboard/DashboardCard';
