@@ -1,5 +1,5 @@
 import React from "react";
-import { Check, FileText, FolderGit2, UserCircle } from "lucide-react";
+import { FileText, FolderGit2, UserCircle } from "lucide-react";
 
 const Features: React.FC = () => {
   const features = [
