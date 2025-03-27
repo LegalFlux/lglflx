@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import DashboardCard from '@/components/dashboard/DashboardCard';
 import { mockEvents } from '@/data';
 import { useRouter } from 'next/router'; // Replace react-router-dom import
