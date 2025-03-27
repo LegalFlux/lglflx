@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { Plano, Assinatura, AssinaturaDisplay } from '@/types/subscription';
+import { Plano, AssinaturaDisplay } from '@/types/subscription';
 import { toast } from '@/hooks/use-toast';
 
 export const useSubscription = () => {

@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
+// Removed unused import: import { cn } from "@/lib/utils"
 
 export interface ToastProps {
   title?: string
@@ -26,7 +26,7 @@ export const useToast = () => {
 
   return {
     toast,
-    dismiss: (toastId?: string) => {},
+    dismiss: () => {}, // Removed unused parameter 'toastId'
     toasts: [] as Toast[]
   }
 }

@@ -13,8 +13,10 @@ const mockRegisterSW = {
 };
 
 export function usePWA() {
-  const [needRefresh, setNeedRefresh] = useState(false);
-  const [offlineReady, setOfflineReady] = useState(false);
+  // Removed unused state setter
+  const [needRefresh] = useState(false);
+  // Removed unused state setter
+  const [offlineReady] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<Event | null>(null);
 
   // Usando o mock em vez da dependência real
