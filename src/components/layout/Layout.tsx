@@ -7,13 +7,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
 
-interface LayoutProps {
-  children?: React.ReactNode;
-}
-
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const router = useRouter();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen] = useState(false);
   const { user, isLoading, signOut } = useAuth();
 // Router is already declared above, removing duplicate declaration
   
