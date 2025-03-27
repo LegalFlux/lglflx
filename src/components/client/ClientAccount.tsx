@@ -20,7 +20,6 @@ interface ClientAccountProps {
 }
 
 const ClientAccount: React.FC<ClientAccountProps> = ({
-  clientId,
   transactions,
   summary,
   isLoading = false,
