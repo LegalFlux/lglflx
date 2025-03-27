@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { PlusCircle, ChevronDown, Search } from 'lucide-react';
 import { mockClients } from '@/data';
+import { Client } from '@/types';
 import ClientCard from '@/components/clients/ClientCard';
 import { useRouter } from 'next/router';
 
@@ -16,7 +17,7 @@ const Clients = () => {
   const router = useRouter();
   const [clients, setClients] = useState(mockClients);
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('name');
+  const [sortBy, setSortBy] = useState<keyof Client>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const navigate = (path: string) => {
@@ -35,9 +36,11 @@ const Clients = () => {
 
     // Apply sorting
     sortedClients.sort((a, b) => {
-      const aValue = typeof a[sortBy] === 'string' ? a[sortBy].toLowerCase() : a[sortBy];
-      const bValue = typeof b[sortBy] === 'string' ? b[sortBy].toLowerCase() : b[sortBy];
-
+      // Garantir que os valores existem e são comparáveis
+      const aValue = a[sortBy] !== undefined ? (typeof a[sortBy] === 'string' ? (a[sortBy] as string).toLowerCase() : a[sortBy]) : '';
+      const bValue = b[sortBy] !== undefined ? (typeof b[sortBy] === 'string' ? (b[sortBy] as string).toLowerCase() : b[sortBy]) : '';
+      
+      // Comparação segura
       if (aValue < bValue) {
         return sortOrder === 'asc' ? -1 : 1;
       }
@@ -54,7 +57,7 @@ const Clients = () => {
     setSearchQuery(e.target.value);
   };
 
-  const handleSortOrderChange = (newSortBy: string) => {
+  const handleSortOrderChange = (newSortBy: keyof Client) => {
     if (sortBy === newSortBy) {
       // Toggle sort order if the same column is clicked
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
