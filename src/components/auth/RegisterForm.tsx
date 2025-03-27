@@ -41,7 +41,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
     setIsLoading(true);
     
     try {
-      await signUp(email, password, { name });
+      await signUp(email, password, { nome: name, apelido: name });
       toast({
         title: 'Conta criada com sucesso',
         description: 'Verifique o seu email para confirmar a sua conta.',
