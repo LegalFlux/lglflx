@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import DashboardCard from '@/components/dashboard/DashboardCard';
 import { useRouter } from 'next/router';
-import { ArrowUpRight, FileText, FileTextIcon } from 'lucide-react'; // Add missing icon imports
+import { ArrowUpRight, FileText } from 'lucide-react'; // Add missing icon imports
 
 const DashboardRecentDocuments: React.FC = () => {
   const router = useRouter();
