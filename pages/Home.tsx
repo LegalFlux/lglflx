@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import Navbar from '@/components/layout/Navbar';
+import { cn } from '../src/lib/utils';
+import { Button } from '../src/components/ui/button';
+import Navbar from '../src/components/layout/Navbar';
 
 const Home: React.FC = () => {
   return (
