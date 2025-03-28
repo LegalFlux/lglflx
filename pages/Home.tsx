@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { cn } from '../src/lib/utils';
 import { Button } from '../src/components/ui/button';
 import Navbar from '../src/components/layout/Navbar';
+import Pricing from '../src/components/home/Pricing';
 
 const Home: React.FC = () => {
   return (
@@ -25,11 +26,11 @@ const Home: React.FC = () => {
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link href="/auth?tab=register">
-                    <Button size="lg" className="w-full sm:w-auto">
+                    <Button size="lg" className="w-full sm:w-auto" style={{ backgroundColor: '#33254C' }}>
                       Experimente Grátis
                     </Button>
                   </Link>
-                  <Link href="/precos">
+                  <Link href="#precos">
                     <Button size="lg" variant="outline" className="w-full sm:w-auto">
                       Ver Planos
                     </Button>
@@ -113,10 +114,17 @@ const Home: React.FC = () => {
           </div>
         </section>
 
+        {/* Pricing Section */}
+        <section id="precos" className="py-16 bg-background">
+          <div className="container px-4 md:px-6 mx-auto max-w-7xl">
+            <Pricing />
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-16 bg-background">
           <div className="container px-4 md:px-6 mx-auto max-w-7xl">
-            <div className="bg-primary text-primary-foreground rounded-xl p-8 md:p-10 shadow-xl bg-gradient-to-r from-primary to-primary/80">
+            <div className="text-primary-foreground rounded-xl p-8 md:p-10 shadow-xl bg-gradient-to-r from-[#33254C] to-[#33254C]/80" style={{ backgroundColor: '#33254C' }}>
               <div className="max-w-3xl mx-auto text-center">
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
                   Pronto para transformar a gestão do seu escritório?
