@@ -3,7 +3,7 @@ import Layout from '@/components/layout/Layout';
 import dynamic from 'next/dynamic';
 
 // Importa o componente Settings apenas no lado do cliente
-const SettingsWithNoSSR = dynamic(() => import('../../src/pages/Settings'), {
+const SettingsWithNoSSR = dynamic(() => import('@/pages/Settings'), {
   ssr: false, // Desativa a renderização do lado do servidor
 });
 
