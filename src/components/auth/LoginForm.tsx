@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,7 +12,7 @@ const LoginForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { signIn } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +30,7 @@ const LoginForm: React.FC = () => {
     
     try {
       await signIn(email, password);
-      navigate('/dashboard');
+      router.push('/dashboard');
     } catch (error: any) {
       toast({
         title: 'Erro ao iniciar sessão',
@@ -63,7 +63,7 @@ const LoginForm: React.FC = () => {
             variant="link"
             className="px-0 text-xs text-muted-foreground"
             type="button"
-            onClick={() => navigate('/reset-password')}
+            onClick={() => router.push('/reset-password')}
           >
             Esqueceu a password?
           </Button>

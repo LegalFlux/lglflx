@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { cn } from '@/src/lib/utils';
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 
