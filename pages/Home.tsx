@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { cn } from '../lib/utils';
+import { cn } from '@/src/lib/utils';
 import { Button } from '@/components/ui/button';
-import Navbar from '../components/layout/Navbar';
+import Navbar from '@/components/layout/Navbar';
 
 const Home: React.FC = () => {
   return (
@@ -156,7 +156,7 @@ const Home: React.FC = () => {
               <h3 className="text-lg font-medium">Produto</h3>
               <ul className="space-y-2 text-sm">
                 <li><Link href="/funcionalidades" className="text-muted-foreground hover:text-foreground">Funcionalidades</Link></li>
-                <li><Link href="/precos" className="text-muted-foreground hover:text-foreground">Preços</Link></li>
+                <li><Link href="/subscriptions" className="text-muted-foreground hover:text-foreground">Preços</Link></li>
                 <li><Link href="/suporte" className="text-muted-foreground hover:text-foreground">Suporte</Link></li>
               </ul>
             </div>
