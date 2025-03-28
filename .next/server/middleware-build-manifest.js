@@ -1,1 +1,34 @@
-self.__BUILD_MANIFEST={polyfillFiles:["static/chunks/polyfills-42372ed130431b0a.js"],devFiles:[],ampDevFiles:[],lowPriorityFiles:[],rootMainFiles:[],pages:{"/About":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/pages/About-437a9c3ff9cd4f3d.js"],"/AuthPage":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/664-d254d21a6fe56bff.js","static/chunks/474-99bb0a1cd5493d19.js","static/chunks/434-530a5154df7ffd91.js","static/chunks/pages/AuthPage-7bf8980ba96e5522.js"],"/Calendar":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/664-d254d21a6fe56bff.js","static/chunks/pages/Calendar-397db1f8f19cf5f8.js"],"/Cases":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/664-d254d21a6fe56bff.js","static/chunks/pages/Cases-122ac2d7a3e58e95.js"],"/Clients":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/664-d254d21a6fe56bff.js","static/chunks/pages/Clients-69be019a3126a57a.js"],"/Documents":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/474-99bb0a1cd5493d19.js","static/chunks/434-530a5154df7ffd91.js","static/chunks/773-06b747225cd88099.js","static/chunks/pages/Documents-5e5c42579b9f8fe0.js"],"/Finance":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/474-99bb0a1cd5493d19.js","static/chunks/434-530a5154df7ffd91.js","static/chunks/191-6830cd4334fddcfa.js","static/chunks/pages/Finance-1bd8bb937229e3a3.js"],"/Home":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/664-d254d21a6fe56bff.js","static/chunks/474-99bb0a1cd5493d19.js","static/chunks/pages/Home-844cb9965aeed79f.js"],"/NotFound":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/664-d254d21a6fe56bff.js","static/chunks/pages/NotFound-590d8e95da7f8312.js"],"/Settings":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/664-d254d21a6fe56bff.js","static/chunks/pages/Settings-037296e662004cbf.js"],"/Suporte":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/664-d254d21a6fe56bff.js","static/chunks/474-99bb0a1cd5493d19.js","static/chunks/pages/Suporte-8feed31e7c7389bf.js"],"/_app":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/css/781476f6e736fde3.css","static/chunks/pages/_app-5fafa62d18d955de.js"],"/_error":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/pages/_error-7a92967bea80186d.js"],"/screenshots":["static/chunks/webpack-a7ab9a8df2d0fa36.js","static/chunks/framework-64ad27b21261a9ce.js","static/chunks/main-e30fe18e329541a0.js","static/chunks/664-d254d21a6fe56bff.js","static/chunks/474-99bb0a1cd5493d19.js","static/chunks/pages/screenshots-0cd425a928c7370e.js"]},ampFirstPages:[]},self.__BUILD_MANIFEST.lowPriorityFiles=["/static/"+process.env.__NEXT_BUILD_ID+"/_buildManifest.js",,"/static/"+process.env.__NEXT_BUILD_ID+"/_ssgManifest.js"];
+self.__BUILD_MANIFEST = {
+  "polyfillFiles": [
+    "static/chunks/polyfills.js"
+  ],
+  "devFiles": [
+    "static/chunks/react-refresh.js"
+  ],
+  "ampDevFiles": [],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [],
+  "pages": {
+    "/Finance": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/Finance.js"
+    ],
+    "/_app": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_app.js"
+    ],
+    "/_error": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_error.js"
+    ]
+  },
+  "ampFirstPages": []
+};
+self.__BUILD_MANIFEST.lowPriorityFiles = [
+"/static/" + process.env.__NEXT_BUILD_ID + "/_buildManifest.js",
+,"/static/" + process.env.__NEXT_BUILD_ID + "/_ssgManifest.js",
+
+];
