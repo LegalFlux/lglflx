@@ -4,10 +4,15 @@ import Hero from "@/components/home/Hero";
 import Features from "@/components/home/Features";
 import Pricing from "@/components/home/Pricing";
 import Footer from "@/components/home/Footer";
+import Head from "next/head";
 
 const Home: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen w-full">
+      <Head>
+        <title>LegalFlux - Plataforma de Gestão Jurídica</title>
+        <meta name="description" content="Plataforma de gestão jurídica com portal do cliente" />
+      </Head>
       <Navbar />
       <main role="main" aria-label="Página inicial" className="flex-grow">
         <section id="hero" aria-labelledby="hero-title" className="container mx-auto">

@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Home, FileText, Users, Briefcase, Calendar, DollarSign, BarChart, Settings, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -11,7 +12,8 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = router.pathname;
   const { signOut, user } = useAuth();
 
   const menuItems = [
@@ -38,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
               to={item.path}
               className={cn(
                 "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                location.pathname === item.path || location.pathname.startsWith(item.path + '/')
+                pathname === item.path || pathname.startsWith(item.path + '/')
                   ? "bg-sidebar-primary text-sidebar-primary-foreground" 
                   : "text-sidebar-foreground hover:bg-sidebar-accent"
               )}

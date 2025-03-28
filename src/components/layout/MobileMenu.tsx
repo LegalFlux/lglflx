@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Menu, X, Home, FileText, Users, Briefcase, Calendar, DollarSign, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -8,16 +9,17 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const MobileMenu: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = router.pathname;
   
   const menuItems = [
-    { name: 'Dashboard', icon: Home, path: '/' },
-    { name: 'Documentos', icon: FileText, path: '/documents' },
-    { name: 'Clientes', icon: Users, path: '/clients' },
-    { name: 'Processos', icon: Briefcase, path: '/cases' },
-    { name: 'Agenda', icon: Calendar, path: '/calendar' },
-    { name: 'Financeiro', icon: DollarSign, path: '/finance' },
-    { name: 'Configurações', icon: Settings, path: '/settings' },
+    { name: 'Dashboard', icon: Home, path: '/dashboard' },
+    { name: 'Documentos', icon: FileText, path: '/dashboard/documents' },
+    { name: 'Clientes', icon: Users, path: '/dashboard/clients' },
+    { name: 'Processos', icon: Briefcase, path: '/dashboard/cases' },
+    { name: 'Agenda', icon: Calendar, path: '/dashboard/calendar' },
+    { name: 'Financeiro', icon: DollarSign, path: '/dashboard/finance' },
+    { name: 'Configurações', icon: Settings, path: '/dashboard/settings' },
   ];
 
   return (
@@ -49,7 +51,7 @@ const MobileMenu: React.FC = () => {
                       to={item.path}
                       className={cn(
                         "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                        location.pathname === item.path
+                        pathname === item.path || pathname.startsWith(item.path + '/')
                           ? "bg-primary text-primary-foreground" 
                           : "hover:bg-secondary"
                       )}
