@@ -51,9 +51,12 @@ const Navbar: React.FC = () => {
     <header className="w-full border-b border-border sticky top-0 z-50 bg-background/80 backdrop-blur-sm">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center">
-          <Link href="/" className="flex items-center" aria-label="LegalFlux Home">
-            <span className="font-display text-xl font-semibold text-brand">Legal</span>
-            <span className="font-display text-xl text-foreground hover:opacity-90">Flux</span>
+          <Link href="/" className="flex items-center gap-2" aria-label="LegalFlux Home">
+            <img src="/logo.png" alt="LegalFlux Logo" className="h-8 w-auto" />
+            <div className="flex items-center">
+              <span className="font-display text-xl font-semibold text-brand">Legal</span>
+              <span className="font-display text-xl text-foreground hover:opacity-90">Flux</span>
+            </div>
           </Link>
         </div>
 

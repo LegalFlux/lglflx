@@ -6,13 +6,13 @@ import Navbar from '@/components/layout/Navbar';
 
 const Home: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/30">
       <Navbar />
       
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative py-20 md:py-32 overflow-hidden">
-          <div className="container px-4 md:px-6">
+          <div className="container px-4 md:px-6 mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
@@ -55,7 +55,7 @@ const Home: React.FC = () => {
 
         {/* Features Section */}
         <section className="py-16 bg-muted/50">
-          <div className="container px-4 md:px-6">
+          <div className="container px-4 md:px-6 mx-auto max-w-7xl">
             <div className="text-center mb-10">
               <h2 className="text-3xl font-bold tracking-tighter">Funcionalidades Principais</h2>
               <p className="text-muted-foreground mt-2">Tudo o que precisa para gerir o seu escritório jurídico</p>
@@ -114,9 +114,9 @@ const Home: React.FC = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16">
-          <div className="container px-4 md:px-6">
-            <div className="bg-primary text-primary-foreground rounded-xl p-8 md:p-10 shadow-lg">
+        <section className="py-16 bg-background">
+          <div className="container px-4 md:px-6 mx-auto max-w-7xl">
+            <div className="bg-primary text-primary-foreground rounded-xl p-8 md:p-10 shadow-xl bg-gradient-to-r from-primary to-primary/80">
               <div className="max-w-3xl mx-auto text-center">
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">
                   Pronto para transformar a gestão do seu escritório?
@@ -142,8 +142,8 @@ const Home: React.FC = () => {
         </section>
       </main>
       
-      <footer className="border-t py-6 md:py-0">
-        <div className="container px-4 md:px-6">
+      <footer className="border-t py-6 md:py-0 bg-muted/20">
+        <div className="container px-4 md:px-6 mx-auto max-w-7xl">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 py-6">
             <div className="space-y-4">
               <h3 className="text-lg font-medium">LegalFlux</h3>
