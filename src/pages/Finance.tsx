@@ -2,11 +2,10 @@
 
 import { BarChart, TrendingUp, ArrowUpRight, Calendar, CreditCard, PieChart } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ResponsiveBar } from '@nivo/bar';
 import PageHeader from '@/components/layout/PageHeader';
-import { Separator } from '@/components/ui/separator';
 
 const revenueData: { [key: string]: string | number }[] = [
   { month: 'Jan', value: 4500 },
@@ -271,8 +270,6 @@ const Finance: React.FC = () => {
                 role="application"
                 ariaLabel="Gráfico de receitas mensais"
                 animate={true}
-                motionStiffness={90}
-                motionDamping={15}
               />
             </div>
           </CardContent>
