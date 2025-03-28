@@ -25,7 +25,7 @@ const Hero: React.FC = () => {
         </div>
         <div className="relative aspect-video rounded-lg overflow-hidden shadow-xl">
           <iframe 
-            src="https://player.vimeo.com/video/1062960326?title=0&byline=0&portrait=0&badge=0&autopause=0&loop=1&controls=0&background=1" 
+            src="https://player.vimeo.com/video/796296032?title=0&byline=0&portrait=0&badge=0&autopause=0&loop=1&controls=0&background=1" 
             width="100%" 
             height="100%" 
             frameBorder="0" 
