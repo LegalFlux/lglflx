@@ -1,3 +1,4 @@
+import React from 'react';
 import dynamic from 'next/dynamic';
 
 // Importa o componente Home apenas no lado do cliente
