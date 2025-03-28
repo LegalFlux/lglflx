@@ -1,17 +1,11 @@
 'use client';
 
-import { type ReactElement } from 'react';
 import { BarChart, TrendingUp, ArrowUpRight } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ResponsiveBar } from '@nivo/bar';
 import PageHeader from '@/components/layout/PageHeader';
-
-interface RevenueData {
-  month: string;
-  value: number;
-}
 
 const revenueData: { [key: string]: string | number }[] = [
   { month: 'Jan', value: 4500 },

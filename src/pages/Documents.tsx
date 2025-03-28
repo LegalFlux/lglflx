@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 
 // Import icons from lucide-react
@@ -28,14 +27,14 @@ import {
   Plus, 
   ChevronDown,
   Save, 
-  Users, 
-  History, 
+// Removing unused import Users
+// Removing unused import History
   Lock, 
-  Unlock, 
-  Share2, 
-  CheckSquare,
-  TrendingUp, 
-  ArrowUpRight 
+// Removing unused import Unlock
+// Removing unused import Share2
+// Removing unused import CheckSquare
+// Removing unused import TrendingUp
+// Removing unused import ArrowUpRight
 } from 'lucide-react';
 
 // Type definitions
@@ -147,7 +146,7 @@ const DocumentEditor = ({ document, onSave, onAddCollaborator, onClose }: {
   const [comment, setComment] = useState('');
   const [newCollaboratorEmail, setNewCollaboratorEmail] = useState('');
   const [newCollaboratorRole, setNewCollaboratorRole] = useState<'editor' | 'viewer'>('viewer');
-  const [activeUsers, setActiveUsers] = useState(['João Silva', 'Maria Oliveira']);
+  const [activeUsers] = useState(['João Silva', 'Maria Oliveira']);
   const [activeTab, setActiveTab] = useState('editor');
 
   useEffect(() => {
@@ -445,7 +444,7 @@ const TemplateManager = ({ templates, onUseTemplate, onCreateTemplate, onClose }
 };
 
 // SignaturePanel component
-const SignaturePanel = ({ document, onSignDocument, onRequestSignature, onClose }: {
+const SignaturePanel = ({ onSignDocument, onRequestSignature, onClose }: {
   document: Document;
   onSignDocument: (signatureDataUrl: string) => void;
   onRequestSignature: (email: string, message: string) => void;
@@ -633,7 +632,7 @@ const SignaturePanel = ({ document, onSignDocument, onRequestSignature, onClose 
 };
 
 // DocumentHeader component
-const DocumentHeader = ({ onScannedDocument, onSignature, onOpenTemplates }: {
+const DocumentHeader = ({ onScannedDocument, onOpenTemplates }: {
   onScannedDocument: (file: File) => void;
   onSignature: (signatureDataUrl: string) => void;
   onOpenTemplates: () => void;
@@ -764,7 +763,7 @@ const DocumentHeader = ({ onScannedDocument, onSignature, onOpenTemplates }: {
 
 // DocumentContent component
 const DocumentContent = ({
-  documents,
+// documents prop is not used in DocumentContent component
   searchQuery,
   setSearchQuery,
   filters,
@@ -1413,7 +1412,7 @@ const Documents = () => {
     setShowTemplateManager(false);
   };
   
-  const handleSignDocument = (signatureDataUrl: string) => {
+  const handleSignDocument = (_signatureDataUrl: string) => {
     if (!signingDocument) return;
     
     const now = new Date().toISOString();
@@ -1433,7 +1432,7 @@ const Documents = () => {
     setSigningDocument(null);
   };
   
-  const handleRequestSignature = (email: string, message: string) => {
+  const handleRequestSignature = (email: string, _message: string) => {
     if (!signingDocument) return;
     
     toast({

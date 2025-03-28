@@ -10,6 +10,8 @@ export type ClientStatus = 'active' | 'inactive' | 'prospect';
  * @interface Client
  */
 export interface Client {
+  /** Index signature to allow string indexing */
+  [key: string]: string | boolean | undefined;
   /** Unique identifier for the client */
   id: string;
   /** Full name of the client */

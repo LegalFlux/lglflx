@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Settings as SettingsIcon, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import PageHeader from "@/components/layout/PageHeader";
 import { SystemConfig } from "@/types/lexflow";
 import SettingsTabs from "@/components/settings/SettingsTabs";
@@ -36,7 +36,6 @@ const Settings = () => {
         <PageHeader
           title="Configurações"
           description="Personalize o sistema de acordo com as necessidades do seu escritório"
-          icon={<SettingsIcon size={28} />}
           actions={
             <Button onClick={handleSave}>
               <Save size={16} className="mr-2" />

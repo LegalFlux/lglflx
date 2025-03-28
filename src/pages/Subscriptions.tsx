@@ -1,17 +1,14 @@
 
 import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useRouter } from 'next/router';
+import PageHeader from '@/components/layout/PageHeader';
 import PlanSelector from '@/components/subscription/PlanSelector';
 import UserSubscription from '@/components/subscription/UserSubscription';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-// Replace this import
-// import { useNavigate } from 'react-router-dom';
-import { useRouter } from 'next/router';
-import { CreditCard } from 'lucide-react';
-import PageHeader from '@/components/layout/PageHeader';
 
 const Subscriptions: React.FC = () => {
-  const { user, userRole } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const [activeTab, setActiveTab] = React.useState<string>(user ? 'minha-assinatura' : 'planos');
 
@@ -22,16 +19,12 @@ const Subscriptions: React.FC = () => {
     }
   }, [user, router]);
 
-  // Se for administrador, mostrar também a gestão de planos
-  const isAdmin = userRole === 'administrador';
-
   return (
     <div className="min-h-screen bg-background pt-16 animate-fade-in">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <PageHeader
           title="Subscrições"
           description="Gerencie a sua subscrição e veja os planos disponíveis"
-          icon={<CreditCard size={28} />}
         />
 
         <Tabs 
@@ -48,14 +41,12 @@ const Subscriptions: React.FC = () => {
           </TabsList>
 
           {user && (
-            <TabsContent value="minha-assinatura" className="pt-4">
-              <div className="max-w-3xl mx-auto">
-                <UserSubscription />
-              </div>
+            <TabsContent value="minha-assinatura" className="space-y-4">
+              <UserSubscription />
             </TabsContent>
           )}
-          
-          <TabsContent value="planos" className="pt-4">
+
+          <TabsContent value="planos" className="space-y-4">
             <PlanSelector />
           </TabsContent>
         </Tabs>
