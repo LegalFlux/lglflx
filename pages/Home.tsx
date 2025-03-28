@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
@@ -24,12 +24,12 @@ const Home: React.FC = () => {
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Link to="/auth?tab=register">
+                  <Link href="/auth?tab=register">
                     <Button size="lg" className="w-full sm:w-auto">
                       Experimente Grátis
                     </Button>
                   </Link>
-                  <Link to="/precos">
+                  <Link href="/precos">
                     <Button size="lg" variant="outline" className="w-full sm:w-auto">
                       Ver Planos
                     </Button>
@@ -130,7 +130,7 @@ const Home: React.FC = () => {
                       Começar Agora
                     </Button>
                   </Link>
-                  <Link to="/suporte">
+                  <Link href="/suporte">
                     <Button size="lg" variant="outline" className="w-full sm:w-auto border-primary-foreground/20 hover:bg-primary-foreground/10">
                       Agendar Demonstração
                     </Button>
@@ -164,18 +164,18 @@ const Home: React.FC = () => {
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Empresa</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/sobre" className="text-muted-foreground hover:text-foreground">Sobre nós</Link></li>
+                <li><Link href="/sobre" className="text-muted-foreground hover:text-foreground">Sobre nós</Link></li>
                 <li><Link to="/blog" className="text-muted-foreground hover:text-foreground">Blog</Link></li>
-                <li><Link to="/contacto" className="text-muted-foreground hover:text-foreground">Contacto</Link></li>
+                <li><Link href="/contacto" className="text-muted-foreground hover:text-foreground">Contacto</Link></li>
               </ul>
             </div>
             
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Legal</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/termos" className="text-muted-foreground hover:text-foreground">Termos de Serviço</Link></li>
-                <li><Link to="/privacidade" className="text-muted-foreground hover:text-foreground">Política de Privacidade</Link></li>
-                <li><Link to="/cookies" className="text-muted-foreground hover:text-foreground">Política de Cookies</Link></li>
+                <li><Link href="/termos" className="text-muted-foreground hover:text-foreground">Termos de Serviço</Link></li>
+                <li><Link href="/privacidade" className="text-muted-foreground hover:text-foreground">Política de Privacidade</Link></li>
+                <li><Link href="/cookies" className="text-muted-foreground hover:text-foreground">Política de Cookies</Link></li>
               </ul>
             </div>
           </div>

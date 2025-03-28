@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const Calendar: React.FC = () => {
   return (
@@ -7,7 +7,7 @@ const Calendar: React.FC = () => {
       <h1 className="text-2xl font-bold mb-4">Agenda</h1>
       <p className="text-gray-600 mb-8">Esta página está em construção.</p>
       
-      <Link to="/" className="text-blue-600 hover:underline">
+      <Link href="/" className="text-blue-600 hover:underline">
         Voltar para a página inicial
       </Link>
     </div>

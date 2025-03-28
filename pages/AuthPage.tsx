@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
@@ -10,26 +10,23 @@ import RegisterForm from '@/components/auth/RegisterForm';
 const Auth: React.FC = () => {
   const [activeTab, setActiveTab] = useState('login');
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
   const { user } = useAuth();
 
-  // Memoize URL params to avoid unnecessary recomputations
-  const params = new URLSearchParams(location.search);
-
   // Set active tab based on URL parameters
-  React.useEffect(() => {
-    if (params.get('tab') === 'register') {
+  useEffect(() => {
+    const tab = router.query.tab as string;
+    if (tab === 'register') {
       setActiveTab('register');
     }
-  }, [location.search, params]);
+  }, [router.query]);
 
   // Redirect to dashboard if the user is already authenticated
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      router.push('/dashboard');
     }
-  }, [user, navigate]);
+  }, [user, router]);
 
   const handleRegisterSuccess = () => {
     setActiveTab('login');
