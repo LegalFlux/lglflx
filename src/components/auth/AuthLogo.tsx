@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const AuthLogo: React.FC = () => {
   return (
-    <Link to="/" className="flex flex-col items-center">
+    <Link href="/" className="flex flex-col items-center">
       <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"

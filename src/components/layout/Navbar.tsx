@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { cn } from '@/lib/utils';
 import { Menu, X, Home, FileText, Users, Calendar, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,8 +8,8 @@ import { useMobile } from '@/hooks/use-mobile';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-  const pathname = location.pathname;
+  const router = useRouter();
+  const pathname = router.pathname;
   const isMobile = useMobile();
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function Navbar() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between px-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <img src="/logo.png" alt="LegalFlux Logo" className="h-8 w-8" />
             <span className="text-xl font-bold">LegalFlux</span>
           </Link>
@@ -45,7 +46,7 @@ export default function Navbar() {
             {routes.map((route) => (
               <Link
                 key={route.href}
-                to={route.href}
+                href={route.href}
                 className={cn(
                   'text-sm font-medium transition-colors hover:text-primary',
                   pathname === route.href ? 'text-primary' : 'text-muted-foreground'
@@ -73,7 +74,7 @@ export default function Navbar() {
                 {routes.map((route) => (
                   <Link
                     key={route.href}
-                    to={route.href}
+                    href={route.href}
                     className={cn(
                       'mobile-menu-item',
                       pathname === route.href
@@ -98,7 +99,7 @@ export default function Navbar() {
             return (
               <Link
                 key={item.href}
-                to={item.href}
+                href={item.href}
                 className={cn(
                   'bottom-nav-item',
                   pathname === item.href ? 'text-primary' : 'text-muted-foreground'

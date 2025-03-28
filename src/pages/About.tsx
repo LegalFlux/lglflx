@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Shield, Zap, Users } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import { Card, CardContent } from "@/components/ui/card";
@@ -100,7 +100,7 @@ const About = () => {
                 Experimente o LegalFlux e descubra como podemos transformar a gestão do seu escritório de advocacia.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link to="/contact">
+                <Link href="/contact">
                   <Button 
                     size="lg"
                     className="bg-primary text-white border border-white hover:bg-white hover:text-primary"
@@ -108,7 +108,7 @@ const About = () => {
                     Agende uma demonstração
                   </Button>
                 </Link>
-                <Link to="/register">
+                <Link href="/register">
                   <Button 
                     size="lg"
                     variant="outline"

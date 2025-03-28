@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const Hero: React.FC = () => {
   const primaryColor = '#33254C';
@@ -16,7 +16,7 @@ const Hero: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button size="lg" asChild className="font-semibold" style={{ backgroundColor: primaryColor }}>
-              <Link to="/auth">Experimente Grátis</Link>
+              <Link href="/auth">Experimente Grátis</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <a href="#precos">Ver Planos</a>

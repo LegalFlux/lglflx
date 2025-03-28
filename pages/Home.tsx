@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
+import { cn } from '../lib/utils';
 import { Button } from '@/components/ui/button';
-import Navbar from '@/components/layout/Navbar';
+import Navbar from '../components/layout/Navbar';
 
 const Home: React.FC = () => {
   return (
@@ -125,7 +125,7 @@ const Home: React.FC = () => {
                   Junte-se a milhares de profissionais jurídicos que já estão a utilizar o LegalFlux para aumentar a sua produtividade.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to="/auth?tab=register">
+                  <Link href="/auth?tab=register">
                     <Button size="lg" variant="secondary" className="w-full sm:w-auto">
                       Começar Agora
                     </Button>
@@ -155,9 +155,9 @@ const Home: React.FC = () => {
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Produto</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/funcionalidades" className="text-muted-foreground hover:text-foreground">Funcionalidades</Link></li>
-                <li><Link to="/precos" className="text-muted-foreground hover:text-foreground">Preços</Link></li>
-                <li><Link to="/suporte" className="text-muted-foreground hover:text-foreground">Suporte</Link></li>
+                <li><Link href="/funcionalidades" className="text-muted-foreground hover:text-foreground">Funcionalidades</Link></li>
+                <li><Link href="/precos" className="text-muted-foreground hover:text-foreground">Preços</Link></li>
+                <li><Link href="/suporte" className="text-muted-foreground hover:text-foreground">Suporte</Link></li>
               </ul>
             </div>
             
@@ -165,7 +165,7 @@ const Home: React.FC = () => {
               <h3 className="text-lg font-medium">Empresa</h3>
               <ul className="space-y-2 text-sm">
                 <li><Link href="/sobre" className="text-muted-foreground hover:text-foreground">Sobre nós</Link></li>
-                <li><Link to="/blog" className="text-muted-foreground hover:text-foreground">Blog</Link></li>
+                <li><Link href="/blog" className="text-muted-foreground hover:text-foreground">Blog</Link></li>
                 <li><Link href="/contacto" className="text-muted-foreground hover:text-foreground">Contacto</Link></li>
               </ul>
             </div>
