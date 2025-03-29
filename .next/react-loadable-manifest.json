@@ -21,10 +21,10 @@
     "id": "node_modules\\@supabase\\storage-js\\dist\\module\\lib\\helpers.js -> @supabase/node-fetch",
     "files": []
   },
-  "pages\\dashboard\\settings.js -> @/pages/Settings": {
-    "id": "pages\\dashboard\\settings.js -> @/pages/Settings",
+  "pages\\index.tsx -> ../src/pages/Home": {
+    "id": "pages\\index.tsx -> ../src/pages/Home",
     "files": [
-      "static/chunks/src_pages_Settings_tsx.js"
+      "static/chunks/src_pages_Home_tsx.js"
     ]
   }
 }
