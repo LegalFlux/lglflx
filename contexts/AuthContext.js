@@ -3,8 +3,6 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
-// Verificar se estamos no ambiente do navegador
-const isBrowser = typeof window !== 'undefined';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -13,7 +11,7 @@ export function AuthProvider({ children }) {
   // Verificar se estamos no lado do cliente antes de acessar window/localStorage
   useEffect(() => {
     // Código que só deve ser executado no cliente
-    if (isBrowser) {
+    if (typeof window !== 'undefined') {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
         try {
@@ -30,14 +28,14 @@ export function AuthProvider({ children }) {
   // Funções de autenticação
   const login = (userData) => {
     setUser(userData);
-    if (isBrowser) {
+    if (typeof window !== 'undefined') {
       localStorage.setItem('user', JSON.stringify(userData));
     }
   };
 
   const logout = () => {
     setUser(null);
-    if (isBrowser) {
+    if (typeof window !== 'undefined') {
       localStorage.removeItem('user');
     }
   };
